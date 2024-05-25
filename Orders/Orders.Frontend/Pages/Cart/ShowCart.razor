@@ -1,0 +1,70 @@
+﻿@page "/Cart/ShowCart"
+
+<MudCard>
+    <div class="card-header">
+        <span>
+            <MudText Typo="Typo.h6" Class="me-4"><i class="bi bi-cart"></i> Carro de Compras</MudText>
+        </span>
+    </div>
+    <div class="card-body">
+        <div class="row mb-2">
+            <div class="col-4">
+                <MudText Typo="Typo.h3">Cantidad productos: <strong>@($"{sumQuantity:N2}")</strong></MudText>
+            </div>
+            <div class="col-4">
+                <MudText Typo="Typo.h3">Valor: <strong>@($"{sumValue:C2}")</strong></MudText>
+            </div>
+        </div>
+        <EditForm Model="OrderDTO" OnValidSubmit="ConfirmOrderAsync">
+            <DataAnnotationsValidator />
+            <div class="mb-3">
+                <MudTextField Label="Comentarios"
+                              @bind-Value="@OrderDTO.Remarks"
+                              For="@(() => OrderDTO.Remarks)"
+                              Lines="3"
+                              Class="mb-4" />
+            </div>
+            <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.CheckCircle" Color="Color.Primary" ButtonType="ButtonType.Submit">
+                Confirmar Pedido
+            </MudButton>
+        </EditForm>
+
+        <MudTable Items="@TemporalOrders"
+                  @ref="table"
+                  ServerData="@(new Func<TableState, Task<TableData<TemporalOrder>>>(LoadListAsync))"
+                  Dense="true"
+                  Hover="true"
+                  Striped="true"
+                  FixedHeader="true"
+                  FixedFooter="true">
+            <HeaderContent>
+                <MudTh>Nombre</MudTh>
+                <MudTh>Descripción</MudTh>
+                <MudTh>Cantidad</MudTh>
+                <MudTh>Precio</MudTh>
+                <MudTh>Valor</MudTh>
+                <MudTh>Comentarios</MudTh>
+                <MudTh>Imagén</MudTh>
+                <MudTh style="width: 300px;">Acciones</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Nombre">@context.Product!.Name</MudTd>
+                <MudTd DataLabel="Descripción">@context.Product!.Description</MudTd>
+                <MudTd DataLabel="Cantidad">@($"{context.Quantity:N2}")</MudTd>
+                <MudTd DataLabel="Precio">@($"{context.Product!.Price:C2}")</MudTd>
+                <MudTd DataLabel="Valor">@($"{context.Value:C2}")</MudTd>
+                <MudTd DataLabel="Comentarios">@context.Remarks</MudTd>
+                <MudTd DataLabel="Imagén">
+                    <img src="@context.Product!.MainImage" alt="Imagén Principal" style="max-width: 100px; max-height: 100px;" />
+                </MudTd>
+                <MudTd DataLabel="Acciones">
+                    <MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Edit" Color="Color.Warning" Href=@($"/Cart/ModifyTemporalOrder/{context.Id}")>Editar</MudButton>
+                    <MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick=@(() => DeleteAsync(@context.Id))>Eliminar</MudButton>
+                </MudTd>
+            </RowTemplate>
+            <NoRecordsContent>
+                <MudText>No se encontraron registros.</MudText>
+            </NoRecordsContent>
+        </MudTable>
+    </div>
+</MudCard>

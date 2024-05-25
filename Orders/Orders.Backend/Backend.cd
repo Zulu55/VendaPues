@@ -1,0 +1,413 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Orders.Backend.Data.DataContext">
+    <Position X="0.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>EAEIAAAAAAAAAAAAEBAAAQAAEAQAEAAAAAAABAAAAAQ=</HashCode>
+      <FileName>Data\DataContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Backend.Data.SeedDb">
+    <Position X="3" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>hABAAAAAAAAABIEAACEAQAIAQAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>Data\SeedDb.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Backend.Helpers.BlobContainerClientFactory">
+    <Position X="5.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\BlobContainerClientFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Orders.Backend.Helpers.BlobContainerClientWrapper">
+    <Position X="5.75" Y="2" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAEAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAIA=</HashCode>
+      <FileName>Helpers\BlobContainerClientWrapper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Orders.Backend.Helpers.FileStorage">
+    <Position X="8.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAABAgAAAAIBAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\FileStorage.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Orders.Backend.Helpers.MailHelper">
+    <Position X="2.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAACEAAAAAAAA=</HashCode>
+      <FileName>Helpers\MailHelper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Orders.Backend.Helpers.OrdersHelper">
+    <Position X="4.25" Y="7" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BAAAACAAAAAAAAAAAAAAAAAAAEAAAAAAAAFAAAAEAAA=</HashCode>
+      <FileName>Helpers\OrdersHelper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Orders.Backend.Helpers.QueryableExtensions">
+    <Position X="6.75" Y="7" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Helpers\QueryableExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Backend.Helpers.RuntimeInformationWrapper">
+    <Position X="6.75" Y="8.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\RuntimeInformationWrapper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Orders.Backend.Helpers.SmtpClientWrapper">
+    <Position X="0.5" Y="8.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAEAAAIIAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>Helpers\SmtpClientWrapper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Orders.Backend.Repositories.Implementations.CategoriesRepository">
+    <Position X="0.5" Y="17.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAABAAAAAAAAAAAAAAAAAEAAAAAIAAAAAA=</HashCode>
+      <FileName>Repositories\Implementations\CategoriesRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Orders.Backend.Repositories.Implementations.CitiesRepository">
+    <Position X="2.75" Y="17.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAABAAAAAAAAAAAAAAAAAEAAAAAIAAAAAA=</HashCode>
+      <FileName>Repositories\Implementations\CitiesRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Orders.Backend.Repositories.Implementations.CountriesRepository">
+    <Position X="4.75" Y="17.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAABAAAAAAAAAAAAAAAAAEAAAAAIAAAAAA=</HashCode>
+      <FileName>Repositories\Implementations\CountriesRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Orders.Backend.Repositories.Implementations.GenericRepository&lt;T&gt;">
+    <Position X="3" Y="21" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAACAIABAAAAAAAAAEAAAAAAAgAAAAAMAAAAIA=</HashCode>
+      <FileName>Repositories\Implementations\GenericRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Orders.Backend.Repositories.Implementations.OrdersRepository">
+    <Position X="5.5" Y="25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAACAAABgAAAAAAAAAAAAAAAAAAQAAAIAAAAAA=</HashCode>
+      <FileName>Repositories\Implementations\OrdersRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Orders.Backend.Repositories.Implementations.ProductsRepository">
+    <Position X="0.5" Y="21" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQACAAABoAAAABAAAAAAAgAAAAAAAAAIAAAAIA=</HashCode>
+      <FileName>Repositories\Implementations\ProductsRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Orders.Backend.Repositories.Implementations.StatesRepository">
+    <Position X="3" Y="25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAABAAAAAAAAAAAAAAAAAEAAAAAIAAAAAA=</HashCode>
+      <FileName>Repositories\Implementations\StatesRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Orders.Backend.Repositories.Implementations.TemporalOrdersRepository">
+    <Position X="0.5" Y="24.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAQAAAAABAAAAAAAAAAAAAEAAAAAAAIAIAAAAAA=</HashCode>
+      <FileName>Repositories\Implementations\TemporalOrdersRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Orders.Backend.Repositories.Implementations.UsersRepository">
+    <Position X="7.25" Y="17.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>ggAgBAAACAAARCAABABAAAAgAAABAAAAAAAQIxAAAAg=</HashCode>
+      <FileName>Repositories\Implementations\UsersRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Orders.Backend.UnitsOfWork.Implementations.CategoriesUnitOfWork">
+    <Position X="0.5" Y="34.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAAEAAAAAIAAEAAA=</HashCode>
+      <FileName>UnitsOfWork\Implementations\CategoriesUnitOfWork.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Orders.Backend.UnitsOfWork.Implementations.CitiesUnitOfWork">
+    <Position X="2.75" Y="34.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAIAAAAAAAAAAAAEAAAAAIAAAAAA=</HashCode>
+      <FileName>UnitsOfWork\Implementations\CitiesUnitOfWork.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Orders.Backend.UnitsOfWork.Implementations.CountriesUnitOfWork">
+    <Position X="4.75" Y="34.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAACAAAAAAAAAAAAAAAAAAAAAEAAAAAIAAAAAA=</HashCode>
+      <FileName>UnitsOfWork\Implementations\CountriesUnitOfWork.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Orders.Backend.UnitsOfWork.Implementations.GenericUnitOfWork&lt;T&gt;">
+    <Position X="3.25" Y="38" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACABAAAAAAAAAAAEAAAAAAAgAAAAAIAAAAIA=</HashCode>
+      <FileName>UnitsOfWork\Implementations\GenericUnitOfWork.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Orders.Backend.UnitsOfWork.Implementations.OrdersUnitOfWork">
+    <Position X="7.25" Y="34.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAgAAAAAAAAAAAAAAAAAAAAAAIAAAAIA=</HashCode>
+      <FileName>UnitsOfWork\Implementations\OrdersUnitOfWork.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Orders.Backend.UnitsOfWork.Implementations.ProductsUnitOfWork">
+    <Position X="3.25" Y="43.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAQACAAAAgAAAABAAAAAAAgAAAAAAAAAIAAAAIA=</HashCode>
+      <FileName>UnitsOfWork\Implementations\ProductsUnitOfWork.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Orders.Backend.UnitsOfWork.Implementations.StatesUnitOfWork">
+    <Position X="0.75" Y="38" Width="2" />
+    <InheritanceLine Type="Orders.Backend.UnitsOfWork.Implementations.GenericUnitOfWork&lt;T&gt;" FixedToPoint="true">
+      <Path>
+        <Point X="3.25" Y="39.188" />
+        <Point X="2.75" Y="39.188" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAAEAAAAAIAgAAAA=</HashCode>
+      <FileName>UnitsOfWork\Implementations\StatesUnitOfWork.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Orders.Backend.UnitsOfWork.Implementations.TemporalOrdersUnitOfWork">
+    <Position X="0.75" Y="43.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAABQAAAAAAAAAAAAAAAAAAAEAAAAAAAIAIAAAAAA=</HashCode>
+      <FileName>UnitsOfWork\Implementations\TemporalOrdersUnitOfWork.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Orders.Backend.UnitsOfWork.Implementations.UsersUnitOfWork">
+    <Position X="5.75" Y="38" Width="3" />
+    <TypeIdentifier>
+      <HashCode>ggQgAAAACAAAQCAABAAAAAAAAAABAAAAAAAQIxAAAAg=</HashCode>
+      <FileName>UnitsOfWork\Implementations\UsersUnitOfWork.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Program">
+    <Position X="5.75" Y="43.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Orders.Backend.Helpers.IBlobContainerClient">
+    <Position X="8.5" Y="3" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAIA=</HashCode>
+      <FileName>Helpers\IBlobContainerClient.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Orders.Backend.Helpers.IBlobContainerClientFactory">
+    <Position X="0.5" Y="5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\IBlobContainerClientFactory.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Orders.Backend.Helpers.IFileStorage">
+    <Position X="3" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAABAgAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Helpers\IFileStorage.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Orders.Backend.Helpers.IMailHelper">
+    <Position X="4.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\IMailHelper.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Orders.Backend.Helpers.IOrdersHelper">
+    <Position X="6.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Helpers\IOrdersHelper.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Orders.Backend.Helpers.IRuntimeInformationWrapper">
+    <Position X="8.25" Y="5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\IRuntimeInformationWrapper.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Orders.Backend.Helpers.ISmtpClient">
+    <Position X="0.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAEAAAIIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\ISmtpClient.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Orders.Backend.Repositories.Interfaces.ICategoriesRepository">
+    <Position X="0.5" Y="10.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAAEAAAAAIAAAAAA=</HashCode>
+      <FileName>Repositories\Interfaces\ICategoriesRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Orders.Backend.Repositories.Interfaces.ICitiesRepository">
+    <Position X="2.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAAEAAAAAIAAAAAA=</HashCode>
+      <FileName>Repositories\Interfaces\ICitiesRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Orders.Backend.Repositories.Interfaces.ICountriesRepository">
+    <Position X="4.25" Y="10.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAAEAAAAAIAAAAAA=</HashCode>
+      <FileName>Repositories\Interfaces\ICountriesRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Orders.Backend.Repositories.Interfaces.IGenericRepository&lt;T&gt;">
+    <Position X="6.25" Y="10.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAEAAAAAAAgAAAAAIAAAAIA=</HashCode>
+      <FileName>Repositories\Interfaces\IGenericRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Orders.Backend.Repositories.Interfaces.IOrdersRepository">
+    <Position X="8.5" Y="10.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAgAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Repositories\Interfaces\IOrdersRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Orders.Backend.Repositories.Interfaces.IProductsRepository">
+    <Position X="0.5" Y="13" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQACAAAAgAAAABAAAAAAAgAAAAAAAAAIAAAAIA=</HashCode>
+      <FileName>Repositories\Interfaces\IProductsRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Orders.Backend.Repositories.Interfaces.IStatesRepository">
+    <Position X="2.5" Y="13" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAAEAAAAAIAAAAAA=</HashCode>
+      <FileName>Repositories\Interfaces\IStatesRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Orders.Backend.Repositories.Interfaces.ITemporalOrdersRepository">
+    <Position X="4.75" Y="13" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAAAAAAAAAEAAAAAAAIAIAAAAAA=</HashCode>
+      <FileName>Repositories\Interfaces\ITemporalOrdersRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Orders.Backend.Repositories.Interfaces.IUsersRepository">
+    <Position X="7.25" Y="13" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>ggAgAAAACAAAQCAABAAAAAAAAAABAAAAAAAQIxAAAAg=</HashCode>
+      <FileName>Repositories\Interfaces\IUsersRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Orders.Backend.UnitsOfWork.Interfaces.ICategoriesUnitOfWork">
+    <Position X="0.5" Y="28" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAAEAAAAAIAAAAAA=</HashCode>
+      <FileName>UnitsOfWork\Interfaces\ICategoriesUnitOfWork.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Orders.Backend.UnitsOfWork.Interfaces.ICitiesUnitOfWork">
+    <Position X="2.75" Y="28" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAAEAAAAAIAAAAAA=</HashCode>
+      <FileName>UnitsOfWork\Interfaces\ICitiesUnitOfWork.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Orders.Backend.UnitsOfWork.Interfaces.ICountriesUnitOfWork">
+    <Position X="4.75" Y="28" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAAEAAAAAIAAAAAA=</HashCode>
+      <FileName>UnitsOfWork\Interfaces\ICountriesUnitOfWork.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Orders.Backend.UnitsOfWork.Interfaces.IGenericUnitOfWork&lt;T&gt;">
+    <Position X="5.25" Y="32" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAEAAAAAAAgAAAAAIAAAAIA=</HashCode>
+      <FileName>UnitsOfWork\Interfaces\IGenericUnitOfWork.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Orders.Backend.UnitsOfWork.Interfaces.IOrdersUnitOfWork">
+    <Position X="3.25" Y="32.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAgAAAAAAAAEAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>UnitsOfWork\Interfaces\IOrdersUnitOfWork.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Orders.Backend.UnitsOfWork.Interfaces.IProductsUnitOfWork">
+    <Position X="3.25" Y="29.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQACAAAAgAAAABAAAAAAAgAAAgAAAAAIAAAAIA=</HashCode>
+      <FileName>UnitsOfWork\Interfaces\IProductsUnitOfWork.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Orders.Backend.UnitsOfWork.Interfaces.IStatesUnitOfWork">
+    <Position X="6.75" Y="28" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAAEAAAAAIAAAAAA=</HashCode>
+      <FileName>UnitsOfWork\Interfaces\IStatesUnitOfWork.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Orders.Backend.UnitsOfWork.Interfaces.ITemporalOrdersUnitOfWork">
+    <Position X="5.25" Y="29.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAAAAAAAAAEAAAAAAAIAIAAAAIA=</HashCode>
+      <FileName>UnitsOfWork\Interfaces\ITemporalOrdersUnitOfWork.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Orders.Backend.UnitsOfWork.Interfaces.IUsersUnitOfWork">
+    <Position X="0.5" Y="29.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>ggAgAAAACAAAQCAABAAAAAAAAAABAAAAAAAQIxAAAAg=</HashCode>
+      <FileName>UnitsOfWork\Interfaces\IUsersUnitOfWork.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

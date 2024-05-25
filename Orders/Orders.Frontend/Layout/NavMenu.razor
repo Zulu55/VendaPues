@@ -1,0 +1,23 @@
+﻿<MudNavMenu>
+    <div class="nav-item logo-container">
+        <MudImage Src="images/VendePuesLogo_transparent.png" alt="Logo" class="logo" />
+    </div>
+    <br />
+    <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Rounded.Home">Inicio</MudNavLink>
+    <MudNavLink Href="/about" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Info">Acerca de</MudNavLink>
+
+    <AuthorizeView Roles="Admin">
+        <Authorized>
+            <MudNavLink Href="/categories" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Category">Categorias</MudNavLink>
+            <MudNavLink Href="/countries" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Public">Paises</MudNavLink>
+            <MudNavLink Href="/orders" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.AttachMoney">Pedidos</MudNavLink>
+            <MudNavLink Href="/products" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Inventory2">Productos</MudNavLink>
+            <MudNavLink Href="/users" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Group">Usuarios</MudNavLink>
+        </Authorized>
+    </AuthorizeView>
+    <AuthorizeView Roles="User">
+        <Authorized>
+            <MudNavLink Href="/orders" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.AttachMoney">Ver Mis Pedidos</MudNavLink>
+        </Authorized>
+    </AuthorizeView>
+</MudNavMenu>

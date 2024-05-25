@@ -1,0 +1,361 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Orders.Frontend.AuthenticationProviders.AuthenticationProviderJWT">
+    <Position X="0.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AgAAEAAAAgAAAAABABAAAAAAAAAAAAAAAAAQBAAAQAA=</HashCode>
+      <FileName>AuthenticationProviders\AuthenticationProviderJWT.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Orders.Frontend.Helpers.EnumHelper">
+    <Position X="3" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>Helpers\EnumHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Helpers.IJSRuntimeExtensionMethods">
+    <Position X="5.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAgA=</HashCode>
+      <FileName>Helpers\IJSRuntimeExtensionMethods.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Helpers.MultipleSelectorModel">
+    <Position X="7.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Helpers\MultipleSelectorModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Repositories.HttpResponseWrapper&lt;T&gt;">
+    <Position X="3.25" Y="2.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAACAABAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\HttpResponseWrapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Repositories.Repository">
+    <Position X="0.5" Y="4" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAgAAAAAAABAAAAAAEAAAAAAAAAAAIAAAAIA=</HashCode>
+      <FileName>Repositories\Repository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Program">
+    <Position X="3.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Auth.ChangePassword">
+    <Position X="0.5" Y="7.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAACAQIAAAAAAAAEAgACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Pages\Auth\ChangePassword.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Auth.ConfirmEmail">
+    <Position X="2.75" Y="7.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAQAAAIAAAAAAAAgAgAAAAAAAgAAAAAABACA=</HashCode>
+      <FileName>Pages\Auth\ConfirmEmail.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Auth.EditUser">
+    <Position X="5" Y="7.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAIEAAAAAIAAAAEAgAAIgAEAACAGhAABABBAAUA=</HashCode>
+      <FileName>Pages\Auth\EditUser.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Auth.Login">
+    <Position X="7.5" Y="7.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AkAAAAIAAACAAIAAAAAAAAAAgCAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Pages\Auth\Login.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Auth.Logout">
+    <Position X="0.5" Y="10.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAAAACACAAAAAAAAAAA=</HashCode>
+      <FileName>Pages\Auth\Logout.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Auth.RecoverPassword">
+    <Position X="0.5" Y="13.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAIAAAAAAAAAAgACAAIAAAAAQAAAAAAA=</HashCode>
+      <FileName>Pages\Auth\RecoverPassword.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Auth.Register">
+    <Position X="3.5" Y="13.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAIAAgAAAIAAAAAAAgAIiAGAACAGBAABABBAAEA=</HashCode>
+      <FileName>Pages\Auth\Register.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Auth.ResendConfirmationEmailToken">
+    <Position X="0.5" Y="16.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAIAAAAAAAAAAgACAAAAAAAQQAAAAAAA=</HashCode>
+      <FileName>Pages\Auth\ResendConfirmationEmailToken.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Auth.ResetPassword">
+    <Position X="2.75" Y="10.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAIAAAQIAAAAAAAAAAgACAAAAAgAAAAAABAAA=</HashCode>
+      <FileName>Pages\Auth\ResetPassword.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Auth.UserIndex">
+    <Position X="5.75" Y="13.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AQAAACIgAEEQAAEAAIAAAAAEgBAgAAACAAAAAgAAIAI=</HashCode>
+      <FileName>Pages\Auth\UserIndex.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Cart.ModifyTemporalOrder">
+    <Position X="0.5" Y="19.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAgAAAIAAAAAAAAAQkASABAACBAAAAAAEAAA=</HashCode>
+      <FileName>Pages\Cart\ModifyTemporalOrder.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Cart.OrderDetails">
+    <Position X="2.75" Y="19.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAIhAAAAAIAAAAQAAAiAgAAAAAACAACAACAAAAA=</HashCode>
+      <FileName>Pages\Cart\OrderDetails.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Cart.OrdersIndex">
+    <Position X="5" Y="19.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAgAEESAAEAAIAAAAAGAAAgAAACAAAAAgAAAAI=</HashCode>
+      <FileName>Pages\Cart\OrdersIndex.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Cart.ShowCart">
+    <Position X="7.5" Y="19.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIgAAAQAIAAAAAAAAgAgAkAAAACAAAAAAAACAA=</HashCode>
+      <FileName>Pages\Cart\ShowCart.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Categories.CategoriesIndex">
+    <Position X="0.75" Y="23.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAIgAEEQAIEAAIAAAAAEgBAgEAACgAAAAgAAKAI=</HashCode>
+      <FileName>Pages\Categories\CategoriesIndex.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Categories.CategoryCreate">
+    <Position X="3.25" Y="23.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAACAAIAEAAAAAAAAgAAAAAAAAAAIEIAAAAA=</HashCode>
+      <FileName>Pages\Categories\CategoryCreate.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Categories.CategoryEdit">
+    <Position X="5.25" Y="23.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAIAAACAAIAEAAAAAAAAgAQAAAgAAAAIEAAAAAA=</HashCode>
+      <FileName>Pages\Categories\CategoryEdit.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Cities.CityCreate">
+    <Position X="7.5" Y="23.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAQACAAIAAAAAACAAAgAAAAAAAAAAAEIAAAQA=</HashCode>
+      <FileName>Pages\Cities\CityCreate.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Cities.CityEdit">
+    <Position X="3.25" Y="27.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIBAACAAIAAAAAACAAAgIQAAAAAAAAAEAAAAQA=</HashCode>
+      <FileName>Pages\Cities\CityEdit.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Countries.CountriesIndex">
+    <Position X="0.75" Y="31.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAIgAEEQAIEAAIAAAQAEgBAgAAACgAAAAgAAKAI=</HashCode>
+      <FileName>Pages\Countries\CountriesIndex.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Countries.CountryCreate">
+    <Position X="3.25" Y="31.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAACAAIAAAAAAAAAAgAAAAAACAAAAEIAAEAA=</HashCode>
+      <FileName>Pages\Countries\CountryCreate.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Countries.CountryDetails">
+    <Position X="5.25" Y="31.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAIgAEEQAIEAAIAAAAAEgDAQAAAGgAABAgAAIII=</HashCode>
+      <FileName>Pages\Countries\CountryDetails.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Countries.CountryEdit">
+    <Position X="7.75" Y="31.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAIAAACAAIAAAAAAAAAAgAQAAAgCAAAAEAAAEAA=</HashCode>
+      <FileName>Pages\Countries\CountryEdit.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Products.ProductCreate">
+    <Position X="0.75" Y="37.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAcAAAAAACAAAgACAAAASAAAAEIAAAAA=</HashCode>
+      <FileName>Pages\Products\ProductCreate.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Products.ProductDetails">
+    <Position X="3" Y="37.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>EAABAEAAAgACAABAAAAAAAASEASAIAACABAAAAgAAAA=</HashCode>
+      <FileName>Pages\Products\ProductDetails.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Products.ProductEdit">
+    <Position X="5.5" Y="37.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>kAABAAIBAgAAAcAAAABACAAAgACAAAASAAAQEAAAAAA=</HashCode>
+      <FileName>Pages\Products\ProductEdit.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Products.ProductForm">
+    <Position X="7.75" Y="37.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAEAAQBEAAIAABAAAAAgAAIQAAACAQAAiBBAEA=</HashCode>
+      <FileName>Pages\Products\ProductForm.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Products.ProductsIndex">
+    <Position X="0.75" Y="43" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAIgAEEQAIEAAIAAAAAEgBEgAAACAAAAAgAAIAY=</HashCode>
+      <FileName>Pages\Products\ProductsIndex.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.States.StateCreate">
+    <Position X="3.25" Y="43" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAACAAIAAAAAgAAAAgAAQAAAEAAAAEIAAAAA=</HashCode>
+      <FileName>Pages\States\StateCreate.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.States.StateDetails">
+    <Position X="5.25" Y="43" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAIgQEEQAIEAAIAAAAAEgBAAAAAGhAAAAhAAMII=</HashCode>
+      <FileName>Pages\States\StateDetails.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.States.StateEdit">
+    <Position X="7.75" Y="43" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAQACAAIAAAAAgAAAAgIQAAAAEAAAAEAAAAAA=</HashCode>
+      <FileName>Pages\States\StateEdit.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Pages.Home">
+    <Position X="0.75" Y="49.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>gYAAAEIgAEESAIEAAIAAAAAEgBQgMAECgBAAAggCIAY=</HashCode>
+      <FileName>Pages\Home.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Shared.AuthLinks">
+    <Position X="3.5" Y="49.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAAQAECAAgAAAAAAAAAA=</HashCode>
+      <FileName>Shared\AuthLinks.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Shared.CarouselView">
+    <Position X="5.75" Y="49.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAIAAAAAAAAAAAAAAAAAAABAAQAgAAAAIAAA=</HashCode>
+      <FileName>Shared\CarouselView.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Shared.Filter">
+    <Position X="7.75" Y="49.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAABAAAAAAAAAAAAAgAAAAAAAAAAAAAYAA=</HashCode>
+      <FileName>Shared\Filter.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Shared.FormWithName&lt;TModel&gt;">
+    <Position X="3.5" Y="52.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAEEAAAEAAAAABAAAAAgAAAAAAACAgAAAAAAAA=</HashCode>
+      <FileName>Shared\FormWithName.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Shared.GenericList&lt;Titem&gt;">
+    <Position X="3.5" Y="55.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAABAIAAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Shared\GenericList.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Shared.InputImg">
+    <Position X="8.75" Y="55.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAFQAAAAAABAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Shared\InputImg.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Shared.MultipleSelector">
+    <Position X="8.75" Y="52" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQACAAAAAAAAAAAAAIAAABAAAAACAAQAAIAAI=</HashCode>
+      <FileName>Shared\MultipleSelector.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Orders.Frontend.Shared.Pagination">
+    <Position X="6" Y="52.25" Width="2.5" />
+    <NestedTypes>
+      <Class Name="Orders.Frontend.Shared.Pagination.OptionModel" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Shared\Pagination.razor.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="Orders.Frontend.Shared.Pagination.PageModel" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Shared\Pagination.razor.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AEAAAoAAAAAAAAAABAEAACAEAAAIACAAAQAABAACQAI=</HashCode>
+      <FileName>Shared\Pagination.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Orders.Frontend.Repositories.IRepository">
+    <Position X="6" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAIA=</HashCode>
+      <FileName>Repositories\IRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Orders.Frontend.Services.ILoginService">
+    <Position X="8.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Services\ILoginService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

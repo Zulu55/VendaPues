@@ -1,0 +1,10 @@
+﻿<AuthorizeView>
+    <Authorized>
+        <MudMenuItem Href="EditUser"><MudIcon Icon="@Icons.Material.Filled.Edit" /> Modificar Usuario</MudMenuItem>
+        <MudMenuItem Href="Logout"><MudIcon Icon="@Icons.Material.Filled.Logout" /> Cerrar Sesión</MudMenuItem>
+    </Authorized>
+    <NotAuthorized>
+        <MudMenuItem OnClick=@(() => ShowModal())><MudIcon Icon="@Icons.Material.Filled.Login" /> Iniciar Sesión</MudMenuItem>
+        <MudMenuItem Href="register"><MudIcon Icon="@Icons.Material.Filled.AppRegistration" /> Registro</MudMenuItem>
+    </NotAuthorized>
+</AuthorizeView>
