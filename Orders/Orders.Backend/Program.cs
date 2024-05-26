@@ -63,6 +63,7 @@ internal class Program
         builder.Services.AddScoped<IFileStorage, FileStorage>();
         builder.Services.AddScoped<IMailHelper, MailHelper>();
         builder.Services.AddScoped<IOrdersHelper, OrdersHelper>();
+        builder.Services.AddScoped<IPurchaseHelper, PurchaseHelper>();
         builder.Services.AddScoped<ISmtpClient, SmtpClientWrapper>();
         builder.Services.AddScoped<IBlobContainerClientFactory, BlobContainerClientFactory>();
         builder.Services.AddScoped<IRuntimeInformationWrapper, RuntimeInformationWrapper>();
@@ -71,21 +72,36 @@ internal class Program
         builder.Services.AddScoped(typeof(IGenericUnitOfWork<>), typeof(GenericUnitOfWork<>));
 
         builder.Services.AddScoped<ICategoriesRepository, CategoriesRepository>();
-        builder.Services.AddScoped<ICitiesRepository, CitiesRepository>();
-        builder.Services.AddScoped<ICountriesRepository, CountriesRepository>();
-        builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
-        builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
-        builder.Services.AddScoped<IStatesRepository, StatesRepository>();
-        builder.Services.AddScoped<ITemporalOrdersRepository, TemporalOrdersRepository>();
-        builder.Services.AddScoped<IUsersRepository, UsersRepository>();
-
         builder.Services.AddScoped<ICategoriesUnitOfWork, CategoriesUnitOfWork>();
+
+        builder.Services.AddScoped<ICitiesRepository, CitiesRepository>();
         builder.Services.AddScoped<ICitiesUnitOfWork, CitiesUnitOfWork>();
-        builder.Services.AddScoped<IOrdersUnitOfWork, OrdersUnitOfWork>();
-        builder.Services.AddScoped<IProductsUnitOfWork, ProductsUnitOfWork>();
+
+        builder.Services.AddScoped<ICountriesRepository, CountriesRepository>();
         builder.Services.AddScoped<ICountriesUnitOfWork, CountriesUnitOfWork>();
+
+        builder.Services.AddScoped<IKardexRepository, KardexRepository>();
+        builder.Services.AddScoped<IKardexUnitOfWork, KardexUnitOfWork>();
+
+        builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
+        builder.Services.AddScoped<IOrdersUnitOfWork, OrdersUnitOfWork>();
+
+        builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
+        builder.Services.AddScoped<IProductsUnitOfWork, ProductsUnitOfWork>();
+
+        builder.Services.AddScoped<IPurchaseRepository, PurchaseRepository>();
+        builder.Services.AddScoped<IPurchaseUnitOfWork, PurchaseUnitOfWork>();
+
+        builder.Services.AddScoped<IPurchaseDetailRepository, PurchaseDetailRepository>();
+        builder.Services.AddScoped<IPurchaseDetailUnitOfWork, PurchaseDetailUnitOfWork>();
+
+        builder.Services.AddScoped<IStatesRepository, StatesRepository>();
         builder.Services.AddScoped<IStatesUnitOfWork, StatesUnitOfWork>();
+
+        builder.Services.AddScoped<ITemporalOrdersRepository, TemporalOrdersRepository>();
         builder.Services.AddScoped<ITemporalOrdersUnitOfWork, TemporalOrdersUnitOfWork>();
+
+        builder.Services.AddScoped<IUsersRepository, UsersRepository>();
         builder.Services.AddScoped<IUsersUnitOfWork, UsersUnitOfWork>();
 
         builder.Services.AddIdentity<User, IdentityRole>(x =>

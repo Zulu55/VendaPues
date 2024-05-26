@@ -12,8 +12,8 @@ using Orders.Backend.Data;
 namespace Orders.Backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240503214846_AddTemporalOrder")]
-    partial class AddTemporalOrder
+    [Migration("20240526011241_CleanDatabaseAndCreateNewDefinition")]
+    partial class CleanDatabaseAndCreateNewDefinition
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -224,7 +224,70 @@ namespace Orders.Backend.Migrations
                     b.ToTable("Countries");
                 });
 
-            modelBuilder.Entity("Orders.Shared.Entities.Product", b =>
+            modelBuilder.Entity("Orders.Shared.Entities.Kardex", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("AverageCost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<float>("Balance")
+                        .HasColumnType("real");
+
+                    b.Property<decimal>("Cost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("KardexType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Quantity")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Kardex");
+                });
+
+            modelBuilder.Entity("Orders.Shared.Entities.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OrderStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("Orders.Shared.Entities.OrderDetail", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -236,6 +299,58 @@ namespace Orders.Backend.Migrations
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Quantity")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderDetails");
+                });
+
+            modelBuilder.Entity("Orders.Shared.Entities.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Cost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<float>("DesiredProfit")
+                        .HasColumnType("real");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -301,6 +416,76 @@ namespace Orders.Backend.Migrations
                     b.ToTable("ProductImages");
                 });
 
+            modelBuilder.Entity("Orders.Shared.Entities.Purchase", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SupplierId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SupplierId");
+
+                    b.ToTable("Purchases");
+                });
+
+            modelBuilder.Entity("Orders.Shared.Entities.PurchaseDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Cost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PurchaseId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Quantity")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("PurchaseId");
+
+                    b.ToTable("PurchaseDetail");
+                });
+
             modelBuilder.Entity("Orders.Shared.Entities.State", b =>
                 {
                     b.Property<int>("Id")
@@ -323,6 +508,62 @@ namespace Orders.Backend.Migrations
                         .IsUnique();
 
                     b.ToTable("States");
+                });
+
+            modelBuilder.Entity("Orders.Shared.Entities.Supplier", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ContactFirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ContactLastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Document")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("SupplierName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("SupplierName")
+                        .IsUnique();
+
+                    b.ToTable("Suppliers");
                 });
 
             modelBuilder.Entity("Orders.Shared.Entities.TemporalOrder", b =>
@@ -512,6 +753,46 @@ namespace Orders.Backend.Migrations
                     b.Navigation("State");
                 });
 
+            modelBuilder.Entity("Orders.Shared.Entities.Kardex", b =>
+                {
+                    b.HasOne("Orders.Shared.Entities.Product", "Product")
+                        .WithMany("Kardex")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Orders.Shared.Entities.Order", b =>
+                {
+                    b.HasOne("Orders.Shared.Entities.User", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Orders.Shared.Entities.OrderDetail", b =>
+                {
+                    b.HasOne("Orders.Shared.Entities.Order", "Order")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Orders.Shared.Entities.Product", "Product")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Orders.Shared.Entities.ProductCategory", b =>
                 {
                     b.HasOne("Orders.Shared.Entities.Category", "Category")
@@ -542,6 +823,36 @@ namespace Orders.Backend.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Orders.Shared.Entities.Purchase", b =>
+                {
+                    b.HasOne("Orders.Shared.Entities.Supplier", "Supplier")
+                        .WithMany("Purchases")
+                        .HasForeignKey("SupplierId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Supplier");
+                });
+
+            modelBuilder.Entity("Orders.Shared.Entities.PurchaseDetail", b =>
+                {
+                    b.HasOne("Orders.Shared.Entities.Product", "Product")
+                        .WithMany("PurchaseDetails")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Orders.Shared.Entities.Purchase", "Purchase")
+                        .WithMany("PurchaseDetails")
+                        .HasForeignKey("PurchaseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Purchase");
+                });
+
             modelBuilder.Entity("Orders.Shared.Entities.State", b =>
                 {
                     b.HasOne("Orders.Shared.Entities.Country", "Country")
@@ -551,6 +862,17 @@ namespace Orders.Backend.Migrations
                         .IsRequired();
 
                     b.Navigation("Country");
+                });
+
+            modelBuilder.Entity("Orders.Shared.Entities.Supplier", b =>
+                {
+                    b.HasOne("Orders.Shared.Entities.City", "City")
+                        .WithMany("Suppliers")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("City");
                 });
 
             modelBuilder.Entity("Orders.Shared.Entities.TemporalOrder", b =>
@@ -589,6 +911,8 @@ namespace Orders.Backend.Migrations
 
             modelBuilder.Entity("Orders.Shared.Entities.City", b =>
                 {
+                    b.Navigation("Suppliers");
+
                     b.Navigation("Users");
                 });
 
@@ -597,13 +921,29 @@ namespace Orders.Backend.Migrations
                     b.Navigation("States");
                 });
 
+            modelBuilder.Entity("Orders.Shared.Entities.Order", b =>
+                {
+                    b.Navigation("OrderDetails");
+                });
+
             modelBuilder.Entity("Orders.Shared.Entities.Product", b =>
                 {
+                    b.Navigation("Kardex");
+
+                    b.Navigation("OrderDetails");
+
                     b.Navigation("ProductCategories");
 
                     b.Navigation("ProductImages");
 
+                    b.Navigation("PurchaseDetails");
+
                     b.Navigation("TemporalOrders");
+                });
+
+            modelBuilder.Entity("Orders.Shared.Entities.Purchase", b =>
+                {
+                    b.Navigation("PurchaseDetails");
                 });
 
             modelBuilder.Entity("Orders.Shared.Entities.State", b =>
@@ -611,8 +951,15 @@ namespace Orders.Backend.Migrations
                     b.Navigation("Cities");
                 });
 
+            modelBuilder.Entity("Orders.Shared.Entities.Supplier", b =>
+                {
+                    b.Navigation("Purchases");
+                });
+
             modelBuilder.Entity("Orders.Shared.Entities.User", b =>
                 {
+                    b.Navigation("Orders");
+
                     b.Navigation("TemporalOrders");
                 });
 #pragma warning restore 612, 618

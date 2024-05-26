@@ -129,50 +129,49 @@ namespace Orders.Backend.Data
         {
             if (!_context.Products.Any())
             {
-                await AddProductAsync("Adidas Barracuda", 270000M, 12F, ["Calzado", "Deportes"], ["adidas_barracuda.png"], 230000M, 0.3F);
-                await AddProductAsync("Adidas Superstar", 250000M, 12F, ["Calzado", "Deportes"], ["Adidas_superstar.png"], 200000M, 0.3F);
-                await AddProductAsync("Aguacate", 5000M, 500F, ["Comida"], ["Aguacate1.png", "Aguacate2.png", "Aguacate3.png"], 4000M, 0.3F);
-                await AddProductAsync("AirPods", 1300000M, 12F, ["Tecnología", "Apple"], ["airpos.png", "airpos2.png"], 1000000M, 0.3F);
-                await AddProductAsync("Akai APC40 MKII", 2650000M, 12F, ["Tecnología"], ["Akai1.png", "Akai2.png", "Akai3.png"], 2150000M, 0.3F);
-                await AddProductAsync("Apple Watch Ultra", 4500000M, 24F, ["Apple", "Tecnología"], ["AppleWatchUltra1.png", "AppleWatchUltra2.png"], 4000000M, 0.3F);
-                await AddProductAsync("Audifonos Bose", 870000M, 12F, ["Tecnología"], ["audifonos_bose.png"], 800000M, 0.3F);
-                await AddProductAsync("Bicicleta Ribble", 12000000M, 6F, ["Deportes"], ["bicicleta_ribble.png"], 10000000M, 0.3F);
-                await AddProductAsync("Camisa Cuadros", 56000M, 24F, ["Ropa"], ["camisa_cuadros.png"], 50000M, 0.3F);
-                await AddProductAsync("Casco Bicicleta", 820000M, 12F, ["Deportes"], ["casco_bicicleta.png", "casco.png"], 750000M, 0.3F);
-                await AddProductAsync("Gafas deportivas", 160000M, 24F, ["Deportes"], ["Gafas1.png", "Gafas2.png", "Gafas3.png"], 130000M, 0.3F);
-                await AddProductAsync("Hamburguesa triple carne", 25500M, 240F, ["Comida"], ["Hamburguesa1.png", "Hamburguesa2.png", "Hamburguesa3.png"], 16500M, 0.3F);
-                await AddProductAsync("iPad", 2300000M, 6F, ["Tecnología", "Apple"], ["ipad.png"], 200000M, 0.3F);
-                await AddProductAsync("iPhone 13", 5200000M, 6F, ["Tecnología", "Apple"], ["iphone13.png", "iphone13b.png", "iphone13c.png", "iphone13d.png"], 4900000M, 0.3F);
-                await AddProductAsync("Johnnie Walker Blue Label 750ml", 1266700M, 18F, ["Licores"], ["JohnnieWalker3.png", "JohnnieWalker2.png", "JohnnieWalker1.png"], 1000000M, 0.3F);
-                await AddProductAsync("KOOY Disfraz inflable de gallo para montar", 150000M, 28F, ["Juguetes"], new List<string>() { "KOOY1.png", "KOOY2.png", "KOOY3.png" }, 100000M, 0.3F);
-                await AddProductAsync("Mac Book Pro", 12100000M, 6F, ["Tecnología", "Apple"], ["mac_book_pro.png"], 11500000M, 0.3F);
-                await AddProductAsync("Mancuernas", 370000M, 12F, ["Deportes"], ["mancuernas.png"], 300000M, 0.3F);
-                await AddProductAsync("Mascarilla Cara", 26000M, 100F, ["Belleza"], ["mascarilla_cara.png"], 20000M, 0.3F);
-                await AddProductAsync("New Balance 530", 180000M, 12F, ["Calzado", "Deportes"], ["newbalance530.png"], 140000M, 0.3F);
-                await AddProductAsync("New Balance 565", 179000M, 12F, ["Calzado", "Deportes"], ["newbalance565.png"], 155000M, 0.3F);
-                await AddProductAsync("Nike Air", 233000M, 12F, ["Calzado", "Deportes"], ["nike_air.png"], 200000M, 0.3F);
-                await AddProductAsync("Nike Zoom", 249900M, 12F, ["Calzado", "Deportes"], ["nike_zoom.png"], 200000M, 0.3F);
-                await AddProductAsync("Buso Adidas Mujer", 134000M, 12F, ["Ropa", "Deportes"], ["buso_adidas.png"], 100000M, 0.3F);
-                await AddProductAsync("Suplemento Boots Original", 15600M, 12F, ["Nutrición"], ["Boost_Original.png"], 150000M, 0.3F);
-                await AddProductAsync("Whey Protein", 252000M, 12F, ["Nutrición"], ["whey_protein.png"], 200000M, 0.3F);
-                await AddProductAsync("Arnes Mascota", 25000M, 12F, ["Mascotas"], ["arnes_mascota.png"], 20000M, 0.3F);
-                await AddProductAsync("Cama Mascota", 99000M, 12F, ["Mascotas"], ["cama_mascota.png"], 78000M, 0.3F);
-                await AddProductAsync("Teclado Gamer", 67000M, 12F, ["Gamer", "Tecnología"], ["teclado_gamer.png"], 53000M, 0.3F);
-                await AddProductAsync("Ring de Lujo 17", 1600000M, 33F, ["Autos"], ["Ring1.png", "Ring2.png"], 1350000M, 0.3F);
-                await AddProductAsync("Silla Gamer", 980000M, 12F, ["Gamer", "Tecnología"], ["silla_gamer.png"], 715000M, 0.3F);
-                await AddProductAsync("Mouse Gamer", 132000M, 12F, ["Gamer", "Tecnología"], ["mouse_gamer.png"], 99900M, 0.3F);
+                await AddProductAsync("Adidas Barracuda", 270000M, ["Calzado", "Deportes"], ["adidas_barracuda.png"], 230000M, 0.3F);
+                await AddProductAsync("Adidas Superstar", 250000M, ["Calzado", "Deportes"], ["Adidas_superstar.png"], 200000M, 0.3F);
+                await AddProductAsync("Aguacate", 5000M, ["Comida"], ["Aguacate1.png", "Aguacate2.png", "Aguacate3.png"], 4000M, 0.3F);
+                await AddProductAsync("AirPods", 1300000M, ["Tecnología", "Apple"], ["airpos.png", "airpos2.png"], 1000000M, 0.3F);
+                await AddProductAsync("Akai APC40 MKII", 2650000M, ["Tecnología"], ["Akai1.png", "Akai2.png", "Akai3.png"], 2150000M, 0.3F);
+                await AddProductAsync("Apple Watch Ultra", 4500000M, ["Apple", "Tecnología"], ["AppleWatchUltra1.png", "AppleWatchUltra2.png"], 4000000M, 0.3F);
+                await AddProductAsync("Audifonos Bose", 870000M, ["Tecnología"], ["audifonos_bose.png"], 800000M, 0.3F);
+                await AddProductAsync("Bicicleta Ribble", 12000000M, ["Deportes"], ["bicicleta_ribble.png"], 10000000M, 0.3F);
+                await AddProductAsync("Camisa Cuadros", 56000M, ["Ropa"], ["camisa_cuadros.png"], 50000M, 0.3F);
+                await AddProductAsync("Casco Bicicleta", 820000M, ["Deportes"], ["casco_bicicleta.png", "casco.png"], 750000M, 0.3F);
+                await AddProductAsync("Gafas deportivas", 160000M, ["Deportes"], ["Gafas1.png", "Gafas2.png", "Gafas3.png"], 130000M, 0.3F);
+                await AddProductAsync("Hamburguesa triple carne", 25500M, ["Comida"], ["Hamburguesa1.png", "Hamburguesa2.png", "Hamburguesa3.png"], 16500M, 0.3F);
+                await AddProductAsync("iPad", 2300000M, ["Tecnología", "Apple"], ["ipad.png"], 200000M, 0.3F);
+                await AddProductAsync("iPhone 13", 5200000M, ["Tecnología", "Apple"], ["iphone13.png", "iphone13b.png", "iphone13c.png", "iphone13d.png"], 4900000M, 0.3F);
+                await AddProductAsync("Johnnie Walker Blue Label 750ml", 1266700M, ["Licores"], ["JohnnieWalker3.png", "JohnnieWalker2.png", "JohnnieWalker1.png"], 1000000M, 0.3F);
+                await AddProductAsync("KOOY Disfraz inflable de gallo para montar", 150000M, ["Juguetes"], new List<string>() { "KOOY1.png", "KOOY2.png", "KOOY3.png" }, 100000M, 0.3F);
+                await AddProductAsync("Mac Book Pro", 12100000M, ["Tecnología", "Apple"], ["mac_book_pro.png"], 11500000M, 0.3F);
+                await AddProductAsync("Mancuernas", 370000M, ["Deportes"], ["mancuernas.png"], 300000M, 0.3F);
+                await AddProductAsync("Mascarilla Cara", 26000M, ["Belleza"], ["mascarilla_cara.png"], 20000M, 0.3F);
+                await AddProductAsync("New Balance 530", 180000M, ["Calzado", "Deportes"], ["newbalance530.png"], 140000M, 0.3F);
+                await AddProductAsync("New Balance 565", 179000M, ["Calzado", "Deportes"], ["newbalance565.png"], 155000M, 0.3F);
+                await AddProductAsync("Nike Air", 233000M, ["Calzado", "Deportes"], ["nike_air.png"], 200000M, 0.3F);
+                await AddProductAsync("Nike Zoom", 249900M, ["Calzado", "Deportes"], ["nike_zoom.png"], 200000M, 0.3F);
+                await AddProductAsync("Buso Adidas Mujer", 134000M, ["Ropa", "Deportes"], ["buso_adidas.png"], 100000M, 0.3F);
+                await AddProductAsync("Suplemento Boots Original", 15600M, ["Nutrición"], ["Boost_Original.png"], 150000M, 0.3F);
+                await AddProductAsync("Whey Protein", 252000M, ["Nutrición"], ["whey_protein.png"], 200000M, 0.3F);
+                await AddProductAsync("Arnes Mascota", 25000M, ["Mascotas"], ["arnes_mascota.png"], 20000M, 0.3F);
+                await AddProductAsync("Cama Mascota", 99000M, ["Mascotas"], ["cama_mascota.png"], 78000M, 0.3F);
+                await AddProductAsync("Teclado Gamer", 67000M, ["Gamer", "Tecnología"], ["teclado_gamer.png"], 53000M, 0.3F);
+                await AddProductAsync("Ring de Lujo 17", 1600000M, ["Autos"], ["Ring1.png", "Ring2.png"], 1350000M, 0.3F);
+                await AddProductAsync("Silla Gamer", 980000M, ["Gamer", "Tecnología"], ["silla_gamer.png"], 715000M, 0.3F);
+                await AddProductAsync("Mouse Gamer", 132000M, ["Gamer", "Tecnología"], ["mouse_gamer.png"], 99900M, 0.3F);
                 await _context.SaveChangesAsync();
             }
         }
 
-        private async Task AddProductAsync(string name, decimal price, float stock, List<string> categories, List<string> images, decimal cost, float desiredProfit)
+        private async Task AddProductAsync(string name, decimal price, List<string> categories, List<string> images, decimal cost, float desiredProfit)
         {
             Product prodcut = new()
             {
                 Description = name,
                 Name = name,
                 Price = price,
-                Stock = stock,
                 Cost = cost,
                 DesiredProfit = desiredProfit,
                 ProductCategories = [],

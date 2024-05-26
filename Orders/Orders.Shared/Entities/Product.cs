@@ -63,5 +63,9 @@ namespace Orders.Shared.Entities
         public ICollection<TemporalOrder>? TemporalOrders { get; set; }
 
         public ICollection<OrderDetail>? OrderDetails { get; set; }
+
+        public ICollection<PurchaseDetail>? PurchaseDetails { get; set; }
+
+        public ICollection<Kardex>? Kardex { get; set; }
     }
 }

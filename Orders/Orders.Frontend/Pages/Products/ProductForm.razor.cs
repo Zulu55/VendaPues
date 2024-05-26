@@ -40,7 +40,7 @@ namespace Orders.Frontend.Pages.Products
         {
             if (ProductDTO.ProductImages is null)
             {
-                ProductDTO.ProductImages = new List<string>();
+                ProductDTO.ProductImages = [];
             }
 
             ProductDTO.ProductImages!.Add(imagenBase64);

@@ -13,12 +13,16 @@ namespace Orders.Backend.Data
         public DbSet<City> Cities { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<PurchaseDetail> Kardex { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<Purchase> Purchases { get; set; }
+        public DbSet<PurchaseDetail> PurchaseDetails { get; set; }
         public DbSet<State> States { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<TemporalOrder> TemporalOrders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -29,6 +33,7 @@ namespace Orders.Backend.Data
             modelBuilder.Entity<City>().HasIndex(x => new { x.StateId, x.Name }).IsUnique();
             modelBuilder.Entity<Product>().HasIndex(x => x.Name).IsUnique();
             modelBuilder.Entity<State>().HasIndex(x => new { x.CountryId, x.Name }).IsUnique();
+            modelBuilder.Entity<Supplier>().HasIndex(x => x.SupplierName).IsUnique();
             DisableCascadingDelete(modelBuilder);
         }
 
