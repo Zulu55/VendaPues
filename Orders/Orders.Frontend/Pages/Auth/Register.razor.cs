@@ -16,6 +16,7 @@ namespace Orders.Frontend.Pages.Auth
         private List<City>? cities;
         private bool loading;
         private string? imageUrl;
+        private string? titleLabel;
 
         private Country selectedCountry = new();
         private State selectedState = new();
@@ -25,10 +26,17 @@ namespace Orders.Frontend.Pages.Auth
         [Inject] private ILoginService LogInService { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
+        [Parameter, SupplyParameterFromQuery] public bool IsAdmin { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             await LoadCountriesAsync();
+        }
+
+        protected override void OnParametersSet()
+        {
+            base.OnParametersSet();
+            titleLabel =  IsAdmin ? "Registro de Administrador" : "Registro de Usuario";
         }
 
         private void ImageSelected(string imageBase64)
@@ -145,6 +153,12 @@ namespace Orders.Frontend.Pages.Auth
         {
             userDTO.UserType = UserType.User;
             userDTO.UserName = userDTO.Email;
+
+            if (IsAdmin)
+            {
+                userDTO.UserType = UserType.Admin;
+            }
+
             loading = true;
             var responseHttp = await Repository.PostAsync<UserDTO>("/api/accounts/CreateUser", userDTO);
             loading = false;
