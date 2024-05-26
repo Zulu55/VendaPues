@@ -68,18 +68,32 @@ namespace Orders.Backend.Repositories.Implementations
                         else
                         {
                             kardex.Balance = kardex.Quantity + previousKardex.Balance;
-                            kardex.AverageCost = ((decimal)kardex.Quantity * kardex.Cost + (decimal)previousKardex.Quantity * previousKardex.AverageCost) / (decimal)kardex.Balance;
+                            kardex.AverageCost = ((decimal)kardex.Quantity * kardex.Cost + (decimal)previousKardex.Balance * previousKardex.AverageCost) / (decimal)kardex.Balance;
                         }
                         break;
 
                     case KardexType.Order:
-                        kardex.Balance -= kardex.Quantity;
                         if (previousKardex == null)
                         {
+                            kardex.Balance -= kardex.Quantity;
                             kardex.AverageCost = 0;
                         }
                         else
                         {
+                            kardex.Balance = previousKardex.Balance - kardex.Quantity;
+                            kardex.AverageCost = previousKardex.AverageCost;
+                        }
+                        break;
+
+                    case KardexType.CancelOrder:
+                        if (previousKardex == null)
+                        {
+                            kardex.Balance += kardex.Quantity;
+                            kardex.AverageCost = 0;
+                        }
+                        else
+                        {
+                            kardex.Balance = previousKardex.Balance + kardex.Quantity;
                             kardex.AverageCost = previousKardex.AverageCost;
                         }
                         break;

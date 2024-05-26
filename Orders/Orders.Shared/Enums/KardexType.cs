@@ -8,6 +8,9 @@ namespace Orders.Shared.Enums
         Purchase,
 
         [Description("Pedido")]
-        Order
+        Order,
+
+        [Description("Cancelación Pedido")]
+        CancelOrder
     }
 }

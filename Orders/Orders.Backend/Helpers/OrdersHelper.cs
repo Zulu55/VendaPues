@@ -1,4 +1,5 @@
 ﻿using Orders.Backend.UnitsOfWork.Interfaces;
+using Orders.Shared.DTOs;
 using Orders.Shared.Entities;
 using Orders.Shared.Enums;
 using Orders.Shared.Responses;
@@ -11,13 +12,15 @@ namespace Orders.Backend.Helpers
         private readonly ITemporalOrdersUnitOfWork _temporalOrdersUnitOfWork;
         private readonly IProductsUnitOfWork _productsUnitOfWork;
         private readonly IOrdersUnitOfWork _ordersUnitOfWork;
+        private readonly IKardexUnitOfWork _kardexUnitOfWork;
 
-        public OrdersHelper(IUsersUnitOfWork usersUnitOfWork, ITemporalOrdersUnitOfWork temporalOrdersUnitOfWork, IProductsUnitOfWork productsUnitOfWork, IOrdersUnitOfWork ordersUnitOfWork)
+        public OrdersHelper(IUsersUnitOfWork usersUnitOfWork, ITemporalOrdersUnitOfWork temporalOrdersUnitOfWork, IProductsUnitOfWork productsUnitOfWork, IOrdersUnitOfWork ordersUnitOfWork, IKardexUnitOfWork kardexUnitOfWork)
         {
             _usersUnitOfWork = usersUnitOfWork;
             _temporalOrdersUnitOfWork = temporalOrdersUnitOfWork;
             _productsUnitOfWork = productsUnitOfWork;
             _ordersUnitOfWork = ordersUnitOfWork;
+            _kardexUnitOfWork = kardexUnitOfWork;
         }
 
         public async Task<ActionResponse<bool>> ProcessOrderAsync(string email, string remarks)
@@ -77,8 +80,16 @@ namespace Orders.Backend.Helpers
                     var product = actionProduct.Result;
                     if (product != null)
                     {
-                        product.Stock -= temporalOrder.Quantity;
-                        await _productsUnitOfWork.UpdateAsync(product);
+                        var kardexDTO = new KardexDTO
+                        {
+                            Date = order.Date,
+                            ProductId = temporalOrder.ProductId,
+                            KardexType = KardexType.Order,
+                            Cost = product.Cost,
+                            Quantity = temporalOrder.Quantity
+                        };
+
+                        await _kardexUnitOfWork.AddAsync(kardexDTO);
                     }
                 }
 

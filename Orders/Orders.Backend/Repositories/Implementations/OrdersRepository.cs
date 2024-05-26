@@ -13,11 +13,13 @@ namespace Orders.Backend.Repositories.Implementations
     {
         private readonly DataContext _context;
         private readonly IUsersRepository _usersRepository;
+        private readonly IKardexRepository _kardexRepository;
 
-        public OrdersRepository(DataContext context, IUsersRepository usersRepository) : base(context)
+        public OrdersRepository(DataContext context, IUsersRepository usersRepository, IKardexRepository kardexRepository) : base(context)
         {
             _context = context;
             _usersRepository = usersRepository;
+            _kardexRepository = kardexRepository;
         }
 
         public override async Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination)
@@ -178,13 +180,21 @@ namespace Orders.Backend.Repositories.Implementations
         {
             foreach (var orderDetail in order.OrderDetails!)
             {
-                var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == orderDetail.ProductId);
+                var product = await _context.Products.FindAsync(orderDetail.ProductId);
                 if (product != null)
                 {
-                    product.Stock += orderDetail.Quantity;
+                    var kardexDTO = new KardexDTO
+                    {
+                        Cost = product.Cost,
+                        Date = DateTime.UtcNow,
+                        KardexType = KardexType.CancelOrder,
+                        ProductId = orderDetail.ProductId,
+                        Quantity = orderDetail.Quantity,
+                    };
+
+                    await _kardexRepository.AddAsync(kardexDTO);
                 }
             }
-            await _context.SaveChangesAsync();
         }
     }
 }

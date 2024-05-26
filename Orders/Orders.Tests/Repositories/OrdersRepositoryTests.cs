@@ -15,6 +15,7 @@ namespace Orders.Tests.Repositories
         private DataContext _context = null!;
         private OrdersRepository _repository = null!;
         private Mock<IUsersRepository> _mockUserRepository = null!;
+        private Mock<IKardexRepository> _mockKardexRepository = null!;
 
         [TestInitialize]
         public void Initialize()
@@ -25,7 +26,7 @@ namespace Orders.Tests.Repositories
 
             _context = new DataContext(options);
             _mockUserRepository = new Mock<IUsersRepository>();
-            _repository = new OrdersRepository(_context, _mockUserRepository.Object);
+            _repository = new OrdersRepository(_context, _mockUserRepository.Object, _mockKardexRepository.Object);
         }
 
         [TestCleanup]

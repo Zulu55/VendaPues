@@ -10,6 +10,7 @@ namespace Orders.Tests.Helpers
     public class OrdersHelperTests
     {
         private Mock<IUsersUnitOfWork> _usersUnitOfWorkMock = null!;
+        private Mock<IKardexUnitOfWork> _kardexUnitOfWorkMock = null!;
         private Mock<ITemporalOrdersUnitOfWork> _temporalOrdersUoWMock = null!;
         private Mock<IProductsUnitOfWork> _productsUoWMock = null!;
         private Mock<IOrdersUnitOfWork> _ordersUoWMock = null!;
@@ -22,7 +23,7 @@ namespace Orders.Tests.Helpers
             _temporalOrdersUoWMock = new Mock<ITemporalOrdersUnitOfWork>();
             _productsUoWMock = new Mock<IProductsUnitOfWork>();
             _ordersUoWMock = new Mock<IOrdersUnitOfWork>();
-            _ordersHelper = new OrdersHelper(_usersUnitOfWorkMock.Object, _temporalOrdersUoWMock.Object, _productsUoWMock.Object, _ordersUoWMock.Object);
+            _ordersHelper = new OrdersHelper(_usersUnitOfWorkMock.Object, _temporalOrdersUoWMock.Object, _productsUoWMock.Object, _ordersUoWMock.Object, _kardexUnitOfWorkMock.Object);
         }
 
         [TestMethod]

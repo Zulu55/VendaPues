@@ -26,38 +26,32 @@
                         <MudTextField Label="Nombre"
                                       @bind-Value="@ProductDTO.Name"
                                       For="@(() => ProductDTO.Name)"
-                                      Class="mb-4" />
-
+                                      Class="mb-2" />
                     </div>
                     <div class="mb-3">
                         <MudTextField Label="Descripción"
                                       @bind-Value="@ProductDTO.Description"
                                       For="@(() => ProductDTO.Description)"
-                                      Class="mb-4" />
+                                      Class="mb-2" />
                     </div>
                     <div class="mb-3">
-                        <MudTextField Label="Inventario"
+                        <MudTextField Label="Precio"
                                       @bind-Value="@ProductDTO.Price"
                                       For="@(() => ProductDTO.Price)"
-                                      Class="mb-4" />
-                    </div>
-                    <div class="mb-3">
-                        <MudTextField Label="Costo"
-                                      @bind-Value="@ProductDTO.Cost"
-                                      For="@(() => ProductDTO.Cost)"
-                                      Class="mb-4" />
+                                      ReadOnly
+                                      Class="mb-2" />
                     </div>
                     <div class="mb-3">
                         <MudTextField Label="% Utilidad Esperada"
                                       @bind-Value="@ProductDTO.DesiredProfit"
                                       For="@(() => ProductDTO.DesiredProfit)"
-                                      Class="mb-4" />
+                                      Class="mb-2" />
                     </div>
                     <div class="mb-3">
-                        <MudTextField Label="Precio"
-                                      @bind-Value="@ProductDTO.Stock"
-                                      For="@(() => ProductDTO.Stock)"
-                                      Class="mb-4" />
+                        <MudText Typo="Typo.h6" Class="mb-2">@($"Costo: {ProductDTO.Cost:C2}")</MudText>
+                    </div>
+                    <div class="mb-3">
+                        <MudText Typo="Typo.h6" Class="mb-2">@($"Inventario: {ProductDTO.Stock:N2}")</MudText>
                     </div>
                 </div>
                 <div class="col-6">

@@ -28,7 +28,7 @@ namespace Orders.Backend.Data
         public async Task SeedAsync()
         {
             await _context.Database.EnsureCreatedAsync();
-            //await CheckCountriesFullAsync();
+            await CheckCountriesFullAsync();
             await CheckCountriesAsync();
             await CheckCategoriesAsync();
             await CheckRolesAsync();
@@ -59,11 +59,12 @@ namespace Orders.Backend.Data
                     var random = new Random();
                     foreach (var product in _context.Products)
                     {
+                        decimal percentajeCost = 1M - random.Next(10, 41) / 100M;
                         purchaseDTO.PurchaseDetails.Add(new PurchaseDetailDTO
                         {
-                            Cost = product.Price * random.Next(50, 81) / 100,
+                            Cost = product.Price * percentajeCost,
                             ProductId = product.Id,
-                            Quantity = random.Next(6, 21),
+                            Quantity = random.Next(6, 25),
                             Remarks = $"Compra {i} agregada por SeedDb para propositos de Testing.",
                         });
                     }

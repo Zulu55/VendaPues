@@ -23,7 +23,7 @@ namespace Orders.Backend.Helpers
 
         public async Task<ActionResponse<bool>> ProcessPurchaseAsync(PurchaseDTO purchaseDTO)
         {
-            if(purchaseDTO.PurchaseDetails == null || purchaseDTO.PurchaseDetails.Count == 0)
+            if (purchaseDTO.PurchaseDetails == null || purchaseDTO.PurchaseDetails.Count == 0)
             {
                 return new ActionResponse<bool>
                 {
@@ -31,8 +31,8 @@ namespace Orders.Backend.Helpers
                 };
             }
 
-            var responseSupplier = await _suppliersUnitOfWork.GetAsync(purchaseDTO.SupplierId); 
-            if (!responseSupplier.WasSuccess) 
+            var responseSupplier = await _suppliersUnitOfWork.GetAsync(purchaseDTO.SupplierId);
+            if (!responseSupplier.WasSuccess)
             {
                 return new ActionResponse<bool>
                 {
@@ -90,7 +90,6 @@ namespace Orders.Backend.Helpers
                     Message = responsePurchase.Message,
                 };
             }
-
 
             return new ActionResponse<bool>
             {
