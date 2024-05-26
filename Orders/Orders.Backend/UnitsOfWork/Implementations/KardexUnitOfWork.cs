@@ -1,13 +1,20 @@
 ﻿using Orders.Backend.Repositories.Interfaces;
 using Orders.Backend.UnitsOfWork.Interfaces;
+using Orders.Shared.DTOs;
 using Orders.Shared.Entities;
+using Orders.Shared.Responses;
 
 namespace Orders.Backend.UnitsOfWork.Implementations
 {
-    public class KardexUnitOfWork : GenericUnitOfWork<PurchaseDetail>, IKardexUnitOfWork
+    public class KardexUnitOfWork : GenericUnitOfWork<Kardex>, IKardexUnitOfWork
     {
-        public KardexUnitOfWork(IGenericRepository<PurchaseDetail> repository) : base(repository)
+        private readonly IKardexRepository _kardexRepository;
+
+        public KardexUnitOfWork(IGenericRepository<Kardex> repository, IKardexRepository kardexRepository) : base(repository)
         {
+            _kardexRepository = kardexRepository;
         }
+
+        public async Task<ActionResponse<bool>> AddAsync(KardexDTO kardexDTO) =>  await _kardexRepository.AddAsync(kardexDTO);
     }
 }

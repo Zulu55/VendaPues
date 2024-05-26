@@ -98,6 +98,9 @@ internal class Program
         builder.Services.AddScoped<IStatesRepository, StatesRepository>();
         builder.Services.AddScoped<IStatesUnitOfWork, StatesUnitOfWork>();
 
+        builder.Services.AddScoped<ISuppliersRepository, SuppliersRepository>();
+        builder.Services.AddScoped<ISuppliersUnitOfWork, SuppliersUnitOfWork>();
+
         builder.Services.AddScoped<ITemporalOrdersRepository, TemporalOrdersRepository>();
         builder.Services.AddScoped<ITemporalOrdersUnitOfWork, TemporalOrdersUnitOfWork>();
 

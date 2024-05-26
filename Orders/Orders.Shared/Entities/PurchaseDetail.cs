@@ -31,7 +31,7 @@ namespace Orders.Shared.Entities
 
         [Column(TypeName = "decimal(18,2)")]
         [DisplayFormat(DataFormatString = "{0:C2}")]
-        [Display(Name = "Costp")]
+        [Display(Name = "Costo")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public decimal Cost { get; set; }
 

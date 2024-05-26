@@ -3,8 +3,8 @@ using Orders.Shared.Responses;
 
 namespace Orders.Backend.UnitsOfWork.Interfaces
 {
-    public interface IPurchaseUnitOfWork
+    public interface ISuppliersUnitOfWork
     {
-        Task<ActionResponse<Purchase>> AddAsync(Purchase entity);
+        Task<ActionResponse<Supplier>> GetAsync(int id);
     }
 }

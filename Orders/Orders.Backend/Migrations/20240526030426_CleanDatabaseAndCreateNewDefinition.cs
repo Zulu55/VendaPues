@@ -454,7 +454,7 @@ namespace Orders.Backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PurchaseDetail",
+                name: "PurchaseDetails",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -470,15 +470,15 @@ namespace Orders.Backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PurchaseDetail", x => x.Id);
+                    table.PrimaryKey("PK_PurchaseDetails", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PurchaseDetail_Products_ProductId",
+                        name: "FK_PurchaseDetails_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_PurchaseDetail_Purchases_PurchaseId",
+                        name: "FK_PurchaseDetails_Purchases_PurchaseId",
                         column: x => x.PurchaseId,
                         principalTable: "Purchases",
                         principalColumn: "Id",
@@ -589,13 +589,13 @@ namespace Orders.Backend.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_PurchaseDetail_ProductId",
-                table: "PurchaseDetail",
+                name: "IX_PurchaseDetails_ProductId",
+                table: "PurchaseDetails",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PurchaseDetail_PurchaseId",
-                table: "PurchaseDetail",
+                name: "IX_PurchaseDetails_PurchaseId",
+                table: "PurchaseDetails",
                 column: "PurchaseId");
 
             migrationBuilder.CreateIndex(
@@ -662,7 +662,7 @@ namespace Orders.Backend.Migrations
                 name: "ProductImages");
 
             migrationBuilder.DropTable(
-                name: "PurchaseDetail");
+                name: "PurchaseDetails");
 
             migrationBuilder.DropTable(
                 name: "TemporalOrders");

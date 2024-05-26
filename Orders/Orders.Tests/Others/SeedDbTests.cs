@@ -12,6 +12,7 @@ namespace Orders.Tests.Others
     {
         private SeedDb _seedDb = null!;
         private Mock<IUsersUnitOfWork> _usersUnitOfWorkMock = null!;
+        private Mock<IPurchaseHelper> _purchaseHelperMock = null!;
         private Mock<IFileStorage> _fileStorageMock = null!;
         private Mock<IRuntimeInformationWrapper> _runtimeInformationMock = null!;
         private DataContext _context = null!;
@@ -28,7 +29,7 @@ namespace Orders.Tests.Others
             _fileStorageMock = new Mock<IFileStorage>();
             _runtimeInformationMock = new Mock<IRuntimeInformationWrapper>();
 
-            _seedDb = new SeedDb(_context, _usersUnitOfWorkMock.Object, _fileStorageMock.Object, _runtimeInformationMock.Object);
+            _seedDb = new SeedDb(_context, _usersUnitOfWorkMock.Object, _fileStorageMock.Object, _runtimeInformationMock.Object, _purchaseHelperMock.Object);
         }
 
         [TestMethod]

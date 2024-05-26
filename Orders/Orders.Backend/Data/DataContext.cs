@@ -13,7 +13,7 @@ namespace Orders.Backend.Data
         public DbSet<City> Cities { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Country> Countries { get; set; }
-        public DbSet<PurchaseDetail> Kardex { get; set; }
+        public DbSet<Kardex> Kardex { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Product> Products { get; set; }

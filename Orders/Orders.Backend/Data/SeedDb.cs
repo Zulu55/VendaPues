@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Orders.Backend.Helpers;
 using Orders.Backend.UnitsOfWork.Interfaces;
+using Orders.Shared.DTOs;
 using Orders.Shared.Entities;
 using Orders.Shared.Enums;
 
@@ -13,23 +14,87 @@ namespace Orders.Backend.Data
         private readonly IUsersUnitOfWork _usersUnitOfWork;
         private readonly IFileStorage _fileStorage;
         private readonly IRuntimeInformationWrapper _runtimeInformationWrapper;
+        private readonly IPurchaseHelper _purchaseHelper;
 
-        public SeedDb(DataContext context, IUsersUnitOfWork usersUnitOfWork, IFileStorage fileStorage, IRuntimeInformationWrapper runtimeInformationWrapper)
+        public SeedDb(DataContext context, IUsersUnitOfWork usersUnitOfWork, IFileStorage fileStorage, IRuntimeInformationWrapper runtimeInformationWrapper, IPurchaseHelper purchaseHelper)
         {
             _context = context;
             _usersUnitOfWork = usersUnitOfWork;
             _fileStorage = fileStorage;
             _runtimeInformationWrapper = runtimeInformationWrapper;
+            _purchaseHelper = purchaseHelper;
         }
 
         public async Task SeedAsync()
         {
             await _context.Database.EnsureCreatedAsync();
-            await CheckCountriesFullAsync();
+            //await CheckCountriesFullAsync();
             await CheckCountriesAsync();
             await CheckCategoriesAsync();
             await CheckRolesAsync();
             await CheckProductsAsync();
+            await CheckUsersAsync();
+            await CheckSuppiersAsync();
+
+            //TODO: Remove in production evironments
+            await CheckPurchaseAsync();
+        }
+
+        private async Task CheckPurchaseAsync()
+        {
+            if (!_context.Kardex.Any())
+            {
+                var supplier = await _context.Suppliers.FirstOrDefaultAsync();
+
+                for (int i = 1; i <= 4; i++)
+                {
+                    var purchaseDTO = new PurchaseDTO
+                    {
+                        Date = DateTime.UtcNow,
+                        SupplierId = supplier!.Id,
+                        Remarks = $"Compra {i} agregada por SeedDb para propositos de Testing.",
+                        PurchaseDetails = []
+                    };
+
+                    var random = new Random();
+                    foreach (var product in _context.Products)
+                    {
+                        purchaseDTO.PurchaseDetails.Add(new PurchaseDetailDTO
+                        {
+                            Cost = product.Price * random.Next(50, 81) / 100,
+                            ProductId = product.Id,
+                            Quantity = random.Next(6, 21),
+                            Remarks = $"Compra {i} agregada por SeedDb para propositos de Testing.",
+                        });
+                    }
+
+                    await _purchaseHelper.ProcessPurchaseAsync(purchaseDTO);
+                }
+            }
+        }
+
+        private async Task CheckSuppiersAsync()
+        {
+            if (!_context.Suppliers.Any())
+            {
+                var city = await GetCityAsync();
+                _context.Suppliers.Add(new Supplier 
+                {
+                    Address = "Calle 80A 54 14",
+                    City = city,
+                    ContactFirstName = "John",
+                    ContactLastName = "Doe",
+                    Document = "800456798-9",
+                    Email = "compras@grupoexito.com",
+                    Phone = "604 590 4232",
+                    SupplierName = "Grupo Exito",
+                });
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        private async Task CheckUsersAsync()
+        {
             await CheckUserAsync("0001", "Juan", "Zuluaga", "zulu@yopmail.com", "322 311 4620", "Calle Luna Calle Sol", "JuanZuluaga.jpg", UserType.Admin);
             await CheckUserAsync("0002", "Ledys", "Bedoya", "ledys@yopmail.com", "322 311 4620", "Calle Luna Calle Sol", "LedysBedoya.jpg", UserType.User);
             await CheckUserAsync("0003", "Brad", "Pitt", "brad@yopmail.com", "322 311 4620", "Calle Luna Calle Sol", "Brad.jpg", UserType.User);
@@ -64,8 +129,7 @@ namespace Orders.Backend.Data
             var user = await _usersUnitOfWork.GetUserAsync(email);
             if (user == null)
             {
-                var city = await _context.Cities.FirstOrDefaultAsync(x => x.Name == "Medellín");
-                city ??= await _context.Cities.FirstOrDefaultAsync();
+                var city = await GetCityAsync();
 
                 string filePath;
                 if (_runtimeInformationWrapper.IsOSPlatform(OSPlatform.Windows))
@@ -102,6 +166,13 @@ namespace Orders.Backend.Data
             }
 
             return user;
+        }
+
+        private async Task<City?> GetCityAsync()
+        {
+            var city = await _context.Cities.FirstOrDefaultAsync(x => x.Name == "Medellín");
+            city ??= await _context.Cities.FirstOrDefaultAsync();
+            return city;
         }
 
         private async Task CheckCategoriesAsync()

@@ -480,7 +480,7 @@ namespace Orders.Backend.Migrations
 
                     b.HasIndex("PurchaseId");
 
-                    b.ToTable("PurchaseDetail");
+                    b.ToTable("PurchaseDetails");
                 });
 
             modelBuilder.Entity("Orders.Shared.Entities.State", b =>

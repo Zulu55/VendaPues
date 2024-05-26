@@ -12,7 +12,7 @@ using Orders.Backend.Data;
 namespace Orders.Backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240526011241_CleanDatabaseAndCreateNewDefinition")]
+    [Migration("20240526030426_CleanDatabaseAndCreateNewDefinition")]
     partial class CleanDatabaseAndCreateNewDefinition
     {
         /// <inheritdoc />
@@ -483,7 +483,7 @@ namespace Orders.Backend.Migrations
 
                     b.HasIndex("PurchaseId");
 
-                    b.ToTable("PurchaseDetail");
+                    b.ToTable("PurchaseDetails");
                 });
 
             modelBuilder.Entity("Orders.Shared.Entities.State", b =>
