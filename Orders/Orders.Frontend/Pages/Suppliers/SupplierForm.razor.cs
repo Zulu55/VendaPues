@@ -1,79 +1,85 @@
-using System.Net;
-using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Components.Routing;
 using Orders.Frontend.Repositories;
-using Orders.Frontend.Services;
 using Orders.Shared.DTOs;
 using Orders.Shared.Entities;
 
-namespace Orders.Frontend.Pages.Auth
+namespace Orders.Frontend.Pages.Suppliers
 {
-    [Authorize]
-    public partial class EditUser
+    public partial class SupplierForm
     {
-        private User? user;
+        private EditContext editContext = null!;
         private List<Country>? countries;
         private List<State>? states;
         private List<City>? cities;
-        private bool loading = true;
-        private string? imageUrl;
-
         private Country selectedCountry = new();
         private State selectedState = new();
         private City selectedCity = new();
 
-        [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
-        [Inject] private ILoginService LoginService { get; set; } = null!;
-        [CascadingParameter] IModalService Modal { get; set; } = default!;
+
+        [Parameter, EditorRequired] public Supplier Supplier { get; set; } = null!;
+        [Parameter, EditorRequired] public EventCallback OnValidSubmit { get; set; }
+        [Parameter, EditorRequired] public EventCallback ReturnAction { get; set; }
+        [Parameter] public bool IsEdit { get; set; } = false;
+
+        public bool FormPostedSuccessfully { get; set; } = false;
+        private string titleLabel => IsEdit ? "Editar Proveedor" : "Crear Proveedor";
 
         protected override async Task OnInitializedAsync()
         {
-            await LoadUserAsyc();
+            editContext = new(Supplier);
+
             await LoadCountriesAsync();
-            await LoadStatesAsyn(user!.City!.State!.Country!.Id);
-            await LoadCitiesAsyn(user!.City!.State!.Id);
-
-            selectedCountry = user!.City!.State!.Country!;
-            selectedState = user.City.State;
-            selectedCity = user.City;
-
-            if (!string.IsNullOrEmpty(user!.Photo))
+            if (IsEdit)
             {
-                imageUrl = user.Photo;
-                user.Photo = null;
+                await LoadStatesAsyn(Supplier!.City!.State!.Country!.Id);
+                await LoadCitiesAsyn(Supplier!.City!.State!.Id);
+
+                selectedCountry = Supplier!.City!.State!.Country!;
+                selectedState = Supplier.City.State;
+                selectedCity = Supplier.City;
             }
+        }
 
-        }
-        private void ShowModal()
+        private async Task OnDataAnnotationsValidatedAsync()
         {
-            Modal.Show<ChangePassword>();
+            await OnValidSubmit.InvokeAsync();
         }
-        private async Task LoadUserAsyc()
+
+        private async Task OnBeforeInternalNavigation(LocationChangingContext context)
         {
-            var responseHttp = await Repository.GetAsync<User>($"/api/accounts");
-            if (responseHttp.Error)
+            var formWasEdited = editContext.IsModified();
+
+            if (!formWasEdited)
             {
-                if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
-                {
-                    NavigationManager.NavigateTo("/");
-                    return;
-                }
-                var messageError = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", messageError, SweetAlertIcon.Error);
                 return;
             }
-            user = responseHttp.Response;
-            loading = false;
-        }
 
-        private void ImageSelected(string imagenBase64)
-        {
-            user!.Photo = imagenBase64;
-            imageUrl = null;
+            if (FormPostedSuccessfully)
+            {
+                return;
+            }
+
+            var result = await SweetAlertService.FireAsync(new SweetAlertOptions
+            {
+                Title = "Confirmación",
+                Text = "¿Deseas abandonar la página y perder los cambios?",
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = true
+            });
+
+            var confirm = !string.IsNullOrEmpty(result.Value);
+
+            if (confirm)
+            {
+                return;
+            }
+
+            context.PreventNavigation();
         }
 
         private async Task LoadCountriesAsync()
@@ -133,7 +139,7 @@ namespace Orders.Frontend.Pages.Auth
         private void CityChanged(City city)
         {
             selectedCity = city;
-            user!.CityId = city.Id;
+            Supplier.CityId = city.Id;
         }
 
         private async Task<IEnumerable<Country>> SearchCountries(string searchText)
@@ -173,26 +179,6 @@ namespace Orders.Frontend.Pages.Auth
             return cities!
                 .Where(c => c.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
                 .ToList();
-        }
-
-        private async Task SaveUserAsync()
-        {
-            var responseHttp = await Repository.PutAsync<User, TokenDTO>("/api/accounts", user!);
-            if (responseHttp.Error)
-            {
-                var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
-                return;
-            }
-
-            await LoginService.LoginAsync(responseHttp.Response!.Token);
-            await SweetAlertService.FireAsync("Confirmación", "Usuario Modificado con éxito.", SweetAlertIcon.Info);
-
-            NavigationManager.NavigateTo("/");
-        }
-        private void ReturnAction()
-        {
-            NavigationManager.NavigateTo("/");
         }
     }
 }

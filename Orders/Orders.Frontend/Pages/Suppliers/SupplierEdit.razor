@@ -1,0 +1,10 @@
+﻿@page "/supplier/edit/{Id:int}"
+
+@if (supplier is null)
+{
+        <Loading/>
+}
+else
+{
+    <SupplierForm @ref="supplierForm" Supplier="supplier" OnValidSubmit="EditAsync" ReturnAction="Return" IsEdit />
+}

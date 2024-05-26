@@ -12,6 +12,7 @@ namespace Orders.Frontend.Pages.Products
     {
         private EditContext editContext = null!;
         private string? imageUrl;
+        private string titleLabel => IsEdit ? "Editar Producto" : "Crear Producto";
 
         private List<MultipleSelectorModel> selected { get; set; } = new();
         private List<MultipleSelectorModel> nonSelected { get; set; } = new();

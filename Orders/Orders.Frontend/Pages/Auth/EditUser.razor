@@ -60,7 +60,7 @@ else
                                      Placeholder="--Seleccione una Ciudad--"
                                      SearchFunc="SearchCity"
                                      Value="selectedCity"
-                                     ValueChanged="CityChangedAsync"
+                                     ValueChanged="CityChanged"
                                      ToStringFunc="@(e=> e==null?null : $"{e.Name}")">
                         <ItemTemplate Context="itemContext">
                             @itemContext.Name
