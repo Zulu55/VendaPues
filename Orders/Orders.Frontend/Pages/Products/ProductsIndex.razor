@@ -29,8 +29,6 @@ else
             <MudTh>Utilidad Real</MudTh>
             <MudTh>Utilidad Esperada</MudTh>
             <MudTh>Inventario</MudTh>
-            <MudTh>Categorías</MudTh>
-            <MudTh>Imagenes</MudTh>
             <MudTh>Imagén Principal</MudTh>
             <MudTh>Acciones</MudTh>
         </HeaderContent>
@@ -41,13 +39,12 @@ else
             <MudTd DataLabel="Utilidad Real">@($"{context.RealProfit:P2}")</MudTd>
             <MudTd DataLabel="Utilidad Esperada">@($"{context.DesiredProfit:P2}")</MudTd>
             <MudTd DataLabel="Inventario">@($"{context.Stock:N2}")</MudTd>
-            <MudTd DataLabel="Categorías">@context.ProductCategoriesNumber</MudTd>
-            <MudTd DataLabel="Imagenes">@context.ProductImagesNumber</MudTd>
             <MudTd DataLabel="Imagén Principal">
                 <img src="@context.MainImage" alt="Imagén Principal" style="max-width: 100px; max-height: 100px;" />
             </MudTd>
             <MudTd DataLabel="Acciones">
                 <div style="display: flex; justify-content: center; gap: 10px;">
+                    <MudButton Style="width: 50px;" Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Inventory" Color="Color.Info" OnClick="@(() => ShowKArdexModalAsync(context.Id))" />
                     <MudButton Style="width: 50px;" Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Edit" Color="Color.Warning" OnClick="@(() => ShowModalAsync(context.Id, true))" />
                     <MudButton Style="width: 50px;" Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(() => DeleteAsync(@context))" />
                 </div>

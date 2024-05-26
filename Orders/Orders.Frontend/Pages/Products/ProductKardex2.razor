@@ -1,0 +1,56 @@
+﻿@page "/product/kardex/{ProductId:int}"
+
+@if (loading)
+{
+    <Loading />
+}
+else
+{
+    <MudCard>
+        <MudTable Items="@Kardex"
+                  @ref="table"
+                  ServerData="@(new Func<TableState, Task<TableData<Kardex>>>(LoadListAsync))"
+                  Dense="true"
+                  Hover="true"
+                  Striped="true"
+                  FixedHeader="true"
+                  FixedFooter="true">
+            <ToolBarContent>
+                <div class="d-flex justify-content-between">
+                    <MudText Typo="Typo.h6" Class="me-4"><i class="bi bi-list-archive"></i> @($"Kardex: {productName}")</MudText>
+                </div>
+                <MudSpacer />
+            </ToolBarContent>
+            <HeaderContent>
+                <MudTh>Fecha</MudTh>
+                <MudTh>Tipo Movimiento</MudTh>
+                <MudTh>Costo</MudTh>
+                <MudTh>Catidad</MudTh>
+                <MudTh>Saldo</MudTh>
+                <MudTh>Costo Promedio</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Fecha">@context.Date.ToLocalTime()</MudTd>
+                <MudTd DataLabel="Tipo Movimiento">@EnumHelper.GetEnumDescription(context.KardexType)</MudTd>
+                <MudTd DataLabel="Costo">@($"{context.Cost:C2}")</MudTd>
+                <MudTd DataLabel="Cantidad">@($"{context.Quantity:N2}")</MudTd>
+                <MudTd DataLabel="Saldo">@($"{context.Balance:N2}")</MudTd>
+                <MudTd DataLabel="Costo Promedio">@($"{context.AverageCost:C2}")</MudTd>
+            </RowTemplate>
+            <NoRecordsContent>
+                <MudText>No se encontraron registros.</MudText>
+            </NoRecordsContent>
+            <PagerContent>
+                <MudTablePager RowsPerPageString="Numero de Registros:"
+                               PageSizeOptions="pageSizeOptions"
+                               AllItemsText="Todos" />
+            </PagerContent>
+        </MudTable>
+        <div class="p-2">
+            <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.ArrowBack" Color="Color.Info" Href="/products" Class="p-2">
+                Regresar
+            </MudButton>
+        </div>
+    </MudCard>
+
+}

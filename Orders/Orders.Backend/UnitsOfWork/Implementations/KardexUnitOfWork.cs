@@ -15,6 +15,10 @@ namespace Orders.Backend.UnitsOfWork.Implementations
             _kardexRepository = kardexRepository;
         }
 
-        public async Task<ActionResponse<bool>> AddAsync(KardexDTO kardexDTO) =>  await _kardexRepository.AddAsync(kardexDTO);
+        public async Task<ActionResponse<bool>> AddAsync(KardexDTO kardexDTO) => await _kardexRepository.AddAsync(kardexDTO);
+
+        public override async Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination) => await _kardexRepository.GetRecordsNumber(pagination);
+
+        public override async Task<ActionResponse<IEnumerable<Kardex>>> GetAsync(PaginationDTO pagination) => await _kardexRepository.GetAsync(pagination);
     }
 }

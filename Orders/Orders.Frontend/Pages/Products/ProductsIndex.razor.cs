@@ -126,6 +126,13 @@ namespace Orders.Frontend.Pages.Products
             await table.ReloadServerData();
         }
 
+        private async Task ShowKArdexModalAsync(int id)
+        {
+            var modalReference = Modal.Show<ProductKardex2>(string.Empty, new ModalParameters().Add("ProductId", id));
+            await modalReference.Result;
+        }
+
+
         private async Task DeleteAsync(Product product)
         {
             var result = await SweetAlertService.FireAsync(new SweetAlertOptions

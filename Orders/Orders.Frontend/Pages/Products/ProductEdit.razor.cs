@@ -12,8 +12,8 @@ namespace Orders.Frontend.Pages.Products
     {
         private ProductDTO productDTO = new()
         {
-            ProductCategoryIds = new List<int>(),
-            ProductImages = new List<string>()
+            ProductCategoryIds = [],
+            ProductImages = []
         };
 
         private ProductForm? productForm;
@@ -21,6 +21,7 @@ namespace Orders.Frontend.Pages.Products
         private List<Category> nonSelectedCategories = new();
         private bool loading = true;
         private Product? product;
+        
         [Parameter] public int ProductId { get; set; }
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;

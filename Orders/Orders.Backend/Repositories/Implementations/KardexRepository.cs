@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Orders.Backend.Data;
+using Orders.Backend.Helpers;
 using Orders.Backend.Repositories.Interfaces;
 using Orders.Shared.DTOs;
 using Orders.Shared.Entities;
@@ -15,6 +16,44 @@ namespace Orders.Backend.Repositories.Implementations
         public KardexRepository(DataContext context) : base(context)
         {
             this._context = context;
+        }
+
+        public override async Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination)
+        {
+            var queryable = _context.Kardex.AsQueryable();
+
+            if (pagination.Id != 0)
+            {
+                queryable = queryable.Where(x => x.ProductId == pagination.Id);
+            }
+
+            int recordsNumber = await queryable.CountAsync();
+
+            return new ActionResponse<int>
+            {
+                WasSuccess = true,
+                Result = recordsNumber
+            };
+        }
+
+        public override async Task<ActionResponse<IEnumerable<Kardex>>> GetAsync(PaginationDTO pagination)
+        {
+            var queryable = _context.Kardex.AsQueryable();
+
+            if (pagination.Id != 0)
+            {
+                queryable = queryable.Where(x => x.ProductId == pagination.Id);
+            }
+
+            return new ActionResponse<IEnumerable<Kardex>>
+            {
+                WasSuccess = true,
+                Result = await queryable
+                    .Include(x => x.Product)
+                    .OrderByDescending(x => x.Date)
+                    .Paginate(pagination)
+                    .ToListAsync()
+            };
         }
 
         public async Task<ActionResponse<bool>> AddAsync(KardexDTO kardexDTO)
