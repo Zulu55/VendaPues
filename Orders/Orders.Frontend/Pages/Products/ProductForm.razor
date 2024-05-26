@@ -47,12 +47,15 @@
                                       For="@(() => ProductDTO.DesiredProfit)"
                                       Class="mb-2" />
                     </div>
-                    <div class="mb-3">
-                        <MudText Typo="Typo.h6" Class="mb-2">@($"Costo: {ProductDTO.Cost:C2}")</MudText>
-                    </div>
-                    <div class="mb-3">
-                        <MudText Typo="Typo.h6" Class="mb-2">@($"Inventario: {ProductDTO.Stock:N2}")</MudText>
-                    </div>
+                    @if(IsEdit)
+                    {
+                        <div class="mb-3">
+                            <MudText Typo="Typo.h6" Class="mb-2">@($"Costo: {ProductDTO.Cost:C2}")</MudText>
+                        </div>
+                        <div class="mb-3">
+                            <MudText Typo="Typo.h6" Class="mb-2">@($"Inventario: {ProductDTO.Stock:N2}")</MudText>
+                        </div>
+                    }
                 </div>
                 <div class="col-6">
                     <div class="mb-3">
