@@ -69,5 +69,7 @@ namespace Orders.Shared.Entities
         public ICollection<PurchaseDetail>? PurchaseDetails { get; set; }
 
         public ICollection<Kardex>? Kardex { get; set; }
+
+        public ICollection<InventoryDetail>? InventoryDetails { get; set; }
     }
 }

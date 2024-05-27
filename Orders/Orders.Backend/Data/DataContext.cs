@@ -8,11 +8,14 @@ namespace Orders.Backend.Data
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
+            Database.SetCommandTimeout(600);
         }
 
         public DbSet<City> Cities { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<Inventory> Inventories { get; set; }
+        public DbSet<InventoryDetail> InventoryDetails { get; set; }
         public DbSet<Kardex> Kardex { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
