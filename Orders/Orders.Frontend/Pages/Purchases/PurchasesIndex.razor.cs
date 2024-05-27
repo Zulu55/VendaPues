@@ -115,7 +115,7 @@ namespace Orders.Frontend.Pages.Purchases
             }
             else
             {
-                modalReference = Modal.Show<CategoryCreate>();
+                modalReference = Modal.Show<PurchaseCreate>();
             }
 
             var result = await modalReference.Result;

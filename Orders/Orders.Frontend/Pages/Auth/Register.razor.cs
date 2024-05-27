@@ -168,7 +168,7 @@ namespace Orders.Frontend.Pages.Auth
                 await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
                 return;
             }
-            await SweetAlertService.FireAsync("Confirmaci?n", "Su cuenta ha sido creada con exito. Se te ha enviado un correo electr?nico con las instrucciones para activar tu usuario.", SweetAlertIcon.Info);
+            await SweetAlertService.FireAsync("Confirmación", "Su cuenta ha sido creada con exito. Se te ha enviado un correo electrónico con las instrucciones para activar tu usuario.", SweetAlertIcon.Info);
             NavigationManager.NavigateTo("/");
         }
     }

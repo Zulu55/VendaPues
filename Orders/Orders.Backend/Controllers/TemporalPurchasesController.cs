@@ -10,19 +10,19 @@ namespace Orders.Backend.Controllers
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
-    public class TemporalOrdersController : GenericController<TemporalOrder>
+    public class TemporalPurchasesController : GenericController<TemporalPurchase>
     {
-        private readonly ITemporalOrdersUnitOfWork _temporalOrdersUnitOfWork;
+        private readonly ITemporalPurchasesUnitOfWork _temporalPurchasesUnitOfWork;
 
-        public TemporalOrdersController(IGenericUnitOfWork<TemporalOrder> unitOfWork, ITemporalOrdersUnitOfWork temporalOrdersUnitOfWork) : base(unitOfWork)
+        public TemporalPurchasesController(IGenericUnitOfWork<TemporalPurchase> unitOfWork, ITemporalPurchasesUnitOfWork temporalPurchasesUnitOfWork) : base(unitOfWork)
         {
-            _temporalOrdersUnitOfWork = temporalOrdersUnitOfWork;
+            _temporalPurchasesUnitOfWork = temporalPurchasesUnitOfWork;
         }
 
         [HttpGet("{id}")]
         public override async Task<IActionResult> GetAsync(int id)
         {
-            var response = await _temporalOrdersUnitOfWork.GetAsync(id);
+            var response = await _temporalPurchasesUnitOfWork.GetAsync(id);
             if (response.WasSuccess)
             {
                 return Ok(response.Result);
@@ -31,9 +31,9 @@ namespace Orders.Backend.Controllers
         }
 
         [HttpPut("full")]
-        public async Task<IActionResult> PutFullAsync(TemporalOrderDTO temporalOrderDTO)
+        public async Task<IActionResult> PutFullAsync(TemporalPurchaseDTO temporalPurchaseDTO)
         {
-            var action = await _temporalOrdersUnitOfWork.PutFullAsync(temporalOrderDTO);
+            var action = await _temporalPurchasesUnitOfWork.PutFullAsync(temporalPurchaseDTO);
             if (action.WasSuccess)
             {
                 return Ok(action.Result);
@@ -42,9 +42,9 @@ namespace Orders.Backend.Controllers
         }
 
         [HttpPost("full")]
-        public async Task<IActionResult> PostAsync(TemporalOrderDTO temporalOrderDTO)
+        public async Task<IActionResult> PostAsync(TemporalPurchaseDTO temporalPurchaseDTO)
         {
-            var action = await _temporalOrdersUnitOfWork.AddFullAsync(User.Identity!.Name!, temporalOrderDTO);
+            var action = await _temporalPurchasesUnitOfWork.AddFullAsync(User.Identity!.Name!, temporalPurchaseDTO);
             if (action.WasSuccess)
             {
                 return Ok(action.Result);
@@ -55,7 +55,7 @@ namespace Orders.Backend.Controllers
         [HttpGet("my")]
         public override async Task<IActionResult> GetAsync()
         {
-            var action = await _temporalOrdersUnitOfWork.GetAsync(User.Identity!.Name!);
+            var action = await _temporalPurchasesUnitOfWork.GetAsync(User.Identity!.Name!);
             if (action.WasSuccess)
             {
                 return Ok(action.Result);
@@ -66,7 +66,7 @@ namespace Orders.Backend.Controllers
         [HttpGet("count")]
         public async Task<IActionResult> GetCountAsync()
         {
-            var action = await _temporalOrdersUnitOfWork.GetCountAsync(User.Identity!.Name!);
+            var action = await _temporalPurchasesUnitOfWork.GetCountAsync(User.Identity!.Name!);
             if (action.WasSuccess)
             {
                 return Ok(action.Result);

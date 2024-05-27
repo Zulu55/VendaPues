@@ -104,6 +104,9 @@ internal class Program
         builder.Services.AddScoped<ITemporalOrdersRepository, TemporalOrdersRepository>();
         builder.Services.AddScoped<ITemporalOrdersUnitOfWork, TemporalOrdersUnitOfWork>();
 
+        builder.Services.AddScoped<ITemporalPurchasesRepository, TemporalPurchasesRepository>();
+        builder.Services.AddScoped<ITemporalPurchasesUnitOfWork, TemporalPurchasesUnitOfWork>();
+
         builder.Services.AddScoped<IUsersRepository, UsersRepository>();
         builder.Services.AddScoped<IUsersUnitOfWork, UsersUnitOfWork>();
 

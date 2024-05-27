@@ -24,6 +24,7 @@ namespace Orders.Backend.Data
         public DbSet<State> States { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<TemporalOrder> TemporalOrders { get; set; }
+        public DbSet<TemporalPurchase> TemporalPurchases { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -43,6 +43,8 @@ namespace Orders.Shared.Entities
 
         public ICollection<TemporalOrder>? TemporalOrders { get; set; }
 
+        public ICollection<TemporalPurchase>? TemporalPurchases { get; set; }
+
         public ICollection<Order>? Orders { get; set; }
     }
 }
