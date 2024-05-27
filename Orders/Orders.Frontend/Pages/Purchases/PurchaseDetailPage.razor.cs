@@ -5,19 +5,21 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Orders.Frontend.Repositories;
 using Orders.Shared.Entities;
+using System.Net;
 
 namespace Orders.Frontend.Pages.Purchases
 {
     [Authorize(Roles = "Admin")]
-    public partial class PurchaseDetail
+    public partial class PurchaseDetailPage
     {
-        public List<Purchase>? Purchases { get; set; }
+        public List<PurchaseDetail>? PurchaseDetails { get; set; }
+        public Purchase? Purchase { get; set; }
 
-        private MudTable<Purchase> table = new();
-        private readonly int[] pageSizeOptions = { 10, 25, 50, 5, int.MaxValue };
+        private MudTable<PurchaseDetail> table = new();
+        private readonly int[] pageSizeOptions = { 5, 10 };
         private int totalRecords = 0;
         private bool loading;
-        private const string baseUrl = "api/purchases";
+        private const string baseUrl = "api/purchaseDetails";
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
@@ -34,13 +36,39 @@ namespace Orders.Frontend.Pages.Purchases
 
         private async Task LoadAsync()
         {
-            await LoadTotalRecords();
+            await LoadTotalRecordsAsync();
+            await LoadPurchaseAsync();
         }
 
-        private async Task<bool> LoadTotalRecords()
+        private async Task LoadPurchaseAsync()
         {
             loading = true;
-            var url = $"{baseUrl}/recordsnumber?page=1&recordsnumber={int.MaxValue}";
+            var url = $"api/purchases/{PurchaseId}";
+            var responseHttp = await Repository.GetAsync<Purchase>(url);
+            loading = false;
+
+            if (responseHttp.Error)
+            {
+                if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+                {
+                    NavigationManager.NavigateTo("/purchase");
+                }
+                else
+                {
+                    var messsage = await responseHttp.GetErrorMessageAsync();
+                    await SweetAlertService.FireAsync("Error", messsage, SweetAlertIcon.Error);
+                }
+            }
+            else
+            {
+                Purchase = responseHttp.Response;
+            }
+        }
+
+        private async Task<bool> LoadTotalRecordsAsync()
+        {
+            loading = true;
+            var url = $"{baseUrl}/recordsnumber?page=1&recordsnumber={int.MaxValue}&id={PurchaseId}";
             if (!string.IsNullOrWhiteSpace(Filter))
             {
                 url += $"&filter={Filter}";
@@ -62,18 +90,18 @@ namespace Orders.Frontend.Pages.Purchases
             return true;
         }
 
-        private async Task<TableData<Purchase>> LoadListAsync(TableState state)
+        private async Task<TableData<PurchaseDetail>> LoadListAsync(TableState state)
         {
             int page = state.Page + 1;
             int pageSize = state.PageSize;
-            var url = $"{baseUrl}?page={page}&recordsnumber={pageSize}";
+            var url = $"{baseUrl}?page={page}&recordsnumber={pageSize}&id={PurchaseId}";
 
             if (!string.IsNullOrWhiteSpace(Filter))
             {
                 url += $"&filter={Filter}";
             }
 
-            var responseHttp = await Repository.GetAsync<List<Purchase>>(url);
+            var responseHttp = await Repository.GetAsync<List<PurchaseDetail>>(url);
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
@@ -83,13 +111,13 @@ namespace Orders.Frontend.Pages.Purchases
                     Text = message,
                     Icon = SweetAlertIcon.Error
                 });
-                return new TableData<Purchase> { Items = [], TotalItems = 0 };
+                return new TableData<PurchaseDetail> { Items = [], TotalItems = 0 };
             }
             if (responseHttp.Response == null)
             {
-                return new TableData<Purchase> { Items = [], TotalItems = 0 };
+                return new TableData<PurchaseDetail> { Items = [], TotalItems = 0 };
             }
-            return new TableData<Purchase>
+            return new TableData<PurchaseDetail>
             {
                 Items = responseHttp.Response,
                 TotalItems = totalRecords
@@ -101,6 +129,15 @@ namespace Orders.Frontend.Pages.Purchases
             Filter = value;
             await LoadAsync();
             await table.ReloadServerData();
+        }
+
+        private static string TruncateContent(string content, int length)
+        {
+            if (content.Length > length)
+            {
+                return content.Substring(0, length) + "...";
+            }
+            return content;
         }
     }
 }

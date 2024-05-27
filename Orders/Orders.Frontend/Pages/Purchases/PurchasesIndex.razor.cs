@@ -7,6 +7,7 @@ using MudBlazor;
 using Orders.Frontend.Pages.Categories;
 using Orders.Frontend.Repositories;
 using Orders.Shared.Entities;
+using System.Net;
 
 namespace Orders.Frontend.Pages.Purchases
 {
@@ -35,10 +36,10 @@ namespace Orders.Frontend.Pages.Purchases
 
         private async Task LoadAsync()
         {
-            await LoadTotalRecords();
+            await LoadTotalRecordsAsync();
         }
 
-        private async Task<bool> LoadTotalRecords()
+        private async Task<bool> LoadTotalRecordsAsync()
         {
             loading = true;
             var url = $"{baseUrl}/recordsnumber?page=1&recordsnumber={int.MaxValue}";
@@ -110,7 +111,7 @@ namespace Orders.Frontend.Pages.Purchases
 
             if (id != 0)
             {
-                modalReference = Modal.Show<PurchaseDetail>(string.Empty, new ModalParameters().Add("PurchaseId", id));
+                modalReference = Modal.Show<PurchaseDetailPage>(string.Empty, new ModalParameters().Add("PurchaseId", id));
             }
             else
             {
@@ -123,6 +124,15 @@ namespace Orders.Frontend.Pages.Purchases
                 await LoadAsync();
             }
             await table.ReloadServerData();
+        }
+
+        private static string TruncateContent(string content, int length)
+        {
+            if (content.Length > length)
+            {
+                return content.Substring(0, length) + "...";
+            }
+            return content;
         }
     }
 }

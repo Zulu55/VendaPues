@@ -34,7 +34,7 @@ else
         <RowTemplate>
             <MudTd DataLabel="Fecha">@context.Date.ToLocalTime()</MudTd>
             <MudTd DataLabel="Proveedor">@context.Supplier!.SupplierName</MudTd>
-            <MudTd DataLabel="Comentarios">@context.Remarks</MudTd>
+            <MudTd DataLabel="Comentarios">@(TruncateContent(context.Remarks!, 100))</MudTd>
             <MudTd DataLabel="Líneas">@($"{context.Lines:N0}")</MudTd>
             <MudTd DataLabel="Cantidad">@($"{context.Quantity:N2}")</MudTd>
             <MudTd DataLabel="Valor">@($"{context.Value:c2}")</MudTd>

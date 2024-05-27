@@ -20,12 +20,18 @@ namespace Orders.Backend.Repositories.Implementations
         public override async Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination)
         {
             var queryable = _context.PurchaseDetails.AsQueryable();
-            int recordsNumber = await queryable.CountAsync();
+
+            if (pagination.Id != 0)
+            {
+                queryable = queryable.Where(x => x.PurchaseId == pagination.Id);
+            }
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
                 queryable = queryable.Where(x => x.Name.Contains(pagination.Filter, StringComparison.CurrentCultureIgnoreCase));
             }
+
+            int recordsNumber = await queryable.CountAsync();
 
             return new ActionResponse<int>
             {
@@ -38,6 +44,11 @@ namespace Orders.Backend.Repositories.Implementations
         {
             var queryable = _context.PurchaseDetails.AsQueryable();
 
+            if (pagination.Id != 0)
+            {
+                queryable = queryable.Where(x => x.PurchaseId == pagination.Id);
+            }
+
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
                 queryable = queryable.Where(x => x.Name.Contains(pagination.Filter, StringComparison.CurrentCultureIgnoreCase));
@@ -47,7 +58,7 @@ namespace Orders.Backend.Repositories.Implementations
             {
                 WasSuccess = true,
                 Result = await queryable
-                    .OrderByDescending(x => x.Name)
+                    .OrderBy(x => x.Name)
                     .Paginate(pagination)
                     .ToListAsync()
             };
