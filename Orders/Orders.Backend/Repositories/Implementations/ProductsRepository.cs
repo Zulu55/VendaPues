@@ -161,7 +161,7 @@ namespace Orders.Backend.Repositories.Implementations
 
             if (!string.IsNullOrWhiteSpace(pagination.CategoryFilter))
             {
-                queryable = queryable.Where(x => x.ProductCategories!.Any(y => y.Category.Name == pagination.CategoryFilter));
+                queryable = queryable.Where(x => x.ProductCategories!.Any(y => y.Category!.Name == pagination.CategoryFilter));
             }
 
             return new ActionResponse<IEnumerable<Product>>
