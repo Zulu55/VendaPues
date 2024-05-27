@@ -5,6 +5,6 @@ namespace Orders.Backend.Helpers
 {
     public interface IPurchaseHelper
     {
-        Task<ActionResponse<bool>> ProcessPurchaseAsync(PurchaseDTO purchaseDTO);
+        Task<ActionResponse<bool>> ProcessPurchaseAsync(PurchaseDTO purchaseDTO, string email);
     }
 }

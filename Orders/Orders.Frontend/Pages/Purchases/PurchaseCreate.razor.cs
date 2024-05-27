@@ -9,12 +9,13 @@ namespace Orders.Frontend.Pages.Purchases
 {
     public partial class PurchaseCreate
     {
-        private TemporalPurchaseDTO temporalPurchaseDTO = new() { Date = DateTime.Now }; 
+        private TemporalPurchaseDTO temporalPurchaseDTO = new() { Date = DateTime.Now };
         private List<Supplier>? suppliers;
         private Supplier selectedSupplier = new();
         private List<Product>? products;
         private Product selectedProduct = new();
         private MudTable<TemporalPurchase> table = new();
+        private List<TemporalPurchase> temporalPurchases = new();
         private float sumQuantity;
         private decimal sumValue;
         private const string baseUrl = "api/temporalPurchases";
@@ -33,6 +34,29 @@ namespace Orders.Frontend.Pages.Purchases
             await base.OnInitializedAsync();
             await LoadSuppliersAsync();
             await LoadPrductsAsync();
+            await LoadTemporalPurchasesAsync();
+        }
+
+        private async Task LoadTemporalPurchasesAsync()
+        {
+            var responseHttp = await Repository.GetAsync<List<TemporalPurchase>>($"/api/TemporalPurchases/my");
+            if (responseHttp.Error)
+            {
+                var message = await responseHttp.GetErrorMessageAsync();
+                ShowToast("Error", SweetAlertIcon.Error, message!);
+                return;
+            }
+
+            foreach (var item in responseHttp.Response!)
+            {
+                temporalPurchases.Add(new TemporalPurchase
+                {
+                    Cost = item.Cost,
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity,
+                    Remarks = item.Remarks,
+                });
+            }
         }
 
         private async Task LoadPrductsAsync()
@@ -41,7 +65,7 @@ namespace Orders.Frontend.Pages.Purchases
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                ShowToast("Error", SweetAlertIcon.Error, message!);
                 return;
             }
             products = responseHttp.Response;
@@ -55,12 +79,7 @@ namespace Orders.Frontend.Pages.Purchases
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync(new SweetAlertOptions
-                {
-                    Title = "Error",
-                    Text = message,
-                    Icon = SweetAlertIcon.Error
-                });
+                ShowToast("Error", SweetAlertIcon.Error, message!);
                 return new TableData<TemporalPurchase> { Items = [], TotalItems = 0 };
             }
             if (responseHttp.Response == null)
@@ -90,7 +109,6 @@ namespace Orders.Frontend.Pages.Purchases
             });
 
             var confirm = string.IsNullOrEmpty(result.Value);
-
             if (confirm)
             {
                 return;
@@ -106,12 +124,17 @@ namespace Orders.Frontend.Pages.Purchases
                     return;
                 }
 
-                var mensajeError = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
+                var message = await responseHttp.GetErrorMessageAsync();
+                ShowToast("Error", SweetAlertIcon.Error, message!);
                 return;
             }
 
             await table.ReloadServerData();
+            ShowToast("Info", SweetAlertIcon.Success, "Producto eliminado de la compra.");
+        }
+
+        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
+        {
             var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,
@@ -119,7 +142,7 @@ namespace Orders.Frontend.Pages.Purchases
                 ShowConfirmButton = false,
                 Timer = 3000
             });
-            await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Producto eliminado de la compra.");
+            _ = toast.FireAsync(title, message, iconMessage);
         }
 
         private async Task OnDateChange(DateTime? date)
@@ -132,27 +155,110 @@ namespace Orders.Frontend.Pages.Purchases
             temporalPurchaseDTO.Date = (DateTime)date;
         }
 
+        private async Task AddProductAsync()
+        {
+            if (selectedProduct.Id == 0)
+            {
+                ShowToast("Error", SweetAlertIcon.Error, "Debes seleccionar un producto.");
+                return;
+            }
+
+            if (temporalPurchaseDTO.Quantity <= 0)
+            {
+                ShowToast("Error", SweetAlertIcon.Error, "Debes ingresar una cantidad mayor que cero.");
+                return;
+            }
+
+            if (temporalPurchaseDTO.Cost <= 0)
+            {
+                ShowToast("Error", SweetAlertIcon.Error, "Debes ingresar un costo mayor que cero.");
+                return;
+            }
+
+            var responseHttp = await Repository.PostAsync<TemporalPurchaseDTO>("/api/TemporalPurchases/full", temporalPurchaseDTO);
+            if (responseHttp.Error)
+            {
+                var message = await responseHttp.GetErrorMessageAsync();
+                ShowToast("Error", SweetAlertIcon.Error, message!);
+                return;
+            }
+
+            temporalPurchases.Add(new TemporalPurchase
+            {
+                Cost = temporalPurchaseDTO.Cost,
+                ProductId = temporalPurchaseDTO.ProductId,
+                Quantity = temporalPurchaseDTO.Quantity,
+                Remarks = temporalPurchaseDTO.RemarksDetail,
+            });
+
+            selectedProduct = new Product();
+            temporalPurchaseDTO.Quantity = 1;
+            temporalPurchaseDTO.Cost = 0;
+            await table.ReloadServerData();
+            ShowToast("Ok", SweetAlertIcon.Success, "Producto agregado a la compra.");
+        }
+
         private async Task SavePurchaseAsync()
         {
-            //userDTO.UserType = UserType.User;
-            //userDTO.UserName = userDTO.Email;
+            if (selectedSupplier.Id == 0)
+            {
+                ShowToast("Error", SweetAlertIcon.Error, "Debes seleccionar un proveedor.");
+                return;
+            }
 
-            //if (IsAdmin)
-            //{
-            //    userDTO.UserType = UserType.Admin;
-            //}
+            if (sumQuantity <= 0)
+            {
+                ShowToast("Error", SweetAlertIcon.Error, "Debes agregar al menos un producto en la compra.");
+                return;
+            }
 
-            //loading = true;
-            //var responseHttp = await Repository.PostAsync<UserDTO>("/api/accounts/CreateUser", userDTO);
-            //loading = false;
-            //if (responseHttp.Error)
-            //{
-            //    var message = await responseHttp.GetErrorMessageAsync();
-            //    await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
-            //    return;
-            //}
-            //await SweetAlertService.FireAsync("Confirmación", "Su cuenta ha sido creada con exito. Se te ha enviado un correo electrónico con las instrucciones para activar tu usuario.", SweetAlertIcon.Info);
-            //NavigationManager.NavigateTo("/");
+
+            var result = await SweetAlertService.FireAsync(new SweetAlertOptions
+            {
+                Title = "Confirmación",
+                Text = "¿Esta seguro que quieres registrar esta compra?",
+                Icon = SweetAlertIcon.Question,
+                ShowCancelButton = true
+            });
+
+            var confirm = string.IsNullOrEmpty(result.Value);
+            if (confirm)
+            {
+                return;
+            }
+
+            var purchaseDTO = new PurchaseDTO
+            {
+                Date = temporalPurchaseDTO.Date.ToUniversalTime(),
+                Remarks = temporalPurchaseDTO.RemarksGeneral,
+                SupplierId = temporalPurchaseDTO.SupplierId,
+                PurchaseDetails = []
+            };
+
+            foreach (var item in temporalPurchases)
+            {
+                purchaseDTO.PurchaseDetails.Add(new PurchaseDetailDTO
+                {
+                    Cost = item.Cost,
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity,
+                    Remarks = item.Remarks
+                });
+            }
+
+            var responseHttp = await Repository.PostAsync<PurchaseDTO>("/api/purchases/full", purchaseDTO);
+            if (responseHttp.Error)
+            {
+                var message = await responseHttp.GetErrorMessageAsync();
+                ShowToast("Error", SweetAlertIcon.Error, message!);
+                return;
+            }
+
+            selectedSupplier = new Supplier();
+            temporalPurchases.Clear();
+            temporalPurchaseDTO.RemarksGeneral = string.Empty;
+            NavigationManager.NavigateTo("/purchases");
+            ShowToast("Ok", SweetAlertIcon.Success, "Compra agregada con exito.");
         }
 
         private void SuplierChanged(Supplier supplier)
@@ -164,7 +270,9 @@ namespace Orders.Frontend.Pages.Purchases
         private void ProductChanged(Product product)
         {
             selectedProduct = product;
-            temporalPurchaseDTO.SupplierId = product.Id;
+            temporalPurchaseDTO.ProductId = product.Id;
+            temporalPurchaseDTO.Cost = product.Cost;
+            temporalPurchaseDTO.Quantity = 1;
         }
 
         private async Task LoadSuppliersAsync()
@@ -173,7 +281,7 @@ namespace Orders.Frontend.Pages.Purchases
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                ShowToast("Error", SweetAlertIcon.Error, message!);
                 return;
             }
             suppliers = responseHttp.Response;

@@ -48,17 +48,28 @@
                                   @bind-Value="temporalPurchaseDTO.Quantity"
                                   For="@(() => temporalPurchaseDTO.Quantity)"
                                   InputType="InputType.Number" />
-                    <MudTextField Label="Cantidad"
+                    <MudTextField Label="Costo"
                                   @bind-Value="temporalPurchaseDTO.Cost"
                                   For="@(() => temporalPurchaseDTO.Cost)"
                                   InputType="InputType.Number" />
                 </MudItem>
             </MudGrid>
             <hr/>
-            <MudStack>
-                <MudText Typo="Typo.h5">Cantidad productos: <strong>@($"{sumQuantity:N2}")</strong></MudText>
-                <MudText Typo="Typo.h5">Costo: <strong>@($"{sumValue:C2}")</strong></MudText>
-            </MudStack>
+            <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudStack>
+                        <MudText Typo="Typo.h5">Cantidad productos: <strong>@($"{sumQuantity:N2}")</strong></MudText>
+                        <MudText Typo="Typo.h5">Costo: <strong>@($"{sumValue:C2}")</strong></MudText>
+                    </MudStack>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudStack>
+                        <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.Add" Color="Color.Secondary" OnClick="AddProductAsync">
+                            Adicionar Producto
+                        </MudButton>
+                    </MudStack>
+                </MudItem>
+            </MudGrid>
         </EditForm>
         <hr />
 
@@ -76,8 +87,7 @@
                 <MudTh>Cantidad</MudTh>
                 <MudTh>Precio</MudTh>
                 <MudTh>Valor</MudTh>
-                <MudTh>Comentarios</MudTh>
-                <MudTh style="width: 150px;">Acciones</MudTh>
+                <MudTh></MudTh>
             </HeaderContent>
             <RowTemplate>
                 <MudTd DataLabel="Nombre">@context.Product!.Name</MudTd>
@@ -85,11 +95,8 @@
                 <MudTd DataLabel="Cantidad">@($"{context.Quantity:N2}")</MudTd>
                 <MudTd DataLabel="Costo">@($"{context.Cost:C2}")</MudTd>
                 <MudTd DataLabel="Valor">@($"{context.Value:C2}")</MudTd>
-                <MudTd DataLabel="Comentarios">@context.Remarks</MudTd>
-                <MudTd DataLabel="Acciones">
-                    <MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick=@(() => DeleteAsync(@context.Id))>
-                        Eliminar
-                    </MudButton>
+                <MudTd>
+                    <MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick=@(() => DeleteAsync(@context.Id))/>
                 </MudTd>
             </RowTemplate>
             <NoRecordsContent>

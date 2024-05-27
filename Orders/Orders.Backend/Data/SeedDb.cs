@@ -45,6 +45,7 @@ namespace Orders.Backend.Data
             if (!_context.Kardex.Any())
             {
                 var supplier = await _context.Suppliers.FirstOrDefaultAsync();
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.UserType == UserType.Admin);
 
                 for (int i = 1; i <= 4; i++)
                 {
@@ -69,7 +70,7 @@ namespace Orders.Backend.Data
                         });
                     }
 
-                    await _purchaseHelper.ProcessPurchaseAsync(purchaseDTO);
+                    await _purchaseHelper.ProcessPurchaseAsync(purchaseDTO, user!.UserName!);
                 }
             }
         }

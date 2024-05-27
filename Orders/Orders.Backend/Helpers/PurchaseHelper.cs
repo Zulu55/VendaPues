@@ -12,16 +12,18 @@ namespace Orders.Backend.Helpers
         private readonly IKardexUnitOfWork _kardexUnitOfWork;
         private readonly IPurchaseUnitOfWork _purchaseUnitOfWork;
         private readonly ISuppliersUnitOfWork _suppliersUnitOfWork;
+        private readonly ITemporalPurchasesUnitOfWork _temporalPurchasesUnitOfWork;
 
-        public PurchaseHelper(IProductsUnitOfWork productsUnitOfWork, IKardexUnitOfWork kardexUnitOfWork, IPurchaseUnitOfWork purchaseUnitOfWork, ISuppliersUnitOfWork suppliersUnitOfWork)
+        public PurchaseHelper(IProductsUnitOfWork productsUnitOfWork, IKardexUnitOfWork kardexUnitOfWork, IPurchaseUnitOfWork purchaseUnitOfWork, ISuppliersUnitOfWork suppliersUnitOfWork, ITemporalPurchasesUnitOfWork temporalPurchasesUnitOfWork)
         {
             _productsUnitOfWork = productsUnitOfWork;
             _kardexUnitOfWork = kardexUnitOfWork;
             _purchaseUnitOfWork = purchaseUnitOfWork;
             _suppliersUnitOfWork = suppliersUnitOfWork;
+            _temporalPurchasesUnitOfWork = temporalPurchasesUnitOfWork;
         }
 
-        public async Task<ActionResponse<bool>> ProcessPurchaseAsync(PurchaseDTO purchaseDTO)
+        public async Task<ActionResponse<bool>> ProcessPurchaseAsync(PurchaseDTO purchaseDTO, string email)
         {
             if (purchaseDTO.PurchaseDetails == null || purchaseDTO.PurchaseDetails.Count == 0)
             {
@@ -82,6 +84,7 @@ namespace Orders.Backend.Helpers
                 await _kardexUnitOfWork.AddAsync(kardexDTO);
             }
 
+
             var responsePurchase = await _purchaseUnitOfWork.AddAsync(purchase);
             if (!responsePurchase.WasSuccess)
             {
@@ -91,6 +94,7 @@ namespace Orders.Backend.Helpers
                 };
             }
 
+            await _temporalPurchasesUnitOfWork.DeleteAsync(email);
             return new ActionResponse<bool>
             {
                 Result = true,

@@ -15,5 +15,8 @@ namespace Orders.Backend.Repositories.Interfaces
         Task<ActionResponse<IEnumerable<TemporalPurchase>>> GetAsync(string email);
 
         Task<ActionResponse<int>> GetCountAsync(string email);
+
+        Task<ActionResponse<bool>> DeleteAsync(string email);
+
     }
 }

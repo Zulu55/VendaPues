@@ -152,5 +152,19 @@ namespace Orders.Backend.Repositories.Implementations
                 Result = currentTemporalOrder
             };
         }
+
+        public async Task<ActionResponse<bool>> DeleteAsync(string email)
+        {
+            var temporalPurchases = await _context.TemporalPurchases
+               .Where(x => x.User!.UserName == email)
+               .ToListAsync();
+            _context.RemoveRange(temporalPurchases);
+            await _context.SaveChangesAsync();
+
+            return new ActionResponse<bool>
+            {
+                WasSuccess = true,
+            };
+        }
     }
 }
