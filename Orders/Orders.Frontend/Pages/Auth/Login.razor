@@ -15,7 +15,7 @@
                 <MudCardContent>
                     <MudGrid Class="mb-4">
                         <MudItem xs="12" sm="12">
-                            <MudTextField Label="Email" @bind-Value="@loginDTO.Email" />
+                            <MudTextField Label="Email" @bind-Value="@loginDTO.Email" InputType="InputType.Email" />
                             <ValidationMessage For="@(() => loginDTO.Email)" />
                         </MudItem>
                         <MudItem xs="12" sm="12">

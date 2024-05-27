@@ -6,6 +6,8 @@ namespace Orders.Backend.Repositories.Interfaces
 {
     public interface IProductsRepository
     {
+        Task<IEnumerable<Product>> GetComboAsync();
+
         Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination);
 
         Task<ActionResponse<Product>> DeleteAsync(int id);

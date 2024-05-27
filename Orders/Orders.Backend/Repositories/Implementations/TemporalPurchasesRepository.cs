@@ -71,7 +71,7 @@ namespace Orders.Backend.Repositories.Implementations
             {
                 Product = product,
                 Quantity = temporalPurchaseDTO.Quantity,
-                Remarks = temporalPurchaseDTO.Remarks,
+                Remarks = temporalPurchaseDTO.RemarksDetail,
                 User = user,
                 Cost = temporalPurchaseDTO.Cost,
             };
@@ -140,7 +140,7 @@ namespace Orders.Backend.Repositories.Implementations
                 };
             }
 
-            currentTemporalOrder!.Remarks = temporalPurchaseDTO.Remarks;
+            currentTemporalOrder!.Remarks = temporalPurchaseDTO.RemarksDetail;
             currentTemporalOrder.Quantity = temporalPurchaseDTO.Quantity;
             currentTemporalOrder.Cost = temporalPurchaseDTO.Cost;
 

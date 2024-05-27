@@ -28,7 +28,7 @@ namespace Orders.Backend.Data
         public async Task SeedAsync()
         {
             await _context.Database.EnsureCreatedAsync();
-            await CheckCountriesFullAsync();
+            //await CheckCountriesFullAsync();
             await CheckCountriesAsync();
             await CheckCategoriesAsync();
             await CheckRolesAsync();
@@ -79,16 +79,38 @@ namespace Orders.Backend.Data
             if (!_context.Suppliers.Any())
             {
                 var city = await GetCityAsync();
-                _context.Suppliers.Add(new Supplier 
+                _context.Suppliers.Add(new Supplier
                 {
                     Address = "Calle 80A 54 14",
                     City = city,
                     ContactFirstName = "John",
                     ContactLastName = "Doe",
-                    Document = "800456798-9",
+                    Document = "800456798-2",
                     Email = "compras@grupoexito.com",
                     Phone = "604 590 4232",
                     SupplierName = "Grupo Exito",
+                });
+                _context.Suppliers.Add(new Supplier
+                {
+                    Address = "Diagonal 45A 54 14",
+                    City = city,
+                    ContactFirstName = "Luisa",
+                    ContactLastName = "Sandoval",
+                    Document = "800456798-1",
+                    Email = "ventas@meli.com",
+                    Phone = "604 590 8080",
+                    SupplierName = "Mercado Libre",
+                });
+                _context.Suppliers.Add(new Supplier
+                {
+                    Address = "Diagonal 45A 54 14",
+                    City = city,
+                    ContactFirstName = "Claudia",
+                    ContactLastName = "Carreño",
+                    Document = "800456798-0",
+                    Email = "ventas@todopets.com",
+                    Phone = "604 590 8080",
+                    SupplierName = "Todo PETs",
                 });
                 await _context.SaveChangesAsync();
             }

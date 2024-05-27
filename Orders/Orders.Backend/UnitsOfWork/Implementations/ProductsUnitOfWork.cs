@@ -1,4 +1,5 @@
-﻿using Orders.Backend.Repositories.Interfaces;
+﻿using Orders.Backend.Repositories.Implementations;
+using Orders.Backend.Repositories.Interfaces;
 using Orders.Backend.UnitsOfWork.Interfaces;
 using Orders.Shared.DTOs;
 using Orders.Shared.Entities;
@@ -14,6 +15,8 @@ namespace Orders.Backend.UnitsOfWork.Implementations
         {
             _productsRepository = productsRepository;
         }
+
+        public async Task<IEnumerable<Product>> GetComboAsync() => await _productsRepository.GetComboAsync();
 
         public override async Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination) => await _productsRepository.GetRecordsNumber(pagination);
 

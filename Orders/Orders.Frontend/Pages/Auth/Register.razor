@@ -25,10 +25,12 @@ else
                                   For="@(() => userDTO.Document)" />
                     <MudTextField Label="Telefono"
                                   @bind-Value="userDTO.PhoneNumber"
-                                  For="@(() => userDTO.PhoneNumber)" />
+                                  For="@(() => userDTO.PhoneNumber)"
+                                  InputType="InputType.Telephone" />
                     <MudTextField Label="Email"
                                   @bind-Value="userDTO.Email"
-                                  For="@(() => userDTO.Email)" />
+                                  For="@(() => userDTO.Email)"
+                                  InputType="InputType.Email" />
                     <MudTextField Label="Dirección"
                                   @bind-Value="userDTO.Address"
                                   For="@(() => userDTO.Address)" />

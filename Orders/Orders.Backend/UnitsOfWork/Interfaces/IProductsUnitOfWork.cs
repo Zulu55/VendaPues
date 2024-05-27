@@ -6,6 +6,8 @@ namespace Orders.Backend.UnitsOfWork.Interfaces
 {
     public interface IProductsUnitOfWork
     {
+        Task<IEnumerable<Product>> GetComboAsync();
+
         Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination);
 
         Task<ActionResponse<Product>> UpdateAsync(Product product);

@@ -339,5 +339,12 @@ namespace Orders.Backend.Repositories.Implementations
                 };
             }
         }
+
+        public async Task<IEnumerable<Product>> GetComboAsync()
+        {
+            return await _context.Products
+                .OrderBy(x => x.Name)
+                .ToListAsync();
+        }
     }
 }

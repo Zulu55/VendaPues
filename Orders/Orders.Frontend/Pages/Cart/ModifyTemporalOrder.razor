@@ -60,7 +60,8 @@ else
                         <div class="mb-3">
                             <MudTextField Label="Cantidad"
                                           @bind-Value="@temporalOrderDTO!.Quantity"
-                                          For="@(() => @temporalOrderDTO!.Quantity)"/>
+                                          For="@(() => @temporalOrderDTO!.Quantity)"
+                                          InputType="InputType.Number" />
                             <MudTextField Label="Comentarios"
                                           @bind-Value="@temporalOrderDTO.Remarks"
                                           For="@(() => temporalOrderDTO.Remarks)"
