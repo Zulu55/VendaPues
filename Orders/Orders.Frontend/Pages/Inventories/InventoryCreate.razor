@@ -1,8 +1,26 @@
 ﻿<MudCard>
     <div class="p-2">
-        <h3>Inventory Create</h3>
-        <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.ArrowBack" Color="Color.Info" Href="/inventories" Class="p-2">
-            Regresar
-        </MudButton>
+        <MudItem>
+            <MudText Typo="Typo.h5"><i class="bi bi-clipboard-check"></i> Crear Iventario</MudText>
+        </MudItem>
+        <EditForm Model="inventory" OnSubmit="SaveInventoryAsync">
+            <DataAnnotationsValidator />
+            <MudCardContent>
+                <MudDatePicker Label="Fecha" Date="@inventory.Date" DateChanged="OnDateChange" />
+                <MudTextField Label="Nombre"
+                                @bind-Value="@inventory.Name"
+                                For="@(() => inventory.Name)" />
+                <MudTextField Label="Descripción"
+                                Lines="3"
+                                @bind-Value="@inventory.Description"
+                                For="@(() => inventory.Description)" />
+            </MudCardContent>
+            <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.ArrowBack" Color="Color.Info" Href="/inventories">
+                Regresar
+            </MudButton>
+            <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.Check" Color="Color.Primary" ButtonType="ButtonType.Submit">
+                Guardar
+            </MudButton>
+        </EditForm>
     </div>
 </MudCard>

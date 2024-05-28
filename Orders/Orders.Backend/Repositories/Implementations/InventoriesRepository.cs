@@ -17,6 +17,29 @@ namespace Orders.Backend.Repositories.Implementations
             _context = context;
         }
 
+        public override async Task<ActionResponse<Inventory>> AddAsync(Inventory inventory)
+        {
+            inventory.InventoryDetails = [];
+            inventory.Date = inventory.Date.ToUniversalTime();
+            var products = await _context.Products.ToListAsync();
+            foreach (var product in products)
+            {
+                inventory.InventoryDetails.Add(new InventoryDetail
+                {
+                    Cost = product.Cost,
+                    ProductId = product.Id,
+                    Stock = product.Stock,
+                });
+            }
+
+            await base.AddAsync(inventory);
+            return new ActionResponse<Inventory>
+            {
+                WasSuccess = true,
+                Result = inventory,
+            };
+        }
+
         public override async Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination)
         {
             var queryable = _context.Inventories.AsQueryable();

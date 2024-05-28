@@ -6,6 +6,8 @@ namespace Orders.Backend.UnitsOfWork.Interfaces
 {
     public interface IInventoriesUnitOfWork
     {
+        Task<ActionResponse<Inventory>> AddAsync(Inventory inventory);
+
         Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination);
 
         Task<ActionResponse<IEnumerable<Inventory>>> GetAsync(PaginationDTO pagination);

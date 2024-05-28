@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Orders.Shared.Entities
 {
@@ -19,6 +14,11 @@ namespace Orders.Shared.Entities
         public Product? Product { get; set; }
 
         public int ProductId { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:N2}")]
+        [Display(Name = "Inventario")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        public float Stock { get; set; }
 
         [Column(TypeName = "decimal(18,2)")]
         [DisplayFormat(DataFormatString = "{0:C2}")]
