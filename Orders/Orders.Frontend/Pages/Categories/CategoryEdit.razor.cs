@@ -57,21 +57,25 @@ namespace Orders.Frontend.Pages.Categories
 
             await BlazoredModal.CloseAsync(ModalResult.Ok());
             Return();
-
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Cambios guardados con éxito.");
+            ShowToast("Ok", SweetAlertIcon.Success, "Cambios guardados con éxito.");
         }
 
         private void Return()
         {
             categoryForm!.FormPostedSuccessfully = true;
             NavigationManager.NavigateTo("/categories");
+        }
+
+        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
+        {
+            var toast = SweetAlertService.Mixin(new SweetAlertOptions
+            {
+                Toast = true,
+                Position = SweetAlertPosition.BottomEnd,
+                ShowConfirmButton = false,
+                Timer = 3000
+            });
+            _ = toast.FireAsync(title, message, iconMessage);
         }
     }
 }

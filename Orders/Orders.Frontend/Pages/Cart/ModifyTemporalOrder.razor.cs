@@ -62,16 +62,20 @@ namespace Orders.Frontend.Pages.Cart
                 await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
                 return;
             }
+            NavigationManager.NavigateTo("/");
+            ShowToast("Ok", SweetAlertIcon.Success, "Producto modificado en el carro de compras.");
+        }
 
-            var toast2 = SweetAlertService.Mixin(new SweetAlertOptions
+        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
+        {
+            var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,
                 Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
+                ShowConfirmButton = false,
                 Timer = 3000
             });
-            await toast2.FireAsync(icon: SweetAlertIcon.Success, message: "Producto modificado en el de compras.");
-            NavigationManager.NavigateTo("/");
+            _ = toast.FireAsync(title, message, iconMessage);
         }
     }
 }

@@ -114,6 +114,11 @@ namespace Orders.Frontend.Pages.Cart
             }
 
             await table.ReloadServerData();
+            ShowToast("Ok", SweetAlertIcon.Success, "Producto eliminado del carro de compras.");
+        }
+
+        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
+        {
             var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,
@@ -121,7 +126,7 @@ namespace Orders.Frontend.Pages.Cart
                 ShowConfirmButton = false,
                 Timer = 3000
             });
-            await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Producto eliminado del carro de compras.");
+            _ = toast.FireAsync(title, message, iconMessage);
         }
     }
 }

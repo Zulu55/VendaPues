@@ -55,14 +55,7 @@ namespace Orders.Frontend.Pages.Products
             }
 
             productDTO.ProductImages = httpActionResponse.Response!.Images;
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Imagenes agregadas con éxito.");
+            ShowToast("Ok", SweetAlertIcon.Success, "Imagenes agregadas con éxito.");
         }
 
         private async Task RemoveImageAsyc()
@@ -87,14 +80,7 @@ namespace Orders.Frontend.Pages.Products
             }
 
             productDTO.ProductImages = httpActionResponse.Response!.Images;
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Imagén eliminada con éxito.");
+            ShowToast("Ok", SweetAlertIcon.Success, "Imagén eliminada con éxito.");
         }
 
         private async Task LoadProductAsync()
@@ -177,6 +163,18 @@ namespace Orders.Frontend.Pages.Products
         {
             productForm!.FormPostedSuccessfully = true;
             NavigationManager.NavigateTo($"/products");
+        }
+
+        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
+        {
+            var toast = SweetAlertService.Mixin(new SweetAlertOptions
+            {
+                Toast = true,
+                Position = SweetAlertPosition.BottomEnd,
+                ShowConfirmButton = false,
+                Timer = 3000
+            });
+            _ = toast.FireAsync(title, message, iconMessage);
         }
     }
 }

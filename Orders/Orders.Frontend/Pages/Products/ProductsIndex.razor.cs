@@ -169,14 +169,19 @@ namespace Orders.Frontend.Pages.Products
             }
             await LoadAsync();
             await table.ReloadServerData();
+            ShowToast("Ok", SweetAlertIcon.Success, "Producto eliminado.");
+        }
+
+        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
+        {
             var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,
                 Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
+                ShowConfirmButton = false,
                 Timer = 3000
             });
-            await toast.FireAsync("Producto eliminado", string.Empty, SweetAlertIcon.Success);
+            _ = toast.FireAsync(title, message, iconMessage);
         }
     }
 }

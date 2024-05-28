@@ -25,20 +25,25 @@ namespace Orders.Frontend.Pages.Auth
                 await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
                 return;
             }
-            await SweetAlertService.FireAsync("Confirmación", "Contraseña Modificada con éxito.", SweetAlertIcon.Info);
             NavigationManager.NavigateTo("/auth/editUser");
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
+            ShowToast("Ok", SweetAlertIcon.Success, "Contraseña Modificada con éxito.");
         }
 
         private void ReturnAction()
         {
             NavigationManager.NavigateTo("/EditUser");
+        }
+
+        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
+        {
+            var toast = SweetAlertService.Mixin(new SweetAlertOptions
+            {
+                Toast = true,
+                Position = SweetAlertPosition.BottomEnd,
+                ShowConfirmButton = false,
+                Timer = 3000
+            });
+            _ = toast.FireAsync(title, message, iconMessage);
         }
     }
 }

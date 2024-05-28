@@ -130,19 +130,7 @@ namespace Orders.Frontend.Pages.Purchases
             }
 
             await table.ReloadServerData();
-            ShowToast("Info", SweetAlertIcon.Success, "Producto eliminado de la compra.");
-        }
-
-        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
-        {
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = false,
-                Timer = 3000
-            });
-            _ = toast.FireAsync(title, message, iconMessage);
+            ShowToast("Ok", SweetAlertIcon.Success, "Producto eliminado de la compra.");
         }
 
         private async Task OnDateChange(DateTime? date)
@@ -311,6 +299,18 @@ namespace Orders.Frontend.Pages.Purchases
             return products!
                 .Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
                 .ToList();
+        }
+
+        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
+        {
+            var toast = SweetAlertService.Mixin(new SweetAlertOptions
+            {
+                Toast = true,
+                Position = SweetAlertPosition.BottomEnd,
+                ShowConfirmButton = false,
+                Timer = 3000
+            });
+            _ = toast.FireAsync(title, message, iconMessage);
         }
     }
 }

@@ -161,14 +161,19 @@ namespace Orders.Frontend.Pages.Categories
             }
             await LoadAsync();
             await table.ReloadServerData();
+            ShowToast("Ok", SweetAlertIcon.Success, "Categoría eliminada.");
+        }
+
+        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
+        {
             var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,
                 Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
+                ShowConfirmButton = false,
                 Timer = 3000
             });
-            await toast.FireAsync("Categoría eliminada", string.Empty, SweetAlertIcon.Success);
+            _ = toast.FireAsync(title, message, iconMessage);
         }
     }
 }

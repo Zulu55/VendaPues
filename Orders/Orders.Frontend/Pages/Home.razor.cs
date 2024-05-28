@@ -80,14 +80,7 @@ namespace Orders.Frontend.Pages
             if (!isAuthenticated)
             {
                 Modal.Show<Login>();
-                var toast1 = SweetAlertService.Mixin(new SweetAlertOptions
-                {
-                    Toast = true,
-                    Position = SweetAlertPosition.BottomEnd,
-                    ShowConfirmButton = false,
-                    Timer = 3000
-                });
-                await toast1.FireAsync(icon: SweetAlertIcon.Error, message: "Debes haber iniciado sesión para poder agregar productos al carro de compras.");
+                ShowToast("Error", SweetAlertIcon.Error, "Debes haber iniciado sesión para poder agregar productos al carro de compras.");
                 return;
             }
 
@@ -105,15 +98,7 @@ namespace Orders.Frontend.Pages
             }
 
             await LoadCounterAsync();
-
-            var toast2 = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            await toast2.FireAsync(icon: SweetAlertIcon.Success, message: "Producto agregado al carro de compras.");
+            ShowToast("Ok", SweetAlertIcon.Success, "Producto agregado al carro de compras.");
         }
 
         private async Task FilterCallBack(string filter)
@@ -225,6 +210,18 @@ namespace Orders.Frontend.Pages
             int page = 1;
             await LoadAsync(page);
             await SelectedPageAsync(page);
+        }
+
+        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
+        {
+            var toast = SweetAlertService.Mixin(new SweetAlertOptions
+            {
+                Toast = true,
+                Position = SweetAlertPosition.BottomEnd,
+                ShowConfirmButton = false,
+                Timer = 3000
+            });
+            _ = toast.FireAsync(title, message, iconMessage);
         }
     }
 }

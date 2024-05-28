@@ -212,14 +212,19 @@ namespace Orders.Frontend.Pages.Countries
             }
             await LoadAsync();
             await table.ReloadServerData();
+            ShowToast("Ok", SweetAlertIcon.Success, "Estado eliminado.");
+        }
+
+        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
+        {
             var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,
                 Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
+                ShowConfirmButton = false,
                 Timer = 3000
             });
-            await toast.FireAsync("Estado eliminado", string.Empty, SweetAlertIcon.Success);
+            _ = toast.FireAsync(title, message, iconMessage);
         }
     }
 }

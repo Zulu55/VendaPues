@@ -34,21 +34,25 @@ namespace Orders.Frontend.Pages.Cities
 
             await BlazoredModal.CloseAsync(ModalResult.Ok());
             Return();
-
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro creado con éxito.");
+            ShowToast("Ok", SweetAlertIcon.Success, "Registro creado con éxito.");
         }
 
         private void Return()
         {
             cityForm!.FormPostedSuccessfully = true;
             NavigationManager.NavigateTo($"/states/details/{StateId}");
+        }
+
+        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
+        {
+            var toast = SweetAlertService.Mixin(new SweetAlertOptions
+            {
+                Toast = true,
+                Position = SweetAlertPosition.BottomEnd,
+                ShowConfirmButton = false,
+                Timer = 3000
+            });
+            _ = toast.FireAsync(title, message, iconMessage);
         }
     }
 }
