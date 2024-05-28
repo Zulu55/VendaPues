@@ -30,13 +30,6 @@ namespace Orders.Backend.Controllers
             return BadRequest();
         }
 
-        [AllowAnonymous]
-        [HttpGet("combo")]
-        public async Task<IActionResult> GetComboAsync()
-        {
-            return Ok(await _categoriesUnitOfWork.GetComboAsync());
-        }
-
         [HttpGet]
         public override async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
         {
@@ -46,6 +39,13 @@ namespace Orders.Backend.Controllers
                 return Ok(response.Result);
             }
             return BadRequest();
+        }
+
+        [AllowAnonymous]
+        [HttpGet("combo")]
+        public async Task<IActionResult> GetComboAsync()
+        {
+            return Ok(await _categoriesUnitOfWork.GetComboAsync());
         }
 
         [HttpGet("totalPages")]

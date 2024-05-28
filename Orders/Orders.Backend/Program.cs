@@ -80,6 +80,9 @@ internal class Program
         builder.Services.AddScoped<ICountriesRepository, CountriesRepository>();
         builder.Services.AddScoped<ICountriesUnitOfWork, CountriesUnitOfWork>();
 
+        builder.Services.AddScoped<IInventoriesRepository, InventoriesRepository>();
+        builder.Services.AddScoped<IInventoriesUnitOfWork, InventoriesUnitOfWork>();
+
         builder.Services.AddScoped<IKardexRepository, KardexRepository>();
         builder.Services.AddScoped<IKardexUnitOfWork, KardexUnitOfWork>();
 
