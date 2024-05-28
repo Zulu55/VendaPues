@@ -38,6 +38,34 @@ namespace Orders.Backend.Data
 
             //TODO: Remove in production evironments
             await CheckPurchaseAsync();
+            await CheckInvetoriesAsync();
+        }
+
+        private async Task CheckInvetoriesAsync()
+        {
+            if (!_context.Inventories.Any())
+            {
+                for (int i = 1; i <= 5; i++)
+                {
+                    var inventory = new Inventory
+                    {
+                        Name = $"Inventario {i} agregado por seeder para testing.",
+                        Description = $"Inventario {i} agregado por seeder para testing.",
+                        Date = DateTime.UtcNow,
+                    };
+                    if (i % 2 == 0)
+                    {
+                        inventory.Count1Finish = true;
+                    }
+                    if (i % 3 == 0)
+                    {
+                        inventory.Count1Finish = true;
+                        inventory.Count2Finish = true;
+                    }
+                    _context.Inventories.Add(inventory);
+                }
+                await _context.SaveChangesAsync();
+            }
         }
 
         private async Task CheckPurchaseAsync()

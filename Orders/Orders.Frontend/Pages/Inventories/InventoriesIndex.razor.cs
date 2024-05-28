@@ -7,26 +7,24 @@ using MudBlazor;
 using Orders.Frontend.Pages.Categories;
 using Orders.Frontend.Repositories;
 using Orders.Shared.Entities;
-using System.Net;
 
 namespace Orders.Frontend.Pages.Inventories
 {
     [Authorize(Roles = "Admin")]
     public partial class InventoriesIndex
     {
-        public List<Category>? Categories { get; set; }
+        public List<Inventory>? Inventories { get; set; }
 
-        private MudTable<Category> table = new();
+        private MudTable<Inventory> table = new();
         private readonly int[] pageSizeOptions = { 10, 25, 50, 5, int.MaxValue };
         private int totalRecords = 0;
         private bool loading;
-        private const string baseUrl = "api/categories";
+        private const string baseUrl = "api/inventories";
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
-        [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
         [CascadingParameter] private IModalService Modal { get; set; } = default!;
 
         protected override async Task OnInitializedAsync()
@@ -43,10 +41,6 @@ namespace Orders.Frontend.Pages.Inventories
         {
             loading = true;
             var url = $"{baseUrl}/recordsnumber?page=1&recordsnumber={int.MaxValue}";
-            if (!string.IsNullOrWhiteSpace(Filter))
-            {
-                url += $"&filter={Filter}";
-            }
             var responseHttp = await Repository.GetAsync<int>(url);
             if (responseHttp.Error)
             {
@@ -64,18 +58,12 @@ namespace Orders.Frontend.Pages.Inventories
             return true;
         }
 
-        private async Task<TableData<Category>> LoadListAsync(TableState state)
+        private async Task<TableData<Inventory>> LoadListAsync(TableState state)
         {
             int page = state.Page + 1;
             int pageSize = state.PageSize;
             var url = $"{baseUrl}?page={page}&recordsnumber={pageSize}";
-
-            if (!string.IsNullOrWhiteSpace(Filter))
-            {
-                url += $"&filter={Filter}";
-            }
-
-            var responseHttp = await Repository.GetAsync<List<Category>>(url);
+            var responseHttp = await Repository.GetAsync<List<Inventory>>(url);
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
@@ -85,24 +73,17 @@ namespace Orders.Frontend.Pages.Inventories
                     Text = message,
                     Icon = SweetAlertIcon.Error
                 });
-                return new TableData<Category> { Items = [], TotalItems = 0 };
+                return new TableData<Inventory> { Items = [], TotalItems = 0 };
             }
             if (responseHttp.Response == null)
             {
-                return new TableData<Category> { Items = [], TotalItems = 0 };
+                return new TableData<Inventory> { Items = [], TotalItems = 0 };
             }
-            return new TableData<Category>
+            return new TableData<Inventory>
             {
                 Items = responseHttp.Response,
                 TotalItems = totalRecords
             };
-        }
-
-        private async Task SetFilterValue(string value)
-        {
-            Filter = value;
-            await LoadAsync();
-            await table.ReloadServerData();
         }
 
         private async Task ShowModalAsync(int id = 0, bool isEdit = false)
@@ -111,11 +92,11 @@ namespace Orders.Frontend.Pages.Inventories
 
             if (isEdit)
             {
-                modalReference = Modal.Show<CategoryEdit>(string.Empty, new ModalParameters().Add("Id", id));
+                modalReference = Modal.Show<EnterCount1>(string.Empty, new ModalParameters().Add("Id", id));
             }
             else
             {
-                modalReference = Modal.Show<CategoryCreate>();
+                modalReference = Modal.Show<InventoryCreate>();
             }
 
             var result = await modalReference.Result;
@@ -124,45 +105,6 @@ namespace Orders.Frontend.Pages.Inventories
                 await LoadAsync();
             }
             await table.ReloadServerData();
-        }
-
-        private async Task DeleteAsync(Category category)
-        {
-            var result = await SweetAlertService.FireAsync(new SweetAlertOptions
-            {
-                Title = "¿Estás seguro?",
-                Text = $"¿Estás seguro de que quieres eliminar la categoría: {category.Name}?",
-                Icon = SweetAlertIcon.Warning,
-                ShowCancelButton = true,
-            });
-            var confirm = string.IsNullOrEmpty(result.Value);
-            if (confirm)
-            {
-                return;
-            }
-
-            var responseHttp = await Repository.DeleteAsync<Category>($"api/categories/{category.Id}");
-            if (responseHttp.Error)
-            {
-                if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
-                {
-                    NavigationManager.NavigateTo("/categories");
-                }
-                else
-                {
-                    var message = await responseHttp.GetErrorMessageAsync();
-                    await SweetAlertService.FireAsync(new SweetAlertOptions
-                    {
-                        Title = "Error",
-                        Text = message,
-                        Icon = SweetAlertIcon.Error
-                    });
-                }
-                return;
-            }
-            await LoadAsync();
-            await table.ReloadServerData();
-            ShowToast("Ok", SweetAlertIcon.Success, "Categoría eliminada.");
         }
 
         private void ShowToast(string title, SweetAlertIcon iconMessage, string message)

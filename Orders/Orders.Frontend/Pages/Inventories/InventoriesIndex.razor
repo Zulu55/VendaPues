@@ -6,9 +6,9 @@
 }
 else
 {
-    <MudTable Items="@Categories"
+    <MudTable Items="@Inventories"
               @ref="table"
-              ServerData="@(new Func<TableState, Task<TableData<Category>>>(LoadListAsync))"
+              ServerData="@(new Func<TableState, Task<TableData<Inventory>>>(LoadListAsync))"
               Dense="true"
               Hover="true"
               Striped="true"
@@ -20,22 +20,49 @@ else
                 <MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Add" Color="Color.Info" OnClick="@(() => ShowModalAsync())">Crear</MudButton>
             </div>
             <MudSpacer />
-            <FilterComponent ApplyFilter="SetFilterValue" />
         </ToolBarContent>
         <HeaderContent>
-            <MudTh>Categoría</MudTh>
-            <MudTh style="width: 380px;">Acciones</MudTh>
+            <MudTh>Fecha</MudTh>
+            <MudTh>Nombre</MudTh>
+            <MudTh>Descripción</MudTh>
+            <MudTh>Conteo 1 Finalizado</MudTh>
+            <MudTh>Conteo 2 Finalizado</MudTh>
+            <MudTh>Conteo 3 Finalizado</MudTh>
+            <MudTh style="width: 400px;">Acciones</MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd DataLabel="Categoría">@context.Name</MudTd>
+            <MudTd DataLabel="Fecha">@context.Date.ToLocalTime()</MudTd>
+            <MudTd DataLabel="Nombre">@context.Name</MudTd>
+            <MudTd DataLabel="Descripción">@context.Description</MudTd>
+            <MudTd DataLabel="Conteo 1 Finalizado">
+                <MudCheckBox @bind-Checked="context.Count1Finish" Disabled="true" />
+            </MudTd>
+            <MudTd DataLabel="Conteo 2 Finalizado">
+                <MudCheckBox @bind-Checked="context.Count2Finish" Disabled="true" />
+            </MudTd>
+            <MudTd DataLabel="Conteo 3 Finalizado">
+                <MudCheckBox @bind-Checked="context.Count3Finish" Disabled="true" />
+            </MudTd>
             <MudTd DataLabel="Acciones">
-                <MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.LooksOne" Color="Color.Warning" OnClick="@(() => ShowModalAsync(context.Id, true))">
+                <MudButton Variant="Variant.Outlined" 
+                           EndIcon="@Icons.Material.Filled.LooksOne" 
+                           Color="Color.Warning" 
+                           OnClick="@(() => ShowModalAsync(context.Id, true))" 
+                           Disabled="@context.Count1Finish">
                     Conteo
                 </MudButton>
-                <MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.LooksTwo" Color="Color.Info" OnClick="@(() => ShowModalAsync(context.Id, true))">
+                <MudButton Variant="Variant.Outlined" 
+                           EndIcon="@Icons.Material.Filled.LooksTwo" 
+                           Color="Color.Info"
+                           OnClick="@(() => ShowModalAsync(context.Id, true))"
+                           Disabled="@(context.Count1Finish && context.Count2Finish)">
                     Conteo
                 </MudButton>
-                <MudButton Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Looks3" Color="Color.Secondary" OnClick="@(() => ShowModalAsync(context.Id, true))">
+                <MudButton Variant="Variant.Outlined" 
+                           EndIcon="@Icons.Material.Filled.Looks3" 
+                           Color="Color.Secondary"
+                           OnClick="@(() => ShowModalAsync(context.Id, true))"
+                           Disabled="@(context.Count1Finish && context.Count2Finish & context.Count3Finish)">
                     Conteo
                 </MudButton>
             </MudTd>
