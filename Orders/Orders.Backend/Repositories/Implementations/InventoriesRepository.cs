@@ -17,6 +17,28 @@ namespace Orders.Backend.Repositories.Implementations
             _context = context;
         }
 
+        public override async Task<ActionResponse<Inventory>> GetAsync(int id)
+        {
+            var inventory = await _context.Inventories
+                 .Include(x => x.InventoryDetails!)
+                 .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (inventory == null)
+            {
+                return new ActionResponse<Inventory>
+                {
+                    WasSuccess = false,
+                    Message = "Inventario no existe"
+                };
+            }
+
+            return new ActionResponse<Inventory>
+            {
+                WasSuccess = true,
+                Result = inventory
+            };
+        }
+
         public override async Task<ActionResponse<Inventory>> AddAsync(Inventory inventory)
         {
             inventory.InventoryDetails = [];

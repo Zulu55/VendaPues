@@ -34,5 +34,10 @@ namespace Orders.Shared.Entities
 
         [Display(Name = "Conteo 3")]
         public float Count3 { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:N2}")]
+        [Display(Name = "Inventario")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        public float Adjustment { get; set; }
     }
 }

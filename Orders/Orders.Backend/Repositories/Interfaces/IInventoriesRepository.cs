@@ -6,6 +6,8 @@ namespace Orders.Backend.Repositories.Interfaces
 {
     public interface IInventoriesRepository
     {
+        Task<ActionResponse<Inventory>> GetAsync(int id);
+        
         Task<ActionResponse<Inventory>> AddAsync(Inventory inventory);
 
         Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination);
