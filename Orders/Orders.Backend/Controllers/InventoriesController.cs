@@ -19,6 +19,17 @@ namespace Orders.Backend.Controllers
             _inventoriesUnitOfWork = inventoriesUnitOfWork;
         }
 
+        [HttpGet("finishCount1/{id}")]
+        public async Task<IActionResult> FinishCount1(int id)
+        {
+            var action = await _inventoriesUnitOfWork.FinishCount1(id);
+            if (action.WasSuccess)
+            {
+                return Ok(action.Result);
+            }
+            return NotFound();
+        }
+
         [HttpGet("{id}")]
         public override async Task<IActionResult> GetAsync(int id)
         {

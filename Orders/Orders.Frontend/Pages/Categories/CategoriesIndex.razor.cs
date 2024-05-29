@@ -42,10 +42,12 @@ namespace Orders.Frontend.Pages.Categories
         {
             loading = true;
             var url = $"{baseUrl}/recordsnumber?page=1&recordsnumber={int.MaxValue}";
+
             if (!string.IsNullOrWhiteSpace(Filter))
             {
                 url += $"&filter={Filter}";
             }
+
             var responseHttp = await Repository.GetAsync<int>(url);
             if (responseHttp.Error)
             {
@@ -68,6 +70,11 @@ namespace Orders.Frontend.Pages.Categories
             int page = state.Page + 1;
             int pageSize = state.PageSize;
             var url = $"{baseUrl}?page={page}&recordsnumber={pageSize}";
+
+            if (!string.IsNullOrWhiteSpace(Filter))
+            {
+                url += $"&filter={Filter}";
+            }
 
             if (!string.IsNullOrWhiteSpace(Filter))
             {

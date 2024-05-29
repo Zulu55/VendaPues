@@ -15,6 +15,8 @@ namespace Orders.Backend.UnitsOfWork.Implementations
             _inventoriesRepository = inventoriesRepository;
         }
 
+        public async Task<ActionResponse<bool>> FinishCount1(int id) => await _inventoriesRepository.FinishCount1(id);
+
         public override async Task<ActionResponse<Inventory>> GetAsync(int id) => await _inventoriesRepository.GetAsync(id);
 
         public override async Task<ActionResponse<Inventory>> AddAsync(Inventory model) => await _inventoriesRepository.AddAsync(model);

@@ -14,6 +14,9 @@
                   FixedHeader="true"
                   FixedFooter="true"
                   Class="mb-2">
+            <ToolBarContent>
+                <FilterComponent ApplyFilter="SetFilterValue" />
+            </ToolBarContent>
             <HeaderContent>
                 <MudTh>Producto</MudTh>
                 <MudTh>Costo</MudTh>
@@ -22,7 +25,7 @@
             <RowTemplate>
                 <MudTd DataLabel="Producto">@context.Product!.Name</MudTd>
                 <MudTd DataLabel="Costo">
-                    <MudNumericField @bind-Value="@context.Cost" Label="Costo" />
+                    <MudNumericField @bind-Value="@context.Cost" Label="Costo" Disabled="@(!enableModifyCost)" />
                 </MudTd>
                 <MudTd DataLabel="Cantidad">
                     <MudNumericField @bind-Value="@context.Count1" Label="Cantidad" />
@@ -32,6 +35,10 @@
                 <MudText>No se encontraron registros.</MudText>
             </NoRecordsContent>
             <PagerContent>
+                <div class="m-2 p-2">
+                    <MudCheckBox T="bool" Value="enableModifyCost" ValueChanged="OnEnableModifyCostChanged">¿Permite modificar los costos?</MudCheckBox>
+                    <MudText Typo="Typo.body1">Anttes de cambiar de página haga click en el botón <b>Guardar</b> para no perder los cambios</MudText>
+                </div>
                 <MudTablePager RowsPerPageString="Numero de Registros:"
                                PageSizeOptions="pageSizeOptions"
                                AllItemsText="Todos" />

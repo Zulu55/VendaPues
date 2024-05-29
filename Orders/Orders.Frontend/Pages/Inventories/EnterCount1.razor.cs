@@ -14,6 +14,7 @@ namespace Orders.Frontend.Pages.Inventories
         private bool loading;
         private const string baseUrl = "api/InventoryDetails";
         private readonly int[] pageSizeOptions = { 10, 25, 50, int.MaxValue };
+        private bool enableModifyCost = false;
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
@@ -31,6 +32,11 @@ namespace Orders.Frontend.Pages.Inventories
             await LoadAsync();
         }
 
+        private void OnEnableModifyCostChanged(bool value)
+        {
+            enableModifyCost = value;
+        }
+
         private async Task LoadAsync()
         {
             await LoadTotalRecords();
@@ -40,6 +46,11 @@ namespace Orders.Frontend.Pages.Inventories
         {
             loading = true;
             var url = $"{baseUrl}/recordsnumber?page=1&recordsnumber={int.MaxValue}&id={Id}";
+            if (!string.IsNullOrWhiteSpace(Filter))
+            {
+                url += $"&filter={Filter}";
+            }
+
             var responseHttp = await Repository.GetAsync<int>(url);
             if (responseHttp.Error)
             {
@@ -62,6 +73,11 @@ namespace Orders.Frontend.Pages.Inventories
             int page = state.Page + 1;
             int pageSize = state.PageSize;
             var url = $"{baseUrl}?page={page}&recordsnumber={pageSize}&id={Id}";
+            if (!string.IsNullOrWhiteSpace(Filter))
+            {
+                url += $"&filter={Filter}";
+            }
+
             var responseHttp = await Repository.GetAsync<List<InventoryDetail>>(url);
             if (responseHttp.Error)
             {
@@ -95,6 +111,8 @@ namespace Orders.Frontend.Pages.Inventories
 
         private void SaveCount()
         {
+            if (InventoryDetails == null) return;
+
             var isValid = ValidateCount();
             if (!isValid.WasSuccess)
             {
@@ -111,6 +129,7 @@ namespace Orders.Frontend.Pages.Inventories
 
         private ActionResponse<bool> ValidateCount()
         {
+
             foreach (var inventoryDetail in InventoryDetails!)
             {
                 if (inventoryDetail.Count1 < 0 || inventoryDetail.Cost < 0)
@@ -148,7 +167,48 @@ namespace Orders.Frontend.Pages.Inventories
 
         private async Task FinishCountAsync()
         {
+            var result = await SweetAlertService.FireAsync(new SweetAlertOptions
+            {
+                Title = "Confirmación",
+                Text = "¿Esta seguro que quieres finalizar el conteo #1?",
+                Icon = SweetAlertIcon.Question,
+                ShowCancelButton = true
+            });
 
+            var confirm = string.IsNullOrEmpty(result.Value);
+            if (confirm)
+            {
+                return;
+            }
+
+            var count0 = InventoryDetails!.Count(x => x.Count1 == 0);
+            if (count0 / InventoryDetails!.Count > 0.5)
+            {
+                result = await SweetAlertService.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Confirmación",
+                    Text = "Hay una gran cantidad de productos con conteo en cero, ¿Estas seguro de cerrar este primer conteo?",
+                    Icon = SweetAlertIcon.Question,
+                    ShowCancelButton = true
+                });
+
+                confirm = string.IsNullOrEmpty(result.Value);
+                if (confirm)
+                {
+                    return;
+                }
+            }
+
+            var responseHttp = await Repository.GetAsync($"/api/inventories/finishCount1/{Id}");
+            if (responseHttp.Error)
+            {
+                var message = await responseHttp.GetErrorMessageAsync();
+                ShowToast("Error", SweetAlertIcon.Error, message!);
+                return;
+            }
+
+            ShowToast("Ok", SweetAlertIcon.Success, "Conteo #1 cerrado, puede proceder al conteo #2.");
+            NavigationManager.NavigateTo("/inventories");
         }
 
 

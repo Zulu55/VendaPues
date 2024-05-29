@@ -17,6 +17,24 @@ namespace Orders.Backend.Repositories.Implementations
             _context = context;
         }
 
+        public async Task<ActionResponse<bool>> FinishCount1(int id)
+        {
+            var inventory = await _context.Inventories.FindAsync(id);
+            if (inventory == null)
+            {
+                return new ActionResponse<bool>
+                {
+                    WasSuccess = false,
+                    Message = "Inventario no existe"
+                };
+            }
+
+            inventory.Count1Finish = true;
+            _context.Update(inventory);
+            await _context.SaveChangesAsync();
+            return new ActionResponse<bool> { WasSuccess = true };
+        }
+
         public override async Task<ActionResponse<Inventory>> GetAsync(int id)
         {
             var inventory = await _context.Inventories

@@ -53,6 +53,11 @@ namespace Orders.Backend.Repositories.Implementations
                 queryable = queryable.Where(x => x.InventoryId == pagination.Id);
             }
 
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
+            {
+                queryable = queryable.Where(x => x.Product!.Name.ToLower().Contains(pagination.Filter.ToLower()));
+            }
+
             int recordsNumber = await queryable.CountAsync();
             return new ActionResponse<int>
             {
@@ -67,6 +72,11 @@ namespace Orders.Backend.Repositories.Implementations
             if (pagination.Id != 0)
             {
                 queryable = queryable.Where(x => x.InventoryId == pagination.Id);
+            }
+
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
+            {
+                queryable = queryable.Where(x => x.Product!.Name.ToLower().Contains(pagination.Filter.ToLower()));
             }
 
             return new ActionResponse<IEnumerable<InventoryDetail>>
