@@ -8,7 +8,7 @@ namespace Orders.Backend.UnitsOfWork.Interfaces
     {
         Task<IEnumerable<Product>> GetComboAsync();
 
-        Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination);
+        Task<ActionResponse<int>> GetRecordsNumberAsync(PaginationDTO pagination);
 
         Task<ActionResponse<Product>> UpdateAsync(Product product);
 

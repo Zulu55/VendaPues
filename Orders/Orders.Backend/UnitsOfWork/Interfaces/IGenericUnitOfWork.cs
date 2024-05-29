@@ -5,7 +5,7 @@ namespace Orders.Backend.UnitsOfWork.Interfaces
 {
     public interface IGenericUnitOfWork<T> where T : class
     {
-        Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination);
+        Task<ActionResponse<int>> GetRecordsNumberAsync(PaginationDTO pagination);
 
         Task<ActionResponse<IEnumerable<T>>> GetAsync();
 

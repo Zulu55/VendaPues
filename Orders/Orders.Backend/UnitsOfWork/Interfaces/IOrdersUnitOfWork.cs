@@ -6,7 +6,7 @@ namespace Orders.Backend.UnitsOfWork.Interfaces
 {
     public interface IOrdersUnitOfWork
     {
-        Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination);
+        Task<ActionResponse<int>> GetRecordsNumberAsync(PaginationDTO pagination);
 
         Task<ActionResponse<Order>> AddAsync(Order order);
 

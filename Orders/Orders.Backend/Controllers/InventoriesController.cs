@@ -55,7 +55,7 @@ namespace Orders.Backend.Controllers
         [HttpGet("recordsNumber")]
         public override async Task<IActionResult> GetRecordsNumber([FromQuery] PaginationDTO pagination)
         {
-            var response = await _inventoriesUnitOfWork.GetRecordsNumber(pagination);
+            var response = await _inventoriesUnitOfWork.GetRecordsNumberAsync(pagination);
             if (response.WasSuccess)
             {
                 return Ok(response.Result);

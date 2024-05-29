@@ -15,7 +15,7 @@ namespace Orders.Backend.UnitsOfWork.Implementations
             _countriesRepository = countriesRepository;
         }
 
-        public override async Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination) => await _countriesRepository.GetRecordsNumberAsync(pagination);
+        public override async Task<ActionResponse<int>> GetRecordsNumberAsync(PaginationDTO pagination) => await _countriesRepository.GetRecordsNumberAsync(pagination);
 
         public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination) => await _countriesRepository.GetTotalPagesAsync(pagination);
 

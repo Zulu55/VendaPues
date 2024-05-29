@@ -22,7 +22,7 @@ namespace Orders.Backend.Controllers
         [HttpGet("recordsNumber")]
         public override async Task<IActionResult> GetRecordsNumber([FromQuery] PaginationDTO pagination)
         {
-            var response = await _countriesUnitOfWork.GetRecordsNumber(pagination);
+            var response = await _countriesUnitOfWork.GetRecordsNumberAsync(pagination);
             if (response.WasSuccess)
             {
                 return Ok(response.Result);

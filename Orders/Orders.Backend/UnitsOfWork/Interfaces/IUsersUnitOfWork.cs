@@ -7,7 +7,7 @@ namespace Orders.Backend.UnitsOfWork.Interfaces
 {
     public interface IUsersUnitOfWork
     {
-        Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination);
+        Task<ActionResponse<int>> GetRecordsNumberAsync(PaginationDTO pagination);
 
         Task<ActionResponse<IEnumerable<User>>> GetAsync(PaginationDTO pagination);
 

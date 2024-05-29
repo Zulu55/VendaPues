@@ -21,7 +21,7 @@ namespace Orders.Backend.UnitsOfWork.Implementations
 
         public override async Task<ActionResponse<Inventory>> AddAsync(Inventory model) => await _inventoriesRepository.AddAsync(model);
 
-        public override async Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination) => await _inventoriesRepository.GetRecordsNumberAsync(pagination);
+        public override async Task<ActionResponse<int>> GetRecordsNumberAsync(PaginationDTO pagination) => await _inventoriesRepository.GetRecordsNumberAsync(pagination);
 
         public override async Task<ActionResponse<IEnumerable<Inventory>>> GetAsync(PaginationDTO pagination) => await _inventoriesRepository.GetAsync(pagination);
     }

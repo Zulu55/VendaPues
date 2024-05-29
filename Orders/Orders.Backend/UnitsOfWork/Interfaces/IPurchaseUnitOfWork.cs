@@ -8,7 +8,7 @@ namespace Orders.Backend.UnitsOfWork.Interfaces
     {
         Task<ActionResponse<Purchase>> AddAsync(Purchase entity);
 
-        Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination);
+        Task<ActionResponse<int>> GetRecordsNumberAsync(PaginationDTO pagination);
 
         Task<ActionResponse<Purchase>> GetAsync(int id);
 

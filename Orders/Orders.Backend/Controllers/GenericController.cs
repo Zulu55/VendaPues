@@ -16,7 +16,7 @@ namespace Orders.Backend.Controllers
         [HttpGet("recordsNumber")]
         public virtual async Task<IActionResult> GetRecordsNumber([FromQuery] PaginationDTO pagination)
         {
-            var response = await _unitOfWork.GetRecordsNumber(pagination);
+            var response = await _unitOfWork.GetRecordsNumberAsync(pagination);
             if (response.WasSuccess)
             {
                 return Ok(response.Result);
