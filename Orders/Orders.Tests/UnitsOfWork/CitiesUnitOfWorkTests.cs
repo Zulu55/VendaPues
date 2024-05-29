@@ -26,7 +26,7 @@ namespace Orders.Tests.UnitsOfWork
             // Arrange
             var pagination = new PaginationDTO();
             var expectedActionResponse = new ActionResponse<IEnumerable<City>> { WasSuccess = true, Result = new List<City>() };
-            _mockCitiesRepository.Setup(x => x.GetCount1Async(pagination))
+            _mockCitiesRepository.Setup(x => x.GetAsync(pagination))
                 .ReturnsAsync(expectedActionResponse);
 
             // Act
@@ -35,7 +35,7 @@ namespace Orders.Tests.UnitsOfWork
             // Assert
             Assert.IsTrue(result.WasSuccess);
             Assert.AreEqual(expectedActionResponse.Result, result.Result);
-            _mockCitiesRepository.Verify(x => x.GetCount1Async(pagination), Times.Once);
+            _mockCitiesRepository.Verify(x => x.GetAsync(pagination), Times.Once);
         }
 
         [TestMethod]

@@ -45,7 +45,7 @@ namespace Orders.Tests.Repositories
             var pagination = new PaginationDTO { Page = 1, RecordsNumber = 2, Filter = "USA" };
 
             // Act
-            var response = await _repository.GetCount1Async(pagination);
+            var response = await _repository.GetAsync(pagination);
 
             // Assert
             Assert.IsTrue(response.WasSuccess);

@@ -180,21 +180,24 @@ namespace Orders.Frontend.Pages.Inventories
                 return;
             }
 
-            var count0 = InventoryDetails!.Count(x => x.Count3 == 0);
-            if (count0 / InventoryDetails!.Count > 0.5)
+            if (InventoryDetails!.Count > 0)
             {
-                result = await SweetAlertService.FireAsync(new SweetAlertOptions
+                var count0 = InventoryDetails!.Count(x => x.Count3 == 0);
+                if (count0 / InventoryDetails!.Count > 0.5)
                 {
-                    Title = "Confirmación",
-                    Text = "Hay una gran cantidad de productos con conteo en cero, ¿Estas seguro de cerrar este tercer conteo?",
-                    Icon = SweetAlertIcon.Question,
-                    ShowCancelButton = true
-                });
+                    result = await SweetAlertService.FireAsync(new SweetAlertOptions
+                    {
+                        Title = "Confirmación",
+                        Text = "Hay una gran cantidad de productos con conteo en cero, ¿Estas seguro de cerrar este tercer conteo?",
+                        Icon = SweetAlertIcon.Question,
+                        ShowCancelButton = true
+                    });
 
-                confirm = string.IsNullOrEmpty(result.Value);
-                if (confirm)
-                {
-                    return;
+                    confirm = string.IsNullOrEmpty(result.Value);
+                    if (confirm)
+                    {
+                        return;
+                    }
                 }
             }
 

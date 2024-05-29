@@ -28,7 +28,7 @@ namespace Orders.Tests.UnitsOfWork
             // Arrange
             var pagination = new PaginationDTO();
             var states = new List<State> { new State(), new State() };
-            _mockStatesRepository.Setup(x => x.GetCount1Async(pagination))
+            _mockStatesRepository.Setup(x => x.GetAsync(pagination))
                 .ReturnsAsync(new ActionResponse<IEnumerable<State>>
                 {
                     WasSuccess = true,
@@ -41,7 +41,7 @@ namespace Orders.Tests.UnitsOfWork
             // Assert
             Assert.IsTrue(result.WasSuccess);
             Assert.AreEqual(states, result.Result);
-            _mockStatesRepository.Verify(x => x.GetCount1Async(pagination), Times.Once());
+            _mockStatesRepository.Verify(x => x.GetAsync(pagination), Times.Once());
         }
 
         [TestMethod]

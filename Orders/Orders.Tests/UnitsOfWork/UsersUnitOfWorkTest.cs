@@ -418,7 +418,7 @@ namespace Orders.Tests.UnitsOfWork
             // Arrange
             var pagination = new PaginationDTO { Page = 1, RecordsNumber = 10 };
             var response = new ActionResponse<IEnumerable<User>> { WasSuccess = true };
-            _mockUsersRepository.Setup(repo => repo.GetCount1Async(pagination))
+            _mockUsersRepository.Setup(repo => repo.GetAsync(pagination))
                 .ReturnsAsync(response);
 
             // Act
@@ -426,7 +426,7 @@ namespace Orders.Tests.UnitsOfWork
 
             // Assert
             Assert.AreEqual(response, result);
-            _mockUsersRepository.Verify(repo => repo.GetCount1Async(pagination), Times.Once);
+            _mockUsersRepository.Verify(repo => repo.GetAsync(pagination), Times.Once);
         }
 
         [TestMethod]
