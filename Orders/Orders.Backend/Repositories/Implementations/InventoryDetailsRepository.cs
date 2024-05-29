@@ -66,9 +66,107 @@ namespace Orders.Backend.Repositories.Implementations
             };
         }
 
+        public async Task<ActionResponse<int>> GetRecordsNumberCount2Async(PaginationDTO pagination)
+        {
+            var queryable = _context.InventoryDetails
+                .Where(x => x.Stock != x.Count1)
+                .AsQueryable();
+            if (pagination.Id != 0)
+            {
+                queryable = queryable.Where(x => x.InventoryId == pagination.Id);
+            }
+
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
+            {
+                queryable = queryable.Where(x => x.Product!.Name.ToLower().Contains(pagination.Filter.ToLower()));
+            }
+
+            int recordsNumber = await queryable.CountAsync();
+            return new ActionResponse<int>
+            {
+                WasSuccess = true,
+                Result = recordsNumber
+            };
+        }
+
+        public async Task<ActionResponse<int>> GetRecordsNumberCount3Async(PaginationDTO pagination)
+        {
+            var queryable = _context.InventoryDetails
+                .Where(x => x.Count1 != x.Count2)
+                .AsQueryable();
+            if (pagination.Id != 0)
+            {
+                queryable = queryable.Where(x => x.InventoryId == pagination.Id);
+            }
+
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
+            {
+                queryable = queryable.Where(x => x.Product!.Name.ToLower().Contains(pagination.Filter.ToLower()));
+            }
+
+            int recordsNumber = await queryable.CountAsync();
+            return new ActionResponse<int>
+            {
+                WasSuccess = true,
+                Result = recordsNumber
+            };
+        }
+
         public async Task<ActionResponse<IEnumerable<InventoryDetail>>> GetCount1Async(PaginationDTO pagination)
         {
             var queryable = _context.InventoryDetails.AsQueryable();
+            if (pagination.Id != 0)
+            {
+                queryable = queryable.Where(x => x.InventoryId == pagination.Id);
+            }
+
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
+            {
+                queryable = queryable.Where(x => x.Product!.Name.ToLower().Contains(pagination.Filter.ToLower()));
+            }
+
+            return new ActionResponse<IEnumerable<InventoryDetail>>
+            {
+                WasSuccess = true,
+                Result = await queryable
+                    .Include(x => x.Product)
+                    .OrderBy(x => x.Product!.Name)
+                    .Paginate(pagination)
+                    .ToListAsync()
+            };
+        }
+
+        public async Task<ActionResponse<IEnumerable<InventoryDetail>>> GetCount2Async(PaginationDTO pagination)
+        {
+            var queryable = _context.InventoryDetails
+                .Where(x => x.Stock != x.Count1)
+                .AsQueryable();
+            if (pagination.Id != 0)
+            {
+                queryable = queryable.Where(x => x.InventoryId == pagination.Id);
+            }
+
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
+            {
+                queryable = queryable.Where(x => x.Product!.Name.ToLower().Contains(pagination.Filter.ToLower()));
+            }
+
+            return new ActionResponse<IEnumerable<InventoryDetail>>
+            {
+                WasSuccess = true,
+                Result = await queryable
+                    .Include(x => x.Product)
+                    .OrderBy(x => x.Product!.Name)
+                    .Paginate(pagination)
+                    .ToListAsync()
+            };
+        }
+
+        public async Task<ActionResponse<IEnumerable<InventoryDetail>>> GetCount3Async(PaginationDTO pagination)
+        {
+            var queryable = _context.InventoryDetails
+                .Where(x => x.Count1 != x.Count2)
+                .AsQueryable();
             if (pagination.Id != 0)
             {
                 queryable = queryable.Where(x => x.InventoryId == pagination.Id);

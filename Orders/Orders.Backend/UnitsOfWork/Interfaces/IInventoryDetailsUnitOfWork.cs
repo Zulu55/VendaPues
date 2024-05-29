@@ -11,5 +11,13 @@ namespace Orders.Backend.UnitsOfWork.Interfaces
         Task<ActionResponse<int>> GetRecordsNumberCount1Async(PaginationDTO pagination);
 
         Task<ActionResponse<IEnumerable<InventoryDetail>>> GetCount1Async(PaginationDTO pagination);
+
+        Task<ActionResponse<int>> GetRecordsNumberCount2Async(PaginationDTO pagination);
+
+        Task<ActionResponse<IEnumerable<InventoryDetail>>> GetCount2Async(PaginationDTO pagination);
+
+        Task<ActionResponse<int>> GetRecordsNumberCount3Async(PaginationDTO pagination);
+
+        Task<ActionResponse<IEnumerable<InventoryDetail>>> GetCount3Async(PaginationDTO pagination);
     }
 }

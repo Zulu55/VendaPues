@@ -41,10 +41,54 @@ namespace Orders.Backend.Controllers
             return BadRequest();
         }
 
+        [HttpGet("recordsNumberCount2")]
+        public async Task<IActionResult> GetRecordsNumberCount2Async([FromQuery] PaginationDTO pagination)
+        {
+            var response = await _inventoryDetailsUnitOfWork.GetRecordsNumberCount2Async(pagination);
+            if (response.WasSuccess)
+            {
+                return Ok(response.Result);
+            }
+            return BadRequest();
+        }
+
+        [HttpGet("recordsNumberCount3")]
+        public async Task<IActionResult> GetRecordsNumberCount3Async([FromQuery] PaginationDTO pagination)
+        {
+            var response = await _inventoryDetailsUnitOfWork.GetRecordsNumberCount3Async(pagination);
+            if (response.WasSuccess)
+            {
+                return Ok(response.Result);
+            }
+            return BadRequest();
+        }
+
         [HttpGet("Count1")]
         public async Task<IActionResult> GetCount1Async([FromQuery] PaginationDTO pagination)
         {
             var response = await _inventoryDetailsUnitOfWork.GetCount1Async(pagination);
+            if (response.WasSuccess)
+            {
+                return Ok(response.Result);
+            }
+            return BadRequest();
+        }
+
+        [HttpGet("Count2")]
+        public async Task<IActionResult> GetCount2Async([FromQuery] PaginationDTO pagination)
+        {
+            var response = await _inventoryDetailsUnitOfWork.GetCount2Async(pagination);
+            if (response.WasSuccess)
+            {
+                return Ok(response.Result);
+            }
+            return BadRequest();
+        }
+
+        [HttpGet("Count3")]
+        public async Task<IActionResult> GetCount3Async([FromQuery] PaginationDTO pagination)
+        {
+            var response = await _inventoryDetailsUnitOfWork.GetCount3Async(pagination);
             if (response.WasSuccess)
             {
                 return Ok(response.Result);

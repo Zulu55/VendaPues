@@ -45,7 +45,7 @@ namespace Orders.Frontend.Pages.Inventories
         private async Task<bool> LoadTotalRecords()
         {
             loading = true;
-            var url = $"{baseUrl}/recordsNumberCount1?page=1&recordsnumber={int.MaxValue}&id={Id}";
+            var url = $"{baseUrl}/recordsNumberCount2?page=1&recordsnumber={int.MaxValue}&id={Id}";
             if (!string.IsNullOrWhiteSpace(Filter))
             {
                 url += $"&filter={Filter}";
@@ -72,7 +72,7 @@ namespace Orders.Frontend.Pages.Inventories
         {
             int page = state.Page + 1;
             int pageSize = state.PageSize;
-            var url = $"{baseUrl}/Count1?page={page}&recordsnumber={pageSize}&id={Id}";
+            var url = $"{baseUrl}/Count2?page={page}&recordsnumber={pageSize}&id={Id}";
             if (!string.IsNullOrWhiteSpace(Filter))
             {
                 url += $"&filter={Filter}";
@@ -131,21 +131,21 @@ namespace Orders.Frontend.Pages.Inventories
         {
             foreach (var inventoryDetail in InventoryDetails!)
             {
-                if (inventoryDetail.Count1 < 0 || inventoryDetail.Cost < 0)
+                if (inventoryDetail.Count2 < 0 || inventoryDetail.Cost < 0)
                 {
                     return new ActionResponse<bool>
                     {
                         WasSuccess = false,
-                        Message = $"El producto: {inventoryDetail.Product!.Name}, tiene costo: {inventoryDetail.Cost} y conteo: {inventoryDetail.Count1}. No son permitidos valores negativos."
+                        Message = $"El producto: {inventoryDetail.Product!.Name}, tiene costo: {inventoryDetail.Cost} y conteo: {inventoryDetail.Count2}. No son permitidos valores negativos."
                     };
                 }
 
-                if (inventoryDetail.Count1 != 0 && inventoryDetail.Cost <= 0)
+                if (inventoryDetail.Count2 != 0 && inventoryDetail.Cost <= 0)
                 {
                     return new ActionResponse<bool>
                     {
                         WasSuccess = false,
-                        Message = $"El producto: {inventoryDetail.Product!.Name}, tiene costo 0 y una cantidad ingresada el el conteo de: {inventoryDetail.Count1}, debe ingresar un costo si ingresa conteo."
+                        Message = $"El producto: {inventoryDetail.Product!.Name}, tiene costo 0 y una cantidad ingresada el el conteo de: {inventoryDetail.Count2}, debe ingresar un costo si ingresa conteo."
                     };
                 }
             }
@@ -169,7 +169,7 @@ namespace Orders.Frontend.Pages.Inventories
             var result = await SweetAlertService.FireAsync(new SweetAlertOptions
             {
                 Title = "Confirmación",
-                Text = "¿Esta seguro que quieres finalizar el conteo #1?",
+                Text = "¿Esta seguro que quieres finalizar el conteo #2?",
                 Icon = SweetAlertIcon.Question,
                 ShowCancelButton = true
             });
@@ -180,7 +180,7 @@ namespace Orders.Frontend.Pages.Inventories
                 return;
             }
 
-            var count0 = InventoryDetails!.Count(x => x.Count1 == 0);
+            var count0 = InventoryDetails!.Count(x => x.Count2 == 0);
             if (count0 / InventoryDetails!.Count > 0.5)
             {
                 result = await SweetAlertService.FireAsync(new SweetAlertOptions
