@@ -83,6 +83,9 @@ internal class Program
         builder.Services.AddScoped<IInventoriesRepository, InventoriesRepository>();
         builder.Services.AddScoped<IInventoriesUnitOfWork, InventoriesUnitOfWork>();
 
+        builder.Services.AddScoped<IInventoryDetailsRepository, InventoryDetailsRepository>();
+        builder.Services.AddScoped<IInventoryDetailsUnitOfWork, InventoryDetailsUnitOfWork>();
+
         builder.Services.AddScoped<IKardexRepository, KardexRepository>();
         builder.Services.AddScoped<IKardexUnitOfWork, KardexUnitOfWork>();
 
