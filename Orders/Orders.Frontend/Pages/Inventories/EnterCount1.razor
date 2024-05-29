@@ -37,11 +37,16 @@
                                AllItemsText="Todos" />
             </PagerContent>
         </MudTable>
+        <MudSpacer />
+        <hr/>
         <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.ArrowBack" Color="Color.Info" Href="/inventories">
             Regresar
         </MudButton>
-        <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.Check" Color="Color.Primary" OnClick="SaveCountAsync">
+        <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.Save" Color="Color.Primary" OnClick="SaveCount">
             Guardar
+        </MudButton>
+        <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.Check" Color="Color.Secondary" OnClick="FinishCountAsync">
+            Terminar Conteo
         </MudButton>
     </div>
 </MudCard>

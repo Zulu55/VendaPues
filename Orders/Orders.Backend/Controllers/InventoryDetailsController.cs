@@ -19,6 +19,17 @@ namespace Orders.Backend.Controllers
             _inventoryDetailsUnitOfWork = inventoryDetailsUnitOfWork;
         }
 
+        [HttpPut]
+        public override async Task<IActionResult> PutAsync(InventoryDetail model)
+        {
+            var response = await _inventoryDetailsUnitOfWork.UpdateAsync(model);
+            if (response.WasSuccess)
+            {
+                return Ok(response.Result);
+            }
+            return BadRequest();
+        }
+
         [HttpGet("recordsNumber")]
         public override async Task<IActionResult> GetRecordsNumber([FromQuery] PaginationDTO pagination)
         {

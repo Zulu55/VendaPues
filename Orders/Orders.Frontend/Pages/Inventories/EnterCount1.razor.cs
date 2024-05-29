@@ -11,7 +11,6 @@ namespace Orders.Frontend.Pages.Inventories
     {
         private int totalRecords = 0;
         private bool loading;
-        private MudTable<InventoryDetail> table = new();
         private const string baseUrl = "api/InventoryDetails";
         private readonly int[] pageSizeOptions = { 10, 25, 50, int.MaxValue };
 
@@ -23,6 +22,7 @@ namespace Orders.Frontend.Pages.Inventories
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
         [CascadingParameter] private IModalService Modal { get; set; } = default!;
 
+        private MudTable<InventoryDetail> table = new();
         public List<InventoryDetail>? InventoryDetails { get; set; }
 
         protected override async Task OnInitializedAsync()
@@ -77,9 +77,10 @@ namespace Orders.Frontend.Pages.Inventories
             {
                 return new TableData<InventoryDetail> { Items = [], TotalItems = 0 };
             }
+            InventoryDetails = responseHttp.Response;
             return new TableData<InventoryDetail>
             {
-                Items = responseHttp.Response,
+                Items = InventoryDetails,
                 TotalItems = totalRecords
             };
         }
@@ -91,10 +92,31 @@ namespace Orders.Frontend.Pages.Inventories
             await table.ReloadServerData();
         }
 
-        private async Task SaveCountAsync()
+        private void SaveCount()
+        {
+            foreach (var inventoryDetail in InventoryDetails!)
+            {
+                _ = SaveInventoryDetailAsync(inventoryDetail);
+            }
+            ShowToast("Ok", SweetAlertIcon.Success, "Cambios guardados con exito.");
+        }
+
+        private async Task SaveInventoryDetailAsync(InventoryDetail inventoryDetail)
+        {
+            var responseHttp = await Repository.PutAsync(baseUrl, inventoryDetail);
+            if (responseHttp.Error)
+            {
+                var message = await responseHttp.GetErrorMessageAsync();
+                await SweetAlertService.FireAsync("Error", message);
+                return;
+            }
+        }
+
+        private async Task FinishCountAsync()
         {
 
         }
+
 
         private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
         {

@@ -17,6 +17,34 @@ namespace Orders.Backend.Repositories.Implementations
             _context = context;
         }
 
+        public override async Task<ActionResponse<InventoryDetail>> UpdateAsync(InventoryDetail inventoryDetail)
+        {
+            var currentInventoryDetail = await _context.InventoryDetails.FindAsync(inventoryDetail.Id);
+            if (currentInventoryDetail == null)
+            {
+                return new ActionResponse<InventoryDetail>
+                {
+                    WasSuccess = false,
+                    Message = "Detalle de inventario no existe."
+                };
+            }
+
+            currentInventoryDetail.Cost = inventoryDetail.Cost;
+            currentInventoryDetail.Count1 = inventoryDetail.Count1;
+            currentInventoryDetail.Count2 = inventoryDetail.Count2;
+            currentInventoryDetail.Count3 = inventoryDetail.Count3;
+            currentInventoryDetail.Adjustment = inventoryDetail.Adjustment;
+
+            _context.Update(currentInventoryDetail);
+            await _context.SaveChangesAsync();
+
+            return new ActionResponse<InventoryDetail>
+            {
+                WasSuccess = true,
+                Result = currentInventoryDetail
+            };
+        }
+
         public override async Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination)
         {
             var queryable = _context.InventoryDetails.AsQueryable();
