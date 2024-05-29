@@ -85,9 +85,9 @@ namespace Orders.Frontend.Pages.Inventories
             };
         }
 
-        private async Task ShowCount1ModalAsync(int id)
+        private async Task ShowCount1ModalAsync(Inventory inventory)
         {
-            var modalReference = Modal.Show<EnterCount1>(string.Empty, new ModalParameters().Add("Id", id));
+            var modalReference = Modal.Show<EnterCount1>(string.Empty, new ModalParameters().Add("Id", inventory.Id));
             var result = await modalReference.Result;
             if (result.Confirmed)
             {
@@ -96,9 +96,14 @@ namespace Orders.Frontend.Pages.Inventories
             await table.ReloadServerData();
         }
 
-        private async Task ShowCount2ModalAsync(int id)
+        private async Task ShowCount2ModalAsync(Inventory inventory)
         {
-            var modalReference = Modal.Show<EnterCount2>(string.Empty, new ModalParameters().Add("Id", id));
+            if (!inventory.Count1Finish)
+            {
+                ShowToast("Error", SweetAlertIcon.Error, "Primero debes completar el conteo #1");
+                return;
+            }
+            var modalReference = Modal.Show<EnterCount2>(string.Empty, new ModalParameters().Add("Id", inventory.Id));
             var result = await modalReference.Result;
             if (result.Confirmed)
             {
@@ -107,9 +112,14 @@ namespace Orders.Frontend.Pages.Inventories
             await table.ReloadServerData();
         }
 
-        private async Task ShowCount3ModalAsync(int id)
+        private async Task ShowCount3ModalAsync(Inventory inventory)
         {
-            var modalReference = Modal.Show<EnterCount3>(string.Empty, new ModalParameters().Add("Id", id));
+            if (!inventory.Count2Finish ||  !inventory.Count2Finish)
+            {
+                ShowToast("Error", SweetAlertIcon.Error, "Primero debes completar el conteo #1 y #2");
+                return;
+            }
+            var modalReference = Modal.Show<EnterCount3>(string.Empty, new ModalParameters().Add("Id", inventory.Id));
             var result = await modalReference.Result;
             if (result.Confirmed)
             {

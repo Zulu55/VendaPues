@@ -47,22 +47,22 @@ else
                 <MudButton Variant="Variant.Outlined" 
                            EndIcon="@Icons.Material.Filled.LooksOne" 
                            Color="Color.Warning"
-                           OnClick="@(() => ShowCount1ModalAsync(context.Id))"
-                           Disabled="@context.Count1Disable">
+                           OnClick="@(() => ShowCount1ModalAsync(context))"
+                           Disabled="@context.Count1Finish">
                     Conteo
                 </MudButton>
                 <MudButton Variant="Variant.Outlined" 
                            EndIcon="@Icons.Material.Filled.LooksTwo" 
                            Color="Color.Info"
-                           OnClick="@(() => ShowCount2ModalAsync(context.Id))"
-                           Disabled="@context.Count2Disable">
+                           OnClick="@(() => ShowCount2ModalAsync(context))"
+                           Disabled="@context.Count2Finish">
                     Conteo
                 </MudButton>
                 <MudButton Variant="Variant.Outlined" 
                            EndIcon="@Icons.Material.Filled.Looks3" 
                            Color="Color.Secondary"
-                           OnClick="@(() => ShowCount3ModalAsync(context.Id))"
-                           Disabled="@context.Count3Disable">
+                           OnClick="@(() => ShowCount3ModalAsync(context))"
+                           Disabled="context.Count3Finish">
                     Conteo
                 </MudButton>
             </MudTd>
