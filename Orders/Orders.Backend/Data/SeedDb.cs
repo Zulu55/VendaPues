@@ -38,7 +38,7 @@ namespace Orders.Backend.Data
 
             //TODO: Remove in production evironments
             await CheckPurchaseAsync();
-            await CheckInvetoriesAsync();
+            //await CheckInvetoriesAsync();
         }
 
         private async Task CheckInvetoriesAsync()

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Orders.Frontend.Repositories;
 using Orders.Shared.Entities;
+using Orders.Shared.Responses;
 
 namespace Orders.Frontend.Pages.Inventories
 {
@@ -94,11 +95,44 @@ namespace Orders.Frontend.Pages.Inventories
 
         private void SaveCount()
         {
+            var isValid = ValidateCount();
+            if (!isValid.WasSuccess)
+            {
+                ShowToast("Error", SweetAlertIcon.Error, isValid.Message!);
+                return;
+            }
+
             foreach (var inventoryDetail in InventoryDetails!)
             {
                 _ = SaveInventoryDetailAsync(inventoryDetail);
             }
             ShowToast("Ok", SweetAlertIcon.Success, "Cambios guardados con exito.");
+        }
+
+        private ActionResponse<bool> ValidateCount()
+        {
+            foreach (var inventoryDetail in InventoryDetails!)
+            {
+                if (inventoryDetail.Count1 < 0 || inventoryDetail.Cost < 0)
+                {
+                    return new ActionResponse<bool>
+                    {
+                        WasSuccess = false,
+                        Message = $"El producto: {inventoryDetail.Product!.Name}, tiene costo: {inventoryDetail.Cost} y conteo: {inventoryDetail.Count1}. No son permitidos valores negativos."
+                    };
+                }
+
+                if (inventoryDetail.Count1 != 0 && inventoryDetail.Cost <= 0)
+                {
+                    return new ActionResponse<bool>
+                    {
+                        WasSuccess = false,
+                        Message = $"El producto: {inventoryDetail.Product!.Name}, tiene costo 0 y una cantidad ingresada el el conteo de: {inventoryDetail.Count1}, debe ingresar un costo si ingresa conteo."
+                    };
+                }
+            }
+
+            return new ActionResponse<bool> {  WasSuccess = true };
         }
 
         private async Task SaveInventoryDetailAsync(InventoryDetail inventoryDetail)
