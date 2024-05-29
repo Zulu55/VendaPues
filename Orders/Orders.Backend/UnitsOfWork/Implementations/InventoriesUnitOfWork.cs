@@ -15,7 +15,11 @@ namespace Orders.Backend.UnitsOfWork.Implementations
             _inventoriesRepository = inventoriesRepository;
         }
 
-        public async Task<ActionResponse<bool>> FinishCount1(int id) => await _inventoriesRepository.FinishCount1(id);
+        public async Task<ActionResponse<bool>> FinishCount1Async(int id) => await _inventoriesRepository.FinishCount1Async(id);
+
+        public async Task<ActionResponse<bool>> FinishCount2Async(int id) => await _inventoriesRepository.FinishCount2Async(id);
+
+        public async Task<ActionResponse<bool>> FinishCount3Async(int id) => await _inventoriesRepository.FinishCount3Async(id);
 
         public override async Task<ActionResponse<Inventory>> GetAsync(int id) => await _inventoriesRepository.GetAsync(id);
 

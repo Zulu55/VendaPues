@@ -17,7 +17,7 @@ namespace Orders.Backend.Repositories.Implementations
             _context = context;
         }
 
-        public async Task<ActionResponse<bool>> FinishCount1(int id)
+        public async Task<ActionResponse<bool>> FinishCount1Async(int id)
         {
             var inventory = await _context.Inventories.FindAsync(id);
             if (inventory == null)
@@ -30,6 +30,45 @@ namespace Orders.Backend.Repositories.Implementations
             }
 
             inventory.Count1Finish = true;
+            _context.Update(inventory);
+            await _context.SaveChangesAsync();
+            return new ActionResponse<bool> { WasSuccess = true };
+        }
+
+        public async Task<ActionResponse<bool>> FinishCount2Async(int id)
+        {
+            var inventory = await _context.Inventories.FindAsync(id);
+            if (inventory == null)
+            {
+                return new ActionResponse<bool>
+                {
+                    WasSuccess = false,
+                    Message = "Inventario no existe"
+                };
+            }
+
+            inventory.Count2Finish = true;
+            _context.Update(inventory);
+            await _context.SaveChangesAsync();
+            return new ActionResponse<bool> { WasSuccess = true };
+        }
+
+        public async Task<ActionResponse<bool>> FinishCount3Async(int id)
+        {
+            var inventory = await _context.Inventories.FindAsync(id);
+            if (inventory == null)
+            {
+                return new ActionResponse<bool>
+                {
+                    WasSuccess = false,
+                    Message = "Inventario no existe"
+                };
+            }
+
+            inventory.Count3Finish = true;
+
+            //TODO: Aca va la lógica de ajuste del inventario en el Kardex
+
             _context.Update(inventory);
             await _context.SaveChangesAsync();
             return new ActionResponse<bool> { WasSuccess = true };

@@ -20,9 +20,31 @@ namespace Orders.Backend.Controllers
         }
 
         [HttpGet("finishCount1/{id}")]
-        public async Task<IActionResult> FinishCount1(int id)
+        public async Task<IActionResult> FinishCount1Async(int id)
         {
-            var action = await _inventoriesUnitOfWork.FinishCount1(id);
+            var action = await _inventoriesUnitOfWork.FinishCount1Async(id);
+            if (action.WasSuccess)
+            {
+                return Ok(action.Result);
+            }
+            return NotFound();
+        }
+
+        [HttpGet("finishCount2/{id}")]
+        public async Task<IActionResult> FinishCount2Async(int id)
+        {
+            var action = await _inventoriesUnitOfWork.FinishCount2Async(id);
+            if (action.WasSuccess)
+            {
+                return Ok(action.Result);
+            }
+            return NotFound();
+        }
+
+        [HttpGet("finishCount3/{id}")]
+        public async Task<IActionResult> FinishCount3Async(int id)
+        {
+            var action = await _inventoriesUnitOfWork.FinishCount3Async(id);
             if (action.WasSuccess)
             {
                 return Ok(action.Result);

@@ -6,7 +6,11 @@ namespace Orders.Backend.UnitsOfWork.Interfaces
 {
     public interface IInventoriesUnitOfWork
     {
-        Task<ActionResponse<bool>> FinishCount1(int id);
+        Task<ActionResponse<bool>> FinishCount1Async(int id);
+
+        Task<ActionResponse<bool>> FinishCount2Async(int id);
+
+        Task<ActionResponse<bool>> FinishCount3Async(int id);
 
         Task<ActionResponse<Inventory>> GetAsync(int id);
 

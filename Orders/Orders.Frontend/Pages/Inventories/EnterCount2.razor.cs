@@ -198,7 +198,7 @@ namespace Orders.Frontend.Pages.Inventories
                 }
             }
 
-            var responseHttp = await Repository.GetAsync($"/api/inventories/finishCount1/{Id}");
+            var responseHttp = await Repository.GetAsync($"/api/inventories/finishCount2/{Id}");
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
@@ -206,7 +206,7 @@ namespace Orders.Frontend.Pages.Inventories
                 return;
             }
 
-            ShowToast("Ok", SweetAlertIcon.Success, "Conteo #1 cerrado, puede proceder al conteo #2.");
+            ShowToast("Ok", SweetAlertIcon.Success, "Conteo #2 cerrado, puede proceder al conteo #3.");
             NavigationManager.NavigateTo("/inventories");
         }
 

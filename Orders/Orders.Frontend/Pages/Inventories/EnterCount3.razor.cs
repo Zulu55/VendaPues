@@ -131,21 +131,21 @@ namespace Orders.Frontend.Pages.Inventories
         {
             foreach (var inventoryDetail in InventoryDetails!)
             {
-                if (inventoryDetail.Count1 < 0 || inventoryDetail.Cost < 0)
+                if (inventoryDetail.Count3 < 0 || inventoryDetail.Cost < 0)
                 {
                     return new ActionResponse<bool>
                     {
                         WasSuccess = false,
-                        Message = $"El producto: {inventoryDetail.Product!.Name}, tiene costo: {inventoryDetail.Cost} y conteo: {inventoryDetail.Count1}. No son permitidos valores negativos."
+                        Message = $"El producto: {inventoryDetail.Product!.Name}, tiene costo: {inventoryDetail.Cost} y conteo: {inventoryDetail.Count3}. No son permitidos valores negativos."
                     };
                 }
 
-                if (inventoryDetail.Count1 != 0 && inventoryDetail.Cost <= 0)
+                if (inventoryDetail.Count3 != 0 && inventoryDetail.Cost <= 0)
                 {
                     return new ActionResponse<bool>
                     {
                         WasSuccess = false,
-                        Message = $"El producto: {inventoryDetail.Product!.Name}, tiene costo 0 y una cantidad ingresada el el conteo de: {inventoryDetail.Count1}, debe ingresar un costo si ingresa conteo."
+                        Message = $"El producto: {inventoryDetail.Product!.Name}, tiene costo 0 y una cantidad ingresada el el conteo de: {inventoryDetail.Count3}, debe ingresar un costo si ingresa conteo."
                     };
                 }
             }
@@ -180,7 +180,7 @@ namespace Orders.Frontend.Pages.Inventories
                 return;
             }
 
-            var count0 = InventoryDetails!.Count(x => x.Count1 == 0);
+            var count0 = InventoryDetails!.Count(x => x.Count3 == 0);
             if (count0 / InventoryDetails!.Count > 0.5)
             {
                 result = await SweetAlertService.FireAsync(new SweetAlertOptions
@@ -198,7 +198,7 @@ namespace Orders.Frontend.Pages.Inventories
                 }
             }
 
-            var responseHttp = await Repository.GetAsync($"/api/inventories/finishCount1/{Id}");
+            var responseHttp = await Repository.GetAsync($"/api/inventories/finishCount3/{Id}");
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
@@ -206,7 +206,7 @@ namespace Orders.Frontend.Pages.Inventories
                 return;
             }
 
-            ShowToast("Ok", SweetAlertIcon.Success, "Conteo #1 cerrado, puede proceder al conteo #2.");
+            ShowToast("Ok", SweetAlertIcon.Success, "Conteo #3 cerrado. Proceso de inventario físico finalizado.");
             NavigationManager.NavigateTo("/inventories");
         }
 
