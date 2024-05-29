@@ -136,6 +136,19 @@ namespace Orders.Backend.Repositories.Implementations
                             kardex.AverageCost = previousKardex.AverageCost;
                         }
                         break;
+
+                    case KardexType.Inventory:
+                        if (previousKardex == null)
+                        {
+                            kardex.Balance += kardex.Quantity;
+                            kardex.AverageCost = kardex.Cost;
+                        }
+                        else
+                        {
+                            kardex.Balance = previousKardex.Balance + kardex.Quantity;
+                            kardex.AverageCost = kardex.Cost;
+                        }
+                        break;
                 }
                 previousKardex = kardex;
             }

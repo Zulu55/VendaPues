@@ -92,7 +92,7 @@ namespace Orders.Backend.Repositories.Implementations
         public async Task<ActionResponse<int>> GetRecordsNumberCount3Async(PaginationDTO pagination)
         {
             var queryable = _context.InventoryDetails
-                .Where(x => x.Count1 != x.Count2)
+                .Where(x => x.Stock != x.Count1 && x.Stock != x.Count2 && x.Count1 != x.Count2)
                 .AsQueryable();
             if (pagination.Id != 0)
             {
@@ -165,7 +165,7 @@ namespace Orders.Backend.Repositories.Implementations
         public async Task<ActionResponse<IEnumerable<InventoryDetail>>> GetCount3Async(PaginationDTO pagination)
         {
             var queryable = _context.InventoryDetails
-                .Where(x => x.Count1 != x.Count2)
+                .Where(x => x.Stock != x.Count1 && x.Stock != x.Count2 && x.Count1 != x.Count2)
                 .AsQueryable();
             if (pagination.Id != 0)
             {

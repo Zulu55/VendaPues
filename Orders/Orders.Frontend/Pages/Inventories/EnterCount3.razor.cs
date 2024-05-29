@@ -169,7 +169,7 @@ namespace Orders.Frontend.Pages.Inventories
             var result = await SweetAlertService.FireAsync(new SweetAlertOptions
             {
                 Title = "Confirmación",
-                Text = "¿Esta seguro que quieres finalizar el conteo #1?",
+                Text = "¿Esta seguro que quieres finalizar el conteo #3?",
                 Icon = SweetAlertIcon.Question,
                 ShowCancelButton = true
             });
@@ -186,7 +186,7 @@ namespace Orders.Frontend.Pages.Inventories
                 result = await SweetAlertService.FireAsync(new SweetAlertOptions
                 {
                     Title = "Confirmación",
-                    Text = "Hay una gran cantidad de productos con conteo en cero, ¿Estas seguro de cerrar este primer conteo?",
+                    Text = "Hay una gran cantidad de productos con conteo en cero, ¿Estas seguro de cerrar este tercer conteo?",
                     Icon = SweetAlertIcon.Question,
                     ShowCancelButton = true
                 });

@@ -11,6 +11,9 @@ namespace Orders.Shared.Enums
         Order,
 
         [Description("Cancelación Pedido")]
-        CancelOrder
+        CancelOrder,
+
+        [Description("Inventory")]
+        Inventory
     }
 }

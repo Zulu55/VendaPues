@@ -2,8 +2,10 @@
 using Orders.Backend.Data;
 using Orders.Backend.Helpers;
 using Orders.Backend.Repositories.Interfaces;
+using Orders.Backend.UnitsOfWork.Interfaces;
 using Orders.Shared.DTOs;
 using Orders.Shared.Entities;
+using Orders.Shared.Enums;
 using Orders.Shared.Responses;
 
 namespace Orders.Backend.Repositories.Implementations
@@ -11,10 +13,12 @@ namespace Orders.Backend.Repositories.Implementations
     public class InventoriesRepository : GenericRepository<Inventory>, IInventoriesRepository
     {
         private readonly DataContext _context;
+        private readonly IKardexUnitOfWork _kardexUnitOfWork;
 
-        public InventoriesRepository(DataContext context) : base(context)
+        public InventoriesRepository(DataContext context, IKardexUnitOfWork kardexUnitOfWork) : base(context)
         {
             _context = context;
+            _kardexUnitOfWork = kardexUnitOfWork;
         }
 
         public async Task<ActionResponse<bool>> FinishCount1Async(int id)
@@ -55,7 +59,9 @@ namespace Orders.Backend.Repositories.Implementations
 
         public async Task<ActionResponse<bool>> FinishCount3Async(int id)
         {
-            var inventory = await _context.Inventories.FindAsync(id);
+            var inventory = await _context.Inventories
+                .Include(x => x.InventoryDetails)
+                .FirstOrDefaultAsync(x => x.Id == id);
             if (inventory == null)
             {
                 return new ActionResponse<bool>
@@ -65,11 +71,47 @@ namespace Orders.Backend.Repositories.Implementations
                 };
             }
 
+            foreach (var inventoryDetail in inventory.InventoryDetails!)
+            {
+                if (!(inventoryDetail.Stock == inventoryDetail.Count1 || inventoryDetail.Stock == inventoryDetail.Count2))
+                {
+                    if (inventoryDetail.Count1 == inventoryDetail.Count2)
+                    {
+                        if (inventoryDetail.Stock > inventoryDetail.Count1)
+                        {
+                            inventoryDetail.Adjustment = inventoryDetail.Stock - inventoryDetail.Count1;
+                        }
+                        else
+                        {
+                            inventoryDetail.Adjustment = inventoryDetail.Count1 - inventoryDetail.Stock;
+                        }
+                    }
+                    else
+                    {
+                        if (inventoryDetail.Stock > inventoryDetail.Count3)
+                        {
+                            inventoryDetail.Adjustment = inventoryDetail.Stock - inventoryDetail.Count3;
+                        }
+                        else
+                        {
+                            inventoryDetail.Adjustment = inventoryDetail.Count3 - inventoryDetail.Stock;
+                        }
+                    }
+
+                    var kardexDTO = new KardexDTO
+                    {
+                        Date = inventory.Date,
+                        ProductId = inventoryDetail.ProductId,
+                        KardexType = KardexType.Inventory,
+                        Cost = inventoryDetail.Cost,
+                        Quantity = inventoryDetail.Adjustment
+                    };
+
+                    await _kardexUnitOfWork.AddAsync(kardexDTO);
+                }
+            }
+
             inventory.Count3Finish = true;
-
-            //TODO: Aca va la lógica de ajuste del inventario en el Kardex
-
-            _context.Update(inventory);
             await _context.SaveChangesAsync();
             return new ActionResponse<bool> { WasSuccess = true };
         }
