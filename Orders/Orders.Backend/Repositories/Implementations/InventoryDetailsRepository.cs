@@ -45,7 +45,7 @@ namespace Orders.Backend.Repositories.Implementations
             };
         }
 
-        public override async Task<ActionResponse<int>> GetRecordsNumberAsync(PaginationDTO pagination)
+        public async Task<ActionResponse<int>> GetRecordsNumberCount1Async(PaginationDTO pagination)
         {
             var queryable = _context.InventoryDetails.AsQueryable();
             if (pagination.Id != 0)
@@ -66,7 +66,7 @@ namespace Orders.Backend.Repositories.Implementations
             };
         }
 
-        public override async Task<ActionResponse<IEnumerable<InventoryDetail>>> GetAsync(PaginationDTO pagination)
+        public async Task<ActionResponse<IEnumerable<InventoryDetail>>> GetCount1Async(PaginationDTO pagination)
         {
             var queryable = _context.InventoryDetails.AsQueryable();
             if (pagination.Id != 0)

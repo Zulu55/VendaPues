@@ -30,10 +30,10 @@ namespace Orders.Backend.Controllers
             return BadRequest();
         }
 
-        [HttpGet("recordsNumber")]
-        public override async Task<IActionResult> GetRecordsNumber([FromQuery] PaginationDTO pagination)
+        [HttpGet("recordsNumberCount1")]
+        public async Task<IActionResult> GetRecordsNumberCount1Async([FromQuery] PaginationDTO pagination)
         {
-            var response = await _inventoryDetailsUnitOfWork.GetRecordsNumberAsync(pagination);
+            var response = await _inventoryDetailsUnitOfWork.GetRecordsNumberCount1Async(pagination);
             if (response.WasSuccess)
             {
                 return Ok(response.Result);
@@ -41,10 +41,10 @@ namespace Orders.Backend.Controllers
             return BadRequest();
         }
 
-        [HttpGet]
-        public override async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
+        [HttpGet("Count1")]
+        public async Task<IActionResult> GetCount1Async([FromQuery] PaginationDTO pagination)
         {
-            var response = await _inventoryDetailsUnitOfWork.GetAsync(pagination);
+            var response = await _inventoryDetailsUnitOfWork.GetCount1Async(pagination);
             if (response.WasSuccess)
             {
                 return Ok(response.Result);

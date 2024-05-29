@@ -8,8 +8,8 @@ namespace Orders.Backend.UnitsOfWork.Interfaces
     {
         Task<ActionResponse<InventoryDetail>> UpdateAsync(InventoryDetail inventoryDetail);
 
-        Task<ActionResponse<int>> GetRecordsNumberAsync(PaginationDTO pagination);
+        Task<ActionResponse<int>> GetRecordsNumberCount1Async(PaginationDTO pagination);
 
-        Task<ActionResponse<IEnumerable<InventoryDetail>>> GetAsync(PaginationDTO pagination);
+        Task<ActionResponse<IEnumerable<InventoryDetail>>> GetCount1Async(PaginationDTO pagination);
     }
 }

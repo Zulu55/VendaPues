@@ -45,7 +45,7 @@ namespace Orders.Frontend.Pages.Inventories
         private async Task<bool> LoadTotalRecords()
         {
             loading = true;
-            var url = $"{baseUrl}/recordsnumber?page=1&recordsnumber={int.MaxValue}&id={Id}";
+            var url = $"{baseUrl}/recordsNumberCount1?page=1&recordsnumber={int.MaxValue}&id={Id}";
             if (!string.IsNullOrWhiteSpace(Filter))
             {
                 url += $"&filter={Filter}";
@@ -72,7 +72,7 @@ namespace Orders.Frontend.Pages.Inventories
         {
             int page = state.Page + 1;
             int pageSize = state.PageSize;
-            var url = $"{baseUrl}?page={page}&recordsnumber={pageSize}&id={Id}";
+            var url = $"{baseUrl}/Count1?page={page}&recordsnumber={pageSize}&id={Id}";
             if (!string.IsNullOrWhiteSpace(Filter))
             {
                 url += $"&filter={Filter}";
