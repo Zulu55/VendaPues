@@ -79,22 +79,22 @@ namespace Orders.Backend.Repositories.Implementations
                     {
                         if (inventoryDetail.Stock > inventoryDetail.Count1)
                         {
-                            inventoryDetail.Adjustment = inventoryDetail.Stock - inventoryDetail.Count1;
+                            inventoryDetail.Adjustment = inventoryDetail.Count1 - inventoryDetail.Stock;
                         }
                         else
                         {
-                            inventoryDetail.Adjustment = inventoryDetail.Count1 - inventoryDetail.Stock;
+                            inventoryDetail.Adjustment = inventoryDetail.Stock - inventoryDetail.Count1;
                         }
                     }
                     else
                     {
                         if (inventoryDetail.Stock > inventoryDetail.Count3)
                         {
-                            inventoryDetail.Adjustment = inventoryDetail.Stock - inventoryDetail.Count3;
+                            inventoryDetail.Adjustment = inventoryDetail.Count3 - inventoryDetail.Stock;
                         }
                         else
                         {
-                            inventoryDetail.Adjustment = inventoryDetail.Count3 - inventoryDetail.Stock;
+                            inventoryDetail.Adjustment = inventoryDetail.Stock - inventoryDetail.Count3;
                         }
                     }
 
