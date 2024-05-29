@@ -31,5 +31,12 @@ namespace Orders.Shared.Entities
         public bool Count3Finish { get; set; }
 
         public ICollection<InventoryDetail>? InventoryDetails { get; set; }
+
+        public bool Count1Disable => !(!Count1Finish && !Count2Finish && !Count3Finish);
+
+        public bool Count2Disable => !(Count1Finish && !Count2Finish && !Count3Finish);
+
+        public bool Count3Disable => !(!Count1Finish && !Count2Finish && Count3Finish);
+
     }
 }

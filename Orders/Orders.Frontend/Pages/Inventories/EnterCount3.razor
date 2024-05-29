@@ -1,9 +1,9 @@
-﻿@page "/inventories/count1/{Id:int}"
+﻿@page "/inventories/count3/{Id:int}"
 
 <MudCard>
     <div class="p-2">
         <MudItem Class="mb-2">
-            <MudText Typo="Typo.h4">Ingresar conteo <i class="bi bi-1-square-fill"></i></MudText>
+            <MudText Typo="Typo.h4">Ingresar conteo <i class="bi bi-3-square-fill"></i></MudText>
         </MudItem>
         <MudTable Items="@InventoryDetails"
                   @ref="table"
@@ -45,7 +45,7 @@
             </PagerContent>
         </MudTable>
         <MudSpacer />
-        <hr/>
+        <hr />
         <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.ArrowBack" Color="Color.Info" Href="/inventories">
             Regresar
         </MudButton>

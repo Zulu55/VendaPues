@@ -4,7 +4,6 @@ using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Orders.Frontend.Pages.Categories;
 using Orders.Frontend.Repositories;
 using Orders.Shared.Entities;
 
@@ -86,19 +85,42 @@ namespace Orders.Frontend.Pages.Inventories
             };
         }
 
-        private async Task ShowModalAsync(int id = 0, bool isEdit = false)
+        private async Task ShowCount1ModalAsync(int id)
         {
-            IModalReference modalReference;
-
-            if (isEdit)
+            var modalReference = Modal.Show<EnterCount1>(string.Empty, new ModalParameters().Add("Id", id));
+            var result = await modalReference.Result;
+            if (result.Confirmed)
             {
-                modalReference = Modal.Show<EnterCount1>(string.Empty, new ModalParameters().Add("Id", id));
+                await LoadAsync();
             }
-            else
-            {
-                modalReference = Modal.Show<InventoryCreate>();
-            }
+            await table.ReloadServerData();
+        }
 
+        private async Task ShowCount2ModalAsync(int id)
+        {
+            var modalReference = Modal.Show<EnterCount2>(string.Empty, new ModalParameters().Add("Id", id));
+            var result = await modalReference.Result;
+            if (result.Confirmed)
+            {
+                await LoadAsync();
+            }
+            await table.ReloadServerData();
+        }
+
+        private async Task ShowCount3ModalAsync(int id)
+        {
+            var modalReference = Modal.Show<EnterCount3>(string.Empty, new ModalParameters().Add("Id", id));
+            var result = await modalReference.Result;
+            if (result.Confirmed)
+            {
+                await LoadAsync();
+            }
+            await table.ReloadServerData();
+        }
+
+        private async Task ShowCreateModalAsync()
+        {
+            var modalReference = Modal.Show<InventoryCreate>();
             var result = await modalReference.Result;
             if (result.Confirmed)
             {
