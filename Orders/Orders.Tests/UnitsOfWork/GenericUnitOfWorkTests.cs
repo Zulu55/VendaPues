@@ -52,7 +52,7 @@ namespace Orders.Tests.UnitsOfWork
         [TestMethod]
         public async Task GetAsync_Pagination_Success()
         {
-            _mockRepository.Setup(x => x.GetAsync(It.IsAny<PaginationDTO>()))
+            _mockRepository.Setup(x => x.GetCount1Async(It.IsAny<PaginationDTO>()))
                 .ReturnsAsync(new ActionResponse<IEnumerable<object>> { Result = new List<object> { _testModel } });
 
             var result = await _unitOfWork.GetAsync(_paginationDTO);

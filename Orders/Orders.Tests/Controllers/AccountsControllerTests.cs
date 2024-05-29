@@ -86,7 +86,7 @@ namespace Orders.Tests.Controllers
             // Arrange
             var pagination = new PaginationDTO();
             var response = new ActionResponse<IEnumerable<User>> { WasSuccess = true };
-            _mockUsersRepository.Setup(x => x.GetAsync(pagination))
+            _mockUsersRepository.Setup(x => x.GetCount1Async(pagination))
                 .ReturnsAsync(response);
 
             // Act
@@ -94,7 +94,7 @@ namespace Orders.Tests.Controllers
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
-            _mockUsersRepository.Verify(x => x.GetAsync(pagination), Times.Once());
+            _mockUsersRepository.Verify(x => x.GetCount1Async(pagination), Times.Once());
         }
 
         [TestMethod]
@@ -103,7 +103,7 @@ namespace Orders.Tests.Controllers
             // Arrange
             var pagination = new PaginationDTO();
             var response = new ActionResponse<IEnumerable<User>> { WasSuccess = false };
-            _mockUsersRepository.Setup(x => x.GetAsync(pagination))
+            _mockUsersRepository.Setup(x => x.GetCount1Async(pagination))
                 .ReturnsAsync(response);
 
             // Act
@@ -111,7 +111,7 @@ namespace Orders.Tests.Controllers
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestResult));
-            _mockUsersRepository.Verify(x => x.GetAsync(pagination), Times.Once());
+            _mockUsersRepository.Verify(x => x.GetCount1Async(pagination), Times.Once());
         }
 
         [TestMethod]

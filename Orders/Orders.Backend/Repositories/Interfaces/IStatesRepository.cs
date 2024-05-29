@@ -6,7 +6,7 @@ namespace Orders.Backend.Repositories.Interfaces
 {
     public interface IStatesRepository
     {
-        Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination);
+        Task<ActionResponse<int>> GetRecordsNumberAsync(PaginationDTO pagination);
 
         Task<ActionResponse<State>> GetAsync(int id);
 

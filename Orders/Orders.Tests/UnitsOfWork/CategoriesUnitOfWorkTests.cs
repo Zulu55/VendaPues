@@ -28,14 +28,14 @@ namespace Orders.Tests.UnitsOfWork
             // Arrange
             var pagination = new PaginationDTO();
             var expectedActionResponse = new ActionResponse<IEnumerable<Category>> { Result = new List<Category>() };
-            _mockCategoriesRepository.Setup(x => x.GetAsync(pagination)).ReturnsAsync(expectedActionResponse);
+            _mockCategoriesRepository.Setup(x => x.GetCount1Async(pagination)).ReturnsAsync(expectedActionResponse);
 
             // Act
             var result = await _unitOfWork.GetAsync(pagination);
 
             // Assert
             Assert.AreEqual(expectedActionResponse, result);
-            _mockCategoriesRepository.Verify(x => x.GetAsync(pagination), Times.Once);
+            _mockCategoriesRepository.Verify(x => x.GetCount1Async(pagination), Times.Once);
         }
 
         [TestMethod]

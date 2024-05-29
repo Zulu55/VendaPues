@@ -14,7 +14,7 @@ namespace Orders.Backend.UnitsOfWork.Implementations
             _repository = repository;
         }
 
-        public virtual async Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination) => await _repository.GetRecordsNumber(pagination);
+        public virtual async Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination) => await _repository.GetRecordsNumberAsync(pagination);
 
         public virtual async Task<ActionResponse<IEnumerable<T>>> GetAsync(PaginationDTO pagination) => await _repository.GetAsync(pagination);
 

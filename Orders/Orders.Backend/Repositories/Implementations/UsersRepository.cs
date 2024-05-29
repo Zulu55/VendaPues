@@ -24,7 +24,7 @@ namespace Orders.Backend.Repositories.Implementations
             _signInManager = signInManager;
         }
 
-        public override async Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination)
+        public override async Task<ActionResponse<int>> GetRecordsNumberAsync(PaginationDTO pagination)
         {
             var queryable = _context.Users.AsQueryable();
 

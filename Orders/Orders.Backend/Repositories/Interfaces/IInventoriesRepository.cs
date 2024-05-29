@@ -12,7 +12,7 @@ namespace Orders.Backend.Repositories.Interfaces
         
         Task<ActionResponse<Inventory>> AddAsync(Inventory inventory);
 
-        Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination);
+        Task<ActionResponse<int>> GetRecordsNumberAsync(PaginationDTO pagination);
 
         Task<ActionResponse<IEnumerable<Inventory>>> GetAsync(PaginationDTO pagination);
     }

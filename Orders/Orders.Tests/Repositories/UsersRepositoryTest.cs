@@ -120,7 +120,7 @@ public class UsersRepositoryTests
         var pagination = new PaginationDTO { Page = 1, RecordsNumber = 10, Filter = "J" };
 
         // Act
-        var result = await _usersRepository.GetAsync(pagination);
+        var result = await _usersRepository.GetCount1Async(pagination);
 
         // Assert
         Assert.IsTrue(result.WasSuccess);

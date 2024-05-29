@@ -54,7 +54,7 @@ namespace Orders.Tests.Repositories
             };
 
             // Act
-            var result = await _repository.GetAsync(pagination);
+            var result = await _repository.GetCount1Async(pagination);
 
             // Assert
             Assert.IsTrue(result.WasSuccess);

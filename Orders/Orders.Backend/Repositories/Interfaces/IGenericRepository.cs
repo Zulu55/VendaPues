@@ -5,7 +5,7 @@ namespace Orders.Backend.Repositories.Interfaces
 {
     public interface IGenericRepository<T> where T : class
     {
-        Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination);
+        Task<ActionResponse<int>> GetRecordsNumberAsync(PaginationDTO pagination);
 
         Task<ActionResponse<T>> GetAsync(int id);
 

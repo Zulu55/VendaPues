@@ -18,7 +18,7 @@ namespace Orders.Backend.UnitsOfWork.Implementations
 
         public async Task<IEnumerable<Product>> GetComboAsync() => await _productsRepository.GetComboAsync();
 
-        public override async Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination) => await _productsRepository.GetRecordsNumber(pagination);
+        public override async Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination) => await _productsRepository.GetRecordsNumberAsync(pagination);
 
         public override async Task<ActionResponse<Product>> DeleteAsync(int id) => await _productsRepository.DeleteAsync(id);
 

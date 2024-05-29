@@ -28,7 +28,7 @@ namespace Orders.Tests.UnitsOfWork
             // Arrange
             var pagination = new PaginationDTO();
             var expectedActionResponse = new ActionResponse<IEnumerable<Product>> { WasSuccess = true };
-            _productsRepositoryMock.Setup(x => x.GetAsync(pagination))
+            _productsRepositoryMock.Setup(x => x.GetCount1Async(pagination))
                 .ReturnsAsync(expectedActionResponse);
 
             // Act
@@ -36,7 +36,7 @@ namespace Orders.Tests.UnitsOfWork
 
             // Assert
             Assert.AreEqual(expectedActionResponse, result);
-            _productsRepositoryMock.Verify(x => x.GetAsync(pagination), Times.Once);
+            _productsRepositoryMock.Verify(x => x.GetCount1Async(pagination), Times.Once);
         }
 
         [TestMethod]

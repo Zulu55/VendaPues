@@ -16,7 +16,7 @@ namespace Orders.Backend.UnitsOfWork.Implementations
             _usersRepository = usersRepository;
         }
 
-        public override async Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination) => await _usersRepository.GetRecordsNumber(pagination);
+        public override async Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination) => await _usersRepository.GetRecordsNumberAsync(pagination);
 
         public override async Task<ActionResponse<IEnumerable<User>>> GetAsync(PaginationDTO pagination) => await _usersRepository.GetAsync(pagination);
 

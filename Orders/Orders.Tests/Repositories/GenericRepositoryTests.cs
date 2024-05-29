@@ -182,7 +182,7 @@ namespace Orders.Tests.Repositories
 
             // Act
             var paginationDTO = new PaginationDTO { RecordsNumber = 2 };
-            var response = await _repository.GetAsync(paginationDTO);
+            var response = await _repository.GetCount1Async(paginationDTO);
 
             // Assert
             Assert.IsTrue(response.WasSuccess);

@@ -8,7 +8,7 @@ namespace Orders.Backend.Repositories.Interfaces
     {
         Task<ActionResponse<InventoryDetail>> UpdateAsync(InventoryDetail inventoryDetail);
 
-        Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination);
+        Task<ActionResponse<int>> GetRecordsNumberAsync(PaginationDTO pagination);
 
         Task<ActionResponse<IEnumerable<InventoryDetail>>> GetAsync(PaginationDTO pagination);
     }

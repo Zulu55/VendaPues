@@ -18,7 +18,7 @@ namespace Orders.Backend.Repositories.Implementations
             this._context = context;
         }
 
-        public override async Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination)
+        public override async Task<ActionResponse<int>> GetRecordsNumberAsync(PaginationDTO pagination)
         {
             var queryable = _context.Kardex.AsQueryable();
 

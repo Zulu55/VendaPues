@@ -17,7 +17,7 @@ namespace Orders.Backend.Repositories.Implementations
             _context = context;
         }
 
-        public override async Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination)
+        public override async Task<ActionResponse<int>> GetRecordsNumberAsync(PaginationDTO pagination)
         {
             var queryable = _context.States.AsQueryable();
             if (pagination.Id != 0)

@@ -8,7 +8,7 @@ namespace Orders.Backend.Repositories.Interfaces
     {
         Task<IEnumerable<Product>> GetComboAsync();
 
-        Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination);
+        Task<ActionResponse<int>> GetRecordsNumberAsync(PaginationDTO pagination);
 
         Task<ActionResponse<Product>> DeleteAsync(int id);
         

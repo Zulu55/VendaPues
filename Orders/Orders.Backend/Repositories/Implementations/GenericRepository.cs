@@ -18,7 +18,7 @@ namespace Orders.Backend.Repositories.Implementations
             _entity = _context.Set<T>();
         }
 
-        public virtual async Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination)
+        public virtual async Task<ActionResponse<int>> GetRecordsNumberAsync(PaginationDTO pagination)
         {
             var queryable = _entity.AsQueryable();
             int recordsNumber = await queryable.CountAsync();

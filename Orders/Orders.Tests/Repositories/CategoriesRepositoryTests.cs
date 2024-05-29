@@ -46,7 +46,7 @@ namespace Orders.Tests.Repositories
             var pagination = new PaginationDTO { Filter = "Book", RecordsNumber = 10, Page = 1 };
 
             // Act
-            var response = await _repository.GetAsync(pagination);
+            var response = await _repository.GetCount1Async(pagination);
 
             // Assert
             Assert.IsTrue(response.WasSuccess);
@@ -62,7 +62,7 @@ namespace Orders.Tests.Repositories
             var pagination = new PaginationDTO { RecordsNumber = 10, Page = 1 };
 
             // Act
-            var response = await _repository.GetAsync(pagination);
+            var response = await _repository.GetCount1Async(pagination);
 
             // Assert
             Assert.IsTrue(response.WasSuccess);

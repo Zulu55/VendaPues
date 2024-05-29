@@ -6,7 +6,7 @@ namespace Orders.Backend.Repositories.Interfaces
 {
     public interface IOrdersRepository
     {
-        Task<ActionResponse<int>> GetRecordsNumber(PaginationDTO pagination);
+        Task<ActionResponse<int>> GetRecordsNumberAsync(PaginationDTO pagination);
 
         Task<ActionResponse<IEnumerable<Order>>> GetAsync(string email, PaginationDTO pagination);
 
