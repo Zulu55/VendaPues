@@ -16,6 +16,9 @@
             <MudNavLink Href="/products" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Inventory2">Productos</MudNavLink>
             <MudNavLink Href="/suppliers" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.LocalShipping">Proveedores</MudNavLink>
             <MudNavLink Href="/users" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Group">Usuarios</MudNavLink>
+            <MudNavGroup Title="Reportes" Icon="@Icons.Material.Filled.Summarize">
+                <MudNavLink Href="/report_InventoryValuation" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.AttachMoney">Valorización del inventario</MudNavLink>
+            </MudNavGroup>
         </Authorized>
     </AuthorizeView>
     <AuthorizeView Roles="User">

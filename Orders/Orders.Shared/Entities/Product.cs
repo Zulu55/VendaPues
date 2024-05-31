@@ -33,6 +33,14 @@ namespace Orders.Shared.Entities
         [Display(Name = "Utilidad")]
         public decimal Profit => Price - Cost;
 
+        [DisplayFormat(DataFormatString = "{0:C2}")]
+        [Display(Name = "Valor a costo")]
+        public decimal CostValue => Cost * (decimal)Stock;
+
+        [DisplayFormat(DataFormatString = "{0:C2}")]
+        [Display(Name = "Valor a precio")]
+        public decimal PriceValue => Price * (decimal)Stock;
+
         [DisplayFormat(DataFormatString = "{0:P2}")]
         [Display(Name = "% Utilidad Real")]
         public float RealProfit => Cost == 0 ? 0 : (float)(Profit / Cost);
