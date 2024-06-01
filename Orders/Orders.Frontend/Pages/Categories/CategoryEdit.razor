@@ -1,12 +1,17 @@
 ﻿@page "/categories/edit/{Id:int}"
 
-<h3>Editar Categoría</h3>
-
 @if(category is null)
 {
     <Loading/>
 }
 else
 {
-    <FormWithName @ref="categoryForm" Label="Categoría: " Model="category" OnValidSubmit="EditAsync" ReturnAction="Return" />
+    <MudCard>
+        <div class="p-3">
+            <MudItem>
+                <MudText Typo="Typo.h5">Editar Banco</MudText>
+            </MudItem>
+            <FormWithName @ref="categoryForm" Label="Categoría: " Model="category" OnValidSubmit="EditAsync" ReturnAction="Return" />
+        </div>
+    </MudCard>
 }

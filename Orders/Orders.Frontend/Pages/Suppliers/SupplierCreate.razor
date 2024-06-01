@@ -1,3 +1,10 @@
 ﻿@page "/supplier/create"
 
-<SupplierForm @ref="supplierForm"  Supplier="supplier" OnValidSubmit="CreateAsync" ReturnAction="Return" />
+<MudCard>
+    <div class="p-3">
+        <MudItem>
+            <MudText Typo="Typo.h5">Crear Proveedor</MudText>
+        </MudItem>
+        <SupplierForm @ref="supplierForm" Supplier="supplier" OnValidSubmit="CreateAsync" ReturnAction="Return" />
+    </div>
+</MudCard>

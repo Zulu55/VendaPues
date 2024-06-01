@@ -1,9 +1,10 @@
 ﻿@page "/cities/create/{StateId:int}"
 
-<h3>Nueva Ciudad</h3>
-
-<FormWithName @ref="cityForm" 
-              Label="Ciudad:" 
-              Model="city" 
-              OnValidSubmit="CreateAsync" 
-              ReturnAction="Return" />
+<MudCard>
+    <div class="p-3">
+        <MudItem>
+            <MudText Typo="Typo.h5">Crear Ciudad</MudText>
+        </MudItem>
+        <FormWithName @ref="cityForm" Label="Ciudad:" Model="city" OnValidSubmit="CreateAsync" ReturnAction="Return" />
+    </div>
+</MudCard>

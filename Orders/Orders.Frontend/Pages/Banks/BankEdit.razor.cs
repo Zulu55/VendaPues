@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using Blazored.Modal;
 using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
@@ -8,13 +8,13 @@ using Orders.Frontend.Repositories;
 using Orders.Frontend.Shared;
 using Orders.Shared.Entities;
 
-namespace Orders.Frontend.Pages.Categories
+namespace Orders.Frontend.Pages.Banks
 {
     [Authorize(Roles = "Admin")]
-    public partial class CategoryEdit
+    public partial class BankEdit
     {
-        private Category? category;
-        private FormWithName<Category>? categoryForm;
+        private Bank? bank;
+        private FormWithName<Bank>? bankForm;
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
@@ -25,12 +25,12 @@ namespace Orders.Frontend.Pages.Categories
 
         protected override async Task OnParametersSetAsync()
         {
-            var responseHttp = await Repository.GetAsync<Category>($"/api/categories/{Id}");
+            var responseHttp = await Repository.GetAsync<Bank>($"/api/banks/{Id}");
             if (responseHttp.Error)
             {
                 if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
                 {
-                    NavigationManager.NavigateTo("/categories");
+                    NavigationManager.NavigateTo("/banks");
                 }
                 else
                 {
@@ -40,13 +40,13 @@ namespace Orders.Frontend.Pages.Categories
             }
             else
             {
-                category = responseHttp.Response;
+                bank = responseHttp.Response;
             }
         }
 
         private async Task EditAsync()
         {
-            var responseHttp = await Repository.PutAsync("/api/categories", category);
+            var responseHttp = await Repository.PutAsync("/api/banks", bank);
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
@@ -56,13 +56,13 @@ namespace Orders.Frontend.Pages.Categories
 
             await BlazoredModal.CloseAsync(ModalResult.Ok());
             Return();
-            ShowToast("Ok", SweetAlertIcon.Success, "Cambios guardados con éxito.");
+            ShowToast("Ok", SweetAlertIcon.Success, "Cambios guardados con �xito.");
         }
 
         private void Return()
         {
-            categoryForm!.FormPostedSuccessfully = true;
-            NavigationManager.NavigateTo("/categories");
+            bankForm!.FormPostedSuccessfully = true;
+            NavigationManager.NavigateTo("/banks");
         }
 
         private void ShowToast(string title, SweetAlertIcon iconMessage, string message)

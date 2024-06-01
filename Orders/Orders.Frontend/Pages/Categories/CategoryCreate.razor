@@ -1,5 +1,10 @@
 ﻿@page "/categories/create"
 
-<h3>Crear Categoría</h3>
-
-<FormWithName @ref="categoryForm" Label="Categoría: " Model="category" OnValidSubmit="CreateAsync" ReturnAction="Return" />
+<MudCard>
+    <div class="p-3">
+        <MudItem>
+            <MudText Typo="Typo.h5">Crear Categoría</MudText>
+        </MudItem>
+        <FormWithName @ref="categoryForm" Label="Categoría: " Model="category" OnValidSubmit="CreateAsync" ReturnAction="Return" />
+    </div>
+</MudCard>

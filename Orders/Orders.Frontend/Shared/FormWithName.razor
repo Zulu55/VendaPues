@@ -5,9 +5,9 @@
 <EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
     <DataAnnotationsValidator />
     <MudTextField Label="@Label"
-                  @bind-Value="@Model.Name"
-                  For="@(() => Model.Name)"
-                  Class="mb-4" />
+                    @bind-Value="@Model.Name"
+                    For="@(() => Model.Name)"
+                    Class="mb-4" />
     <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.ArrowBack" Color="Color.Info" OnClick="ReturnAction">
         Regresar
     </MudButton>

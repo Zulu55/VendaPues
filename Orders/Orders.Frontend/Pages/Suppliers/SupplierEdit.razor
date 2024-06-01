@@ -6,5 +6,12 @@
 }
 else
 {
-    <SupplierForm @ref="supplierForm" Supplier="supplier" OnValidSubmit="EditAsync" ReturnAction="Return" IsEdit />
+    <MudCard>
+        <div class="p-3">
+            <MudItem>
+                <MudText Typo="Typo.h5">Editar Proveedor</MudText>
+            </MudItem>
+            <SupplierForm @ref="supplierForm" Supplier="supplier" OnValidSubmit="EditAsync" ReturnAction="Return" IsEdit />
+        </div>
+    </MudCard>
 }
