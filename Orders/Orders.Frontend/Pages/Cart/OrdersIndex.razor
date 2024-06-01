@@ -25,16 +25,18 @@ else
             <MudTh>Usuario</MudTh>
             <MudTh>Comentario</MudTh>
             <MudTh>Estado</MudTh>
+            <MudTh>Pago</MudTh>
             <MudTh>Líneas</MudTh>
             <MudTh>Cantidad</MudTh>
             <MudTh>Valor</MudTh>
             <MudTh style="width: 150px;">Acciones</MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd DataLabel="Fecha">@($"{context.Date:yyyy/MM/dd hh:mm tt}")</MudTd>
+            <MudTd DataLabel="Fecha">@($"{context.Date.ToLocalTime():yyyy/MM/dd hh:mm tt}")</MudTd>
             <MudTd DataLabel="Usuario">@context.User!.FullName</MudTd>
             <MudTd DataLabel="Comentario">@context.Remarks</MudTd>
             <MudTd DataLabel="Estado">@EnumHelper.GetEnumDescription(context.OrderStatus)</MudTd>
+            <MudTd DataLabel="Pago">@EnumHelper.GetEnumDescription(context.OrderType)</MudTd>
             <MudTd DataLabel="Líneas">@($"{context.Lines:N0}")</MudTd>
             <MudTd DataLabel="Cantidad">@($"{context.Quantity:N2}")</MudTd>
             <MudTd DataLabel="Valor">@($"{context.Value:C2}")</MudTd>

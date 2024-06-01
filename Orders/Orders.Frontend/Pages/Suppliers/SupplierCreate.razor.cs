@@ -46,7 +46,7 @@ namespace Orders.Frontend.Pages.Suppliers
             {
                 Toast = true,
                 Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = false,
+                ShowConfirmButton = true,
                 Timer = 3000
             });
             _ = toast.FireAsync(title, message, iconMessage);
