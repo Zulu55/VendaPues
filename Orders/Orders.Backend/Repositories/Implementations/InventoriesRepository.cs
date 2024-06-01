@@ -120,6 +120,7 @@ namespace Orders.Backend.Repositories.Implementations
         {
             var inventory = await _context.Inventories
                  .Include(x => x.InventoryDetails!)
+                 .ThenInclude(x => x.Product!)
                  .FirstOrDefaultAsync(x => x.Id == id);
 
             if (inventory == null)
@@ -185,6 +186,13 @@ namespace Orders.Backend.Repositories.Implementations
                     .Paginate(pagination)
                     .ToListAsync()
             };
+        }
+
+        public async Task<IEnumerable<Inventory>> GetComboAsync()
+        {
+            return await _context.Inventories
+               .OrderBy(c => c.Name)
+               .ToListAsync();
         }
     }
 }

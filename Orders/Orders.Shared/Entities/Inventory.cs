@@ -21,6 +21,8 @@ namespace Orders.Shared.Entities
         [MaxLength(500, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
         public string Description { get; set; } = null!;
 
+        public string FullName => $"{Name}, {Date.ToLocalTime():yyyy/MM/dd hh:mm tt}"; 
+
         [Display(Name = "Conteo 1 finalizado")]
         public bool Count1Finish { get; set; }
 

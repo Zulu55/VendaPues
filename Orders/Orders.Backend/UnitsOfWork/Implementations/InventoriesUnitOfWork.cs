@@ -1,4 +1,5 @@
-﻿using Orders.Backend.Repositories.Interfaces;
+﻿using Orders.Backend.Repositories.Implementations;
+using Orders.Backend.Repositories.Interfaces;
 using Orders.Backend.UnitsOfWork.Interfaces;
 using Orders.Shared.DTOs;
 using Orders.Shared.Entities;
@@ -14,6 +15,8 @@ namespace Orders.Backend.UnitsOfWork.Implementations
         {
             _inventoriesRepository = inventoriesRepository;
         }
+
+        public async Task<IEnumerable<Inventory>> GetComboAsync() => await _inventoriesRepository.GetComboAsync();
 
         public async Task<ActionResponse<bool>> FinishCount1Async(int id) => await _inventoriesRepository.FinishCount1Async(id);
 

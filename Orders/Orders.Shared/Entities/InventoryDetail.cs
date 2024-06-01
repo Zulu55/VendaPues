@@ -39,5 +39,7 @@ namespace Orders.Shared.Entities
         [Display(Name = "Inventario")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public float Adjustment { get; set; }
+
+        public decimal AdjustmentValue => (decimal)Adjustment * Cost;
     }
 }

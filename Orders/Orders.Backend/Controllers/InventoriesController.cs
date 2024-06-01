@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Orders.Backend.UnitsOfWork.Implementations;
 using Orders.Backend.UnitsOfWork.Interfaces;
 using Orders.Shared.DTOs;
 using Orders.Shared.Entities;
@@ -18,6 +19,13 @@ namespace Orders.Backend.Controllers
         {
             _inventoriesUnitOfWork = inventoriesUnitOfWork;
         }
+
+        [HttpGet("combo")]
+        public async Task<IActionResult> GetComboAsync()
+        {
+            return Ok(await _inventoriesUnitOfWork.GetComboAsync());
+        }
+
 
         [HttpGet("finishCount1/{id}")]
         public async Task<IActionResult> FinishCount1Async(int id)
