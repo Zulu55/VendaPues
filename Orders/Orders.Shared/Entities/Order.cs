@@ -14,6 +14,8 @@ namespace Orders.Shared.Entities
 
         public User? User { get; set; }
 
+        public OrderType OrderType { get; set; }
+
         public string? UserId { get; set; }
 
         [DataType(DataType.MultilineText)]
@@ -23,6 +25,8 @@ namespace Orders.Shared.Entities
         public OrderStatus OrderStatus { get; set; }
 
         public ICollection<OrderDetail>? OrderDetails { get; set; }
+
+        public ICollection<OrderPayment>? OrderPayments { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:N0}")]
         [Display(Name = "Líneas")]

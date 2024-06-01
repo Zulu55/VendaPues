@@ -35,35 +35,40 @@ namespace Orders.Backend.Data
             await CheckProductsAsync();
             await CheckUsersAsync();
             await CheckSuppiersAsync();
+            await CheckBanksAsync();
 
             //TODO: Remove in production evironments
             await CheckPurchaseAsync();
-            //await CheckInvetoriesAsync();
         }
 
-        private async Task CheckInvetoriesAsync()
+        private async Task CheckBanksAsync()
         {
-            if (!_context.Inventories.Any())
+            if (!_context.Banks.Any())
             {
-                for (int i = 1; i <= 5; i++)
-                {
-                    var inventory = new Inventory
-                    {
-                        Name = $"Inventario {i} agregado por seeder para testing.",
-                        Description = $"Inventario {i} agregado por seeder para testing.",
-                        Date = DateTime.UtcNow,
-                    };
-                    if (i % 2 == 0)
-                    {
-                        inventory.Count1Finish = true;
-                    }
-                    if (i % 3 == 0)
-                    {
-                        inventory.Count1Finish = true;
-                        inventory.Count2Finish = true;
-                    }
-                    _context.Inventories.Add(inventory);
-                }
+                _context.Banks.Add(new Bank { Name = "Alianza Fiduciaria" });
+                _context.Banks.Add(new Bank { Name = "Ban100" });
+                _context.Banks.Add(new Bank { Name = "Bancamia S.A." });
+                _context.Banks.Add(new Bank { Name = "Banco Agrario" });
+                _context.Banks.Add(new Bank { Name = "Baco AV Villas" });
+                _context.Banks.Add(new Bank { Name = "Banco BBVA Colombia S.A." });
+                _context.Banks.Add(new Bank { Name = "Banco Caja Social" });
+                _context.Banks.Add(new Bank { Name = "Banco Coopperativo Coopcentro" });
+                _context.Banks.Add(new Bank { Name = "Banco Davivienda" });
+                _context.Banks.Add(new Bank { Name = "Banco de Bogotá" });
+                _context.Banks.Add(new Bank { Name = "Banco Falabella" });
+                _context.Banks.Add(new Bank { Name = "Banco Finadina S.A. BIC" });
+                _context.Banks.Add(new Bank { Name = "Banco Itau" });
+                _context.Banks.Add(new Bank { Name = "Banco J.P. Morgan Colombia" });
+                _context.Banks.Add(new Bank { Name = "Banco Mundo Mujer S.A." });
+                _context.Banks.Add(new Bank { Name = "Banco Pichincha S.A." });
+                _context.Banks.Add(new Bank { Name = "Banco Popular" });
+                _context.Banks.Add(new Bank { Name = "Banco Santander Colombia" });
+                _context.Banks.Add(new Bank { Name = "Banco Serfinanza" });
+                _context.Banks.Add(new Bank { Name = "Bancolombia" });
+                _context.Banks.Add(new Bank { Name = "CFA Cooperativa Financiera" });
+                _context.Banks.Add(new Bank { Name = "Citybank" });
+                _context.Banks.Add(new Bank { Name = "Coltefinanciera" });
+                _context.Banks.Add(new Bank { Name = "Confiar Cooperativa Financiera" });
                 await _context.SaveChangesAsync();
             }
         }
