@@ -49,7 +49,7 @@ namespace Orders.Backend.Data
                 await AddPromotionAsync("Black Friday", "BlackFriday.jpg");
                 await AddPromotionAsync("Ahora podrás pagar con PSE!", "PagoPSE.jpg");
                 await AddPromotionAsync("Adidas con el 30% off", "PromoAdidas.jpg");
-                await AddPromotionAsync("Adidad 2 x 1", "PromoAdidas2.jpg");
+                await AddPromotionAsync("Adidas 2 x 1", "PromoAdidas2.jpg");
                 await AddPromotionAsync("Promociones en sus pedidos de Burguer King", "PromoBK.jpg");
                 await AddPromotionAsync("Promociones en los últimos iPhone", "PromoIPhone.jpg");
                 await _context.SaveChangesAsync();

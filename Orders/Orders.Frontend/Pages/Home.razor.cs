@@ -36,11 +36,6 @@ namespace Orders.Frontend.Pages
             await LoadAsync();
         }
 
-        private void ViewDetails(int id)
-        {
-            // Aquí puedes implementar la navegación a una página de detalles o mostrar un diálogo con más información.
-        }
-
         protected async override Task OnParametersSetAsync()
         {
             await CheckIsAuthenticatedAsync();

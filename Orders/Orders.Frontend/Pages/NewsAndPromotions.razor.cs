@@ -1,18 +1,54 @@
+using CurrieTechnologies.Razor.SweetAlert2;
+using Microsoft.AspNetCore.Components;
+using Orders.Frontend.Repositories;
 using Orders.Shared.Entities;
 
 namespace Orders.Frontend.Pages
 {
     public partial class NewsAndPromotions
     {
-        private List<NewsArticle> newsArticles = new()
-        {
-            new NewsArticle { Id = 1, Title = "Noticia 1", Summary = "Resumen de la noticia 1", ImageUrl = "https://via.placeholder.com/200" },
-            new NewsArticle { Id = 2, Title = "Noticia 2", Summary = "Resumen de la noticia 2", ImageUrl = "https://via.placeholder.com/200" },
-            new NewsArticle { Id = 3, Title = "Noticia 3", Summary = "Resumen de la noticia 3", ImageUrl = "https://via.placeholder.com/200" },
-            new NewsArticle { Id = 4, Title = "Noticia 4", Summary = "Resumen de la noticia 4", ImageUrl = "https://via.placeholder.com/200" },
-            new NewsArticle { Id = 5, Title = "Noticia 5", Summary = "Resumen de la noticia 5", ImageUrl = "https://via.placeholder.com/200" }
-        };
+        private List<NewsArticle>? newsArticles;
+        private const string baseUrl = "api/news";
+        private bool loading = true;
 
+        [Inject] private IRepository Repository { get; set; } = null!;
+        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+
+        protected override async Task OnInitializedAsync()
+        {
+            await LoadAsync();
+        }
+
+        private async Task LoadAsync()
+        {
+            loading = true;
+            var url = $"{baseUrl}?page=1&recordsnumber={int.MaxValue}";
+            var responseHttp = await Repository.GetAsync<List<NewsArticle>>(url);
+            loading = false;
+
+            if (responseHttp.Error)
+            {
+                var message = await responseHttp.GetErrorMessageAsync();
+                await SweetAlertService.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Error",
+                    Text = message,
+                    Icon = SweetAlertIcon.Error
+                });
+            }
+
+            newsArticles = responseHttp.Response;
+        }
+
+        private static string TruncateContent(string content, int length)
+        {
+            if (content.Length > length)
+            {
+                return content.Substring(0, length) + "...";
+            }
+            return content;
+        }
+        
         private void ViewDetails(int id)
         {
             // Aquí puedes implementar la navegación a una página de detalles o mostrar un diálogo con más información.
