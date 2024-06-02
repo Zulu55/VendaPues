@@ -135,6 +135,7 @@ namespace Orders.Frontend.Pages.Cart
             if (selectedPaymentOption == 1)
             {
                 loading = true;
+                await InvokeAsync(StateHasChanged);
                 var paymentDTO = new PaymentDTO
                 {
                     BankId = selectedBank.Id,
@@ -150,6 +151,8 @@ namespace Orders.Frontend.Pages.Cart
                     await SweetAlertService.FireAsync("Error", response.Message, SweetAlertIcon.Error);
                     return;
                 }
+
+                await SweetAlertService.FireAsync("Ok", response.Message, SweetAlertIcon.Success);
 
                 OrderDTO.Email = email;
                 OrderDTO.BankId = selectedBank.Id;

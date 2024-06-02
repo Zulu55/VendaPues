@@ -15,6 +15,7 @@ namespace Orders.Frontend.Pages.Categories
     {
         private Category? category;
         private FormWithName<Category>? categoryForm;
+        private bool loading;
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
@@ -25,7 +26,16 @@ namespace Orders.Frontend.Pages.Categories
 
         protected override async Task OnParametersSetAsync()
         {
+            await LoadCategorieAsync();
+        }
+
+        private async Task LoadCategorieAsync()
+        {
+            loading = true;
+            await Task.Delay(3000);
             var responseHttp = await Repository.GetAsync<Category>($"/api/categories/{Id}");
+            loading = false;
+
             if (responseHttp.Error)
             {
                 if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
