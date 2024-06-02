@@ -196,5 +196,25 @@ namespace Orders.Backend.Repositories.Implementations
                 }
             }
         }
+
+        public async Task<ActionResponse<IEnumerable<Order>>> GetReportAsync(DatesDTO datesDTO)
+        {
+            var queryable = _context.Orders
+                .Where(x => x.OrderStatus != OrderStatus.Cancelled && x.Date >= datesDTO.InitialDate && x.Date <= datesDTO.FinalDate)
+                .Include(s => s.User!)
+                .Include(s => s.OrderDetails!)
+                .ThenInclude(sd => sd.Product)
+                .AsQueryable();
+
+            var orders = await queryable
+                    .OrderBy(x => x.Date)
+                    .ToListAsync();
+
+            return new ActionResponse<IEnumerable<Order>>
+            {
+                WasSuccess = true,
+                Result = orders
+            };
+        }
     }
 }

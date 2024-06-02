@@ -87,5 +87,17 @@ namespace Orders.Backend.Controllers
 
             return BadRequest(response.Message);
         }
+
+        [HttpPost("report")]
+        public async Task<IActionResult> PostAsync(DatesDTO datesDTO)
+        {
+            var response = await _ordersUnitOfWork.GetReportAsync(datesDTO);
+            if (response.WasSuccess)
+            {
+                return Ok(response.Result);
+            }
+
+            return BadRequest(response.Message);
+        }
     }
 }

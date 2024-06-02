@@ -105,10 +105,10 @@ namespace Orders.Frontend.Reports
             var worksheet = package.Workbook.Worksheets.Add("Ajuste de Inventario");
 
             worksheet.Cells[1, 1].Value = "Producto";
-            worksheet.Cells[1, 3].Value = "Costo";
-            worksheet.Cells[1, 4].Value = "Stock";
-            worksheet.Cells[1, 5].Value = "Ajuste";
-            worksheet.Cells[1, 6].Value = "Valor ajuste";
+            worksheet.Cells[1, 2].Value = "Costo";
+            worksheet.Cells[1, 3].Value = "Stock";
+            worksheet.Cells[1, 4].Value = "Ajuste";
+            worksheet.Cells[1, 5].Value = "Valor ajuste";
 
             for (int i = 0; i < inventory!.InventoryDetails!.Count; i++)
             {
