@@ -160,6 +160,8 @@ namespace Orders.Frontend.Pages.Cart
             if (selectedPaymentOption == 0)
             {
                 OrderDTO.OrderType = OrderType.PaymentAgainstDelivery;
+                OrderDTO.Email = "none@none.com";
+                OrderDTO.Reference = "NA";
             }
             else
             {
