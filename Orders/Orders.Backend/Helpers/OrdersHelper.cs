@@ -23,7 +23,7 @@ namespace Orders.Backend.Helpers
             _kardexUnitOfWork = kardexUnitOfWork;
         }
 
-        public async Task<ActionResponse<bool>> ProcessOrderAsync(string email, string remarks)
+        public async Task<ActionResponse<bool>> ProcessOrderAsync(string email, OrderDTO orderDTO)
         {
             var user = await _usersUnitOfWork.GetUserAsync(email);
             if (user == null)
@@ -56,10 +56,24 @@ namespace Orders.Backend.Helpers
             {
                 Date = DateTime.UtcNow,
                 User = user,
-                Remarks = remarks,
+                Remarks = orderDTO.Remarks,
                 OrderDetails = new List<OrderDetail>(),
-                OrderStatus = OrderStatus.New
+                OrderStatus = OrderStatus.New,
+                OrderType = orderDTO.OrderType,
             };
+
+            if(orderDTO.OrderType == OrderType.PayOnLine)
+            {
+                order.OrderPayments = [];
+                order.OrderPayments.Add(new OrderPayment
+                {
+                    BankId = orderDTO.BankId,
+                    Date = DateTime.UtcNow,
+                    Reference = orderDTO.Reference,
+                    Email = orderDTO.Email,
+                    Value = orderDTO.Value,
+                });
+            }
 
             foreach (var temporalOrder in temporalOrders!)
             {

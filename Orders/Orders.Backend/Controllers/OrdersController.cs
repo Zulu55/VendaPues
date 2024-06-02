@@ -77,9 +77,9 @@ namespace Orders.Backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostAsync(OrderDTO saleDTO)
+        public async Task<IActionResult> PostAsync(OrderDTO orderDTO)
         {
-            var response = await _ordersHelper.ProcessOrderAsync(User.Identity!.Name!, saleDTO.Remarks);
+            var response = await _ordersHelper.ProcessOrderAsync(User.Identity!.Name!, orderDTO);
             if (response.WasSuccess)
             {
                 return NoContent();

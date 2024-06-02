@@ -9,5 +9,15 @@ namespace Orders.Shared.DTOs
         public OrderStatus OrderStatus { get; set; }
 
         public string Remarks { get; set; } = string.Empty;
+
+        public OrderType OrderType { get; set; }
+
+        public string Email { get; set; } = null!;
+
+        public int BankId { get; set; }
+
+        public decimal Value { get; set; }
+
+        public string Reference { get; set; } = null!;
     }
 }

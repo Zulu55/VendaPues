@@ -16,6 +16,11 @@ namespace Orders.Shared.Entities
 
         public int OrderId { get; set; }
 
+        [MaxLength(100, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        [EmailAddress(ErrorMessage = "Debes ingresar una dirección de correo válida.")]
+        public string Email { get; set; } = null!;
+
         public Bank? Bank { get; set; }
 
         public int BankId { get; set; }
