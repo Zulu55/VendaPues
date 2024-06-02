@@ -1,3 +1,5 @@
+using Orders.Shared.Entities;
+
 namespace Orders.Frontend.Pages
 {
     public partial class NewsAndPromotions
@@ -15,13 +17,5 @@ namespace Orders.Frontend.Pages
         {
             // Aquí puedes implementar la navegación a una página de detalles o mostrar un diálogo con más información.
         }
-    }
-
-    public class NewsArticle
-    {
-        public int Id { get; set; }
-        public string Title { get; set; } = null!;
-        public string Summary { get; set; } = null!;
-        public string ImageUrl { get; set; } = null!;
     }
 }

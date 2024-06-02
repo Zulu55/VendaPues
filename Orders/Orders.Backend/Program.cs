@@ -85,6 +85,8 @@ internal class Program
         builder.Services.AddScoped<IInventoryDetailsUnitOfWork, InventoryDetailsUnitOfWork>();
         builder.Services.AddScoped<IKardexRepository, KardexRepository>();
         builder.Services.AddScoped<IKardexUnitOfWork, KardexUnitOfWork>();
+        builder.Services.AddScoped<INewsRepository, NewsRepository>();
+        builder.Services.AddScoped<INewsUnitOfWork, NewsUnitOfWork>();
         builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
         builder.Services.AddScoped<IOrdersUnitOfWork, OrdersUnitOfWork>();
         builder.Services.AddScoped<IProductsRepository, ProductsRepository>();

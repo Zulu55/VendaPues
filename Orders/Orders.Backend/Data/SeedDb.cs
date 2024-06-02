@@ -36,9 +36,49 @@ namespace Orders.Backend.Data
             await CheckUsersAsync();
             await CheckSuppiersAsync();
             await CheckBanksAsync();
+            await CheckPromotionsAsync();
 
             //TODO: Remove in production evironments
             await CheckPurchaseAsync();
+        }
+
+        private async Task CheckPromotionsAsync()
+        {
+            if (!_context.NewsArticles.Any())
+            {
+                await AddPromotionAsync("Black Friday", "BlackFriday.jpg");
+                await AddPromotionAsync("Ahora podrás pagar con PSE!", "PagoPSE.jpg");
+                await AddPromotionAsync("Adidas con el 30% off", "PromoAdidas.jpg");
+                await AddPromotionAsync("Adidad 2 x 1", "PromoAdidas2.jpg");
+                await AddPromotionAsync("Promociones en sus pedidos de Burguer King", "PromoBK.jpg");
+                await AddPromotionAsync("Promociones en los últimos iPhone", "PromoIPhone.jpg");
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        private async Task AddPromotionAsync(string title, string image)
+        {
+            string filePath;
+            if (_runtimeInformationWrapper.IsOSPlatform(OSPlatform.Windows))
+            {
+                filePath = $"{Environment.CurrentDirectory}\\Images\\promos\\{image}";
+            }
+            else
+            {
+                filePath = $"{Environment.CurrentDirectory}/Images/promos/{image}";
+            }
+
+            var fileBytes = File.ReadAllBytes(filePath);
+            var imagePath = await _fileStorage.SaveFileAsync(fileBytes, "jpg", "promos");
+
+            var newsArticle = new NewsArticle
+            {
+                Title = title,
+                Active = true,
+                ImageUrl = imagePath,
+                Summary = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae proin sagittis nisl rhoncus mattis rhoncus urna. Risus at ultrices mi tempus imperdiet. Placerat vestibulum lectus mauris ultrices. Nam at lectus urna duis. Ac felis donec et odio pellentesque. Phasellus faucibus scelerisque eleifend donec pretium. A diam maecenas sed enim ut. Sapien faucibus et molestie ac feugiat sed lectus vestibulum mattis. Enim neque volutpat ac tincidunt vitae semper quis lectus. Nisl nunc mi ipsum faucibus vitae aliquet nec ullamcorper. Sagittis purus sit amet volutpat consequat mauris. Bibendum enim facilisis gravida neque convallis a.\r\n\r\nVolutpat ac tincidunt vitae semper quis lectus nulla at. Facilisis magna etiam tempor orci eu lobortis elementum nibh. Sed odio morbi quis commodo odio aenean. Ultricies mi eget mauris pharetra. Sit amet facilisis magna etiam tempor. At urna condimentum mattis pellentesque id nibh tortor id aliquet. Sed id semper risus in hendrerit gravida rutrum. Mi in nulla posuere sollicitudin aliquam. Egestas erat imperdiet sed euismod nisi. Nibh nisl condimentum id venenatis a. Tellus mauris a diam maecenas sed enim ut sem. Id eu nisl nunc mi ipsum faucibus vitae aliquet. Nullam eget felis eget nunc lobortis.",
+            };
+            _context.NewsArticles.Add(newsArticle);
         }
 
         private async Task CheckBanksAsync()

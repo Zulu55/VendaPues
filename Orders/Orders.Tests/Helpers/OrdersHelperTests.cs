@@ -1,6 +1,7 @@
 ﻿using Moq;
 using Orders.Backend.Helpers;
 using Orders.Backend.UnitsOfWork.Interfaces;
+using Orders.Shared.DTOs;
 using Orders.Shared.Entities;
 using Orders.Shared.Responses;
 
@@ -31,9 +32,10 @@ namespace Orders.Tests.Helpers
         {
             // Arrange
             string email = "test@test.com";
+            var orderDto = new OrderDTO { Remarks = "remarks" };
 
             // Act
-            var result = await _ordersHelper.ProcessOrderAsync(email, "remarks");
+            var result = await _ordersHelper.ProcessOrderAsync(email, orderDto);
 
             // Assert
             Assert.IsFalse(result.WasSuccess);
@@ -45,13 +47,14 @@ namespace Orders.Tests.Helpers
         {
             // Arrange
             string email = "test@test.com";
+            var orderDto = new OrderDTO { Remarks = "remarks" };
             var user = new User { Email = email };
             _usersUnitOfWorkMock.Setup(uh => uh.GetUserAsync(email)).ReturnsAsync(user);
             _temporalOrdersUoWMock.Setup(touw => touw.GetAsync(email))
                 .ReturnsAsync(new ActionResponse<IEnumerable<TemporalOrder>> { WasSuccess = false });
 
             // Act
-            var result = await _ordersHelper.ProcessOrderAsync(email, "remarks");
+            var result = await _ordersHelper.ProcessOrderAsync(email, orderDto);
 
             // Assert
             Assert.IsFalse(result.WasSuccess);
@@ -63,11 +66,12 @@ namespace Orders.Tests.Helpers
         {
             // Arrange
             string email = "test@test.com";
+            var orderDto = new OrderDTO { Remarks = "remarks" };
             var user = new User { Email = email };
             var temporalOrders = new List<TemporalOrder>
-    {
-        new TemporalOrder { Quantity = 5, Product = new Product { Id = 1, Name = "Product1", Stock = 3 } }
-    };
+            {
+                new TemporalOrder { Quantity = 5, Product = new Product { Id = 1, Name = "Product1", Stock = 3 } }
+            };
             _usersUnitOfWorkMock.Setup(uh => uh.GetUserAsync(email)).ReturnsAsync(user);
             _temporalOrdersUoWMock.Setup(touw => touw.GetAsync(email))
                 .ReturnsAsync(new ActionResponse<IEnumerable<TemporalOrder>> { WasSuccess = true, Result = temporalOrders });
@@ -75,7 +79,7 @@ namespace Orders.Tests.Helpers
                 .ReturnsAsync(new ActionResponse<Product> { WasSuccess = true, Result = temporalOrders[0].Product });
 
             // Act
-            var result = await _ordersHelper.ProcessOrderAsync(email, "remarks");
+            var result = await _ordersHelper.ProcessOrderAsync(email, orderDto);
 
             // Assert
             Assert.IsFalse(result.WasSuccess);
@@ -92,6 +96,7 @@ namespace Orders.Tests.Helpers
             {
                 new TemporalOrder { Quantity = 2, Product = new Product { Id = 1, Name = "Product1", Stock = 5 }, Remarks = "Remarks1", Id = 1 }
             };
+            var orderDto = new OrderDTO { Remarks = "remarks" };
             _usersUnitOfWorkMock.Setup(uh => uh.GetUserAsync(email))
                 .ReturnsAsync(user);
             _temporalOrdersUoWMock.Setup(touw => touw.GetAsync(email))
@@ -106,7 +111,7 @@ namespace Orders.Tests.Helpers
                 .ReturnsAsync(new ActionResponse<Order> { WasSuccess = true });
 
             // Act
-            var result = await _ordersHelper.ProcessOrderAsync(email, "remarks");
+            var result = await _ordersHelper.ProcessOrderAsync(email, orderDto);
 
             // Assert
             Assert.IsTrue(result.WasSuccess);
@@ -121,6 +126,7 @@ namespace Orders.Tests.Helpers
             // Arrange
             string email = "test@test.com";
             var user = new User { Email = email };
+            var orderDto = new OrderDTO { Remarks = "remarks" };
             var temporalOrders = new List<TemporalOrder>
             {
                 new TemporalOrder { Quantity = 2, Product = new Product { Id = 1, Name = "Product1", Stock = 5 }, Remarks = "Remarks1", Id = 1 }
@@ -139,7 +145,7 @@ namespace Orders.Tests.Helpers
                 .ReturnsAsync(new ActionResponse<Order> { WasSuccess = true });
 
             // Act
-            var result = await _ordersHelper.ProcessOrderAsync(email, "remarks");
+            var result = await _ordersHelper.ProcessOrderAsync(email, orderDto);
 
             // Assert
             Assert.IsFalse(result.WasSuccess);
@@ -150,6 +156,7 @@ namespace Orders.Tests.Helpers
         {
             // Arrange
             string email = "test@test.com";
+            var orderDto = new OrderDTO { Remarks = "remarks" };
             var user = new User { Email = email };
             var temporalOrders = new List<TemporalOrder>
             {
@@ -169,7 +176,7 @@ namespace Orders.Tests.Helpers
                 .ReturnsAsync(new ActionResponse<Order> { WasSuccess = true });
 
             // Act
-            var result = await _ordersHelper.ProcessOrderAsync(email, "remarks");
+            var result = await _ordersHelper.ProcessOrderAsync(email, orderDto);
 
             // Assert
             Assert.IsFalse(result.WasSuccess);

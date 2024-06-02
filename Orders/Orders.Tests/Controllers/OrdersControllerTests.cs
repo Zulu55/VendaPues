@@ -44,7 +44,7 @@ namespace Orders.Tests.Controllers
             // Arrange
             SetupUser("testuser");
             var orderDto = new OrderDTO();
-            _mockOrdersHelper.Setup(x => x.ProcessOrderAsync("testuser", It.IsAny<string>()))
+            _mockOrdersHelper.Setup(x => x.ProcessOrderAsync("testuser", orderDto))
                 .ReturnsAsync(new ActionResponse<bool> { WasSuccess = false });
 
             // Act
@@ -52,7 +52,7 @@ namespace Orders.Tests.Controllers
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
-            _mockOrdersHelper.Verify(x => x.ProcessOrderAsync("testuser", It.IsAny<string>()), Times.Once());
+            _mockOrdersHelper.Verify(x => x.ProcessOrderAsync("testuser", orderDto), Times.Once());
         }
 
         [TestMethod]
@@ -61,7 +61,7 @@ namespace Orders.Tests.Controllers
             // Arrange
             SetupUser("testuser");
             var orderDto = new OrderDTO();
-            _mockOrdersHelper.Setup(x => x.ProcessOrderAsync("testuser", It.IsAny<string>()))
+            _mockOrdersHelper.Setup(x => x.ProcessOrderAsync("testuser", orderDto))
                 .ReturnsAsync(new ActionResponse<bool> { WasSuccess = true });
 
             // Act
@@ -69,7 +69,7 @@ namespace Orders.Tests.Controllers
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(NoContentResult));
-            _mockOrdersHelper.Verify(x => x.ProcessOrderAsync("testuser", It.IsAny<string>()), Times.Once());
+            _mockOrdersHelper.Verify(x => x.ProcessOrderAsync("testuser", orderDto), Times.Once());
         }
 
         [TestMethod]
