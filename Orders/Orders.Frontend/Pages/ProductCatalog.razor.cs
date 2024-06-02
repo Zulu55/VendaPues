@@ -1,7 +1,7 @@
-﻿using Blazored.Modal.Services;
+using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components;
 using Orders.Frontend.Pages.Auth;
 using Orders.Frontend.Repositories;
 using Orders.Shared.DTOs;
@@ -9,7 +9,7 @@ using Orders.Shared.Entities;
 
 namespace Orders.Frontend.Pages
 {
-    public partial class Home
+    public partial class ProductCatalog
     {
         private int currentPage = 1;
         private int totalPages;
@@ -30,15 +30,9 @@ namespace Orders.Frontend.Pages
         [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; } = null!;
         [CascadingParameter] private IModalService Modal { get; set; } = default!;
 
-
         protected override async Task OnInitializedAsync()
         {
             await LoadAsync();
-        }
-
-        private void ViewDetails(int id)
-        {
-            // Aquí puedes implementar la navegación a una página de detalles o mostrar un diálogo con más información.
         }
 
         protected async override Task OnParametersSetAsync()
@@ -86,7 +80,7 @@ namespace Orders.Frontend.Pages
             if (!isAuthenticated)
             {
                 Modal.Show<Login>();
-                ShowToast("Error", SweetAlertIcon.Error, "Debes haber iniciado sesión para poder agregar productos al carro de compras.");
+                ShowToast("Error", SweetAlertIcon.Error, "Debes haber iniciado sesi�n para poder agregar productos al carro de compras.");
                 return;
             }
 
@@ -210,7 +204,7 @@ namespace Orders.Frontend.Pages
             }
             return content;
         }
-        
+
         private async Task ApplyFilterAsync()
         {
             int page = 1;
@@ -230,4 +224,5 @@ namespace Orders.Frontend.Pages
             _ = toast.FireAsync(title, message, iconMessage);
         }
     }
+
 }
