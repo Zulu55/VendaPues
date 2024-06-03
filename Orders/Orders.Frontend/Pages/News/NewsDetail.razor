@@ -1,0 +1,28 @@
+﻿@if(loading)
+{
+    <Loading/>
+}
+else
+{
+    <MudCard>
+        <MudCardContent>
+            <MudItem>
+                <MudText Typo="Typo.h5"><i class="bi bi-bag"></i> @newsArticle!.Title</MudText>
+            </MudItem>
+            <MudItem>
+                <MudImage Src="@newsArticle!.ImageUrl" Alt="News" Class="my-2 w-100" />
+            </MudItem>
+
+            <MudItem>
+                <MudText Typo="Typo.body1">@newsArticle!.Summary</MudText>
+            </MudItem>
+        </MudCardContent>
+        <div class="p-3">
+            <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.ArrowBack" Color="Color.Info" Href="/">
+                Regresar
+            </MudButton>
+        </div>
+    </MudCard>
+}
+
+

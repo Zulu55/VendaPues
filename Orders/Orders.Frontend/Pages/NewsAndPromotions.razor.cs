@@ -1,5 +1,8 @@
+using Blazored.Modal;
+using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
+using Orders.Frontend.Pages.News;
 using Orders.Frontend.Repositories;
 using Orders.Shared.Entities;
 
@@ -13,6 +16,7 @@ namespace Orders.Frontend.Pages
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [CascadingParameter] private IModalService Modal { get; set; } = default!;
 
         protected override async Task OnInitializedAsync()
         {
@@ -48,10 +52,10 @@ namespace Orders.Frontend.Pages
             }
             return content;
         }
-        
+
         private void ViewDetails(int id)
         {
-            // Aquí puedes implementar la navegación a una página de detalles o mostrar un diálogo con más información.
+            Modal.Show<NewsDetail>(string.Empty, new ModalParameters().Add("Id", id));
         }
     }
 }
