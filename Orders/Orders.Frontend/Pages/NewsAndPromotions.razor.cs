@@ -22,7 +22,7 @@ namespace Orders.Frontend.Pages
         private async Task LoadAsync()
         {
             loading = true;
-            var url = $"{baseUrl}?page=1&recordsnumber={int.MaxValue}";
+            var url = $"{baseUrl}?page=1&recordsnumber={int.MaxValue}&Id=1";
             var responseHttp = await Repository.GetAsync<List<NewsArticle>>(url);
             loading = false;
 

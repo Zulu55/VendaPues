@@ -1,10 +1,9 @@
 using CurrieTechnologies.Razor.SweetAlert2;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Routing;
-using Microsoft.AspNetCore.Components;
 using Orders.Frontend.Repositories;
 using Orders.Shared.Entities;
-using Orders.Shared.DTOs;
 
 namespace Orders.Frontend.Pages.News
 {
@@ -32,6 +31,7 @@ namespace Orders.Frontend.Pages.News
 
         private void ImageSelected(string imagenBase64)
         {
+            NewsArticle.ImageUrl = imagenBase64;
             imageUrl = null;
         }
 

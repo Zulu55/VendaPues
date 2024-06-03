@@ -15,6 +15,10 @@ namespace Orders.Backend.UnitsOfWork.Implementations
             _newsRepository = newsRepository;
         }
 
+        public override async Task<ActionResponse<NewsArticle>> UpdateAsync(NewsArticle model) => await _newsRepository.UpdateAsync(model);
+
+        public override async Task<ActionResponse<NewsArticle>> AddAsync(NewsArticle model) => await _newsRepository.AddAsync(model);
+
         public override async Task<ActionResponse<int>> GetRecordsNumberAsync(PaginationDTO pagination) => await _newsRepository.GetRecordsNumberAsync(pagination);
 
         public override async Task<ActionResponse<IEnumerable<NewsArticle>>> GetAsync(PaginationDTO pagination) => await _newsRepository.GetAsync(pagination);

@@ -19,6 +19,28 @@ namespace Orders.Backend.Controllers
             _newsUnitOfWork = newsUnitOfWork;
         }
 
+        [HttpPut]
+        public override async Task<IActionResult> PutAsync(NewsArticle model)
+        {
+            var action = await _newsUnitOfWork.UpdateAsync(model);
+            if (action.WasSuccess)
+            {
+                return Ok(action.Result);
+            }
+            return BadRequest(action.Message);
+        }
+
+        [HttpPost]
+        public override async Task<IActionResult> PostAsync(NewsArticle model)
+        {
+            var action = await _newsUnitOfWork.AddAsync(model);
+            if (action.WasSuccess)
+            {
+                return Ok(action.Result);
+            }
+            return BadRequest(action.Message);
+        }
+
         [AllowAnonymous]
         [HttpGet("recordsNumber")]
         public override async Task<IActionResult> GetRecordsNumberAsync([FromQuery] PaginationDTO pagination)

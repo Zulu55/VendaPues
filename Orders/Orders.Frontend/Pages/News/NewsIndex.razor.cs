@@ -118,11 +118,11 @@ namespace Orders.Frontend.Pages.News
 
             if (isEdit)
             {
-                modalReference = Modal.Show<BankEdit>(string.Empty, new ModalParameters().Add("Id", id));
+                modalReference = Modal.Show<NewsEdit>(string.Empty, new ModalParameters().Add("Id", id));
             }
             else
             {
-                modalReference = Modal.Show<BankCreate>();
+                modalReference = Modal.Show<NewsCreate>();
             }
 
             var result = await modalReference.Result;

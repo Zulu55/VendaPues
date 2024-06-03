@@ -4,16 +4,15 @@ using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Orders.Frontend.Repositories;
-using Orders.Frontend.Shared;
 using Orders.Shared.Entities;
 
-namespace Orders.Frontend.Pages.Banks
+namespace Orders.Frontend.Pages.News
 {
     [Authorize(Roles = "Admin")]
-    public partial class BankCreate
+    public partial class NewsCreate
     {
-        private Bank bank = new();
-        private FormWithName<Bank>? bankForm;
+        private NewsArticle newsArticle = new() { Active = true };
+        private NewsForm? newsForm;
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
@@ -22,7 +21,7 @@ namespace Orders.Frontend.Pages.Banks
 
         private async Task CreateAsync()
         {
-            var responseHttp = await Repository.PostAsync("/api/banks", bank);
+            var responseHttp = await Repository.PostAsync("/api/news", newsArticle);
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
@@ -37,8 +36,8 @@ namespace Orders.Frontend.Pages.Banks
 
         private void Return()
         {
-            bankForm!.FormPostedSuccessfully = true;
-            NavigationManager.NavigateTo("/banks");
+            newsForm!.FormPostedSuccessfully = true;
+            NavigationManager.NavigateTo("/news");
         }
 
         private void ShowToast(string title, SweetAlertIcon iconMessage, string message)

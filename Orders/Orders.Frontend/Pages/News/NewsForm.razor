@@ -10,7 +10,7 @@
                     <i class="bi bi-newspaper"></i> @titleLabel
                 </div>
                 <div class="d-flex justify-content-end">
-                    <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.ArrowBack" Color="Color.Info" OnClick="ReturnAction" Class="me-2">
+                    <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.ArrowBack" Color="Color.Info" OnClick="ReturnAction" Class="mx-2">
                         Regresar
                     </MudButton>
                     <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.Check" Color="Color.Primary" ButtonType="ButtonType.Submit">
@@ -21,19 +21,20 @@
         </div>
         <div class="card-body">
             <div class="mb-2">
-                <MudTextField Label="Nombre Proveedor"
+                <MudTextField Label="Título"
                               @bind-Value="@NewsArticle.Title"
                               For="@(() => NewsArticle.Title)"
                               Class="mb-2" />
             </div>
             <div class="mb-2">
-                <MudTextField Label="Documento"
+                <MudTextField Label="Resumen"
                               @bind-Value="@NewsArticle.Summary"
                               For="@(() => NewsArticle.Summary)"
+                              Lines="3"
                               Class="mb-2" />
             </div>
             <div class="mb-2">
-                <MudCheckBox @bind-Checked="@NewsArticle.Active" />
+                <MudCheckBox @bind-Checked="@NewsArticle.Active">Activa</MudCheckBox>
             </div>
             <div class="mb-2">
                 <InputImg Label="Imagen" ImageSelected="ImageSelected" ImageURL="@imageUrl" />

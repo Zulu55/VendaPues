@@ -1,0 +1,12 @@
+﻿@if (newsArticle is null)
+{
+    <Loading />
+}
+else
+{
+    <MudCard>
+        <div class="p-3">
+            <NewsForm @ref="newsForm" NewsArticle="newsArticle" OnValidSubmit="EditAsync" ReturnAction="Return" IsEdit />
+        </div>
+    </MudCard>
+}
