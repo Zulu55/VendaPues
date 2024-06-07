@@ -1,6 +1,7 @@
 using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using Orders.Frontend.Repositories;
 using Orders.Shared.DTOs;
 
@@ -15,7 +16,7 @@ namespace Orders.Frontend.Pages.Auth
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
         [Parameter, SupplyParameterFromQuery] public string Token { get; set; } = string.Empty;
-        [CascadingParameter] IModalService Modal { get; set; } = default!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
 
         private async Task ChangePasswordAsync()
         {
@@ -32,7 +33,8 @@ namespace Orders.Frontend.Pages.Auth
             }
 
             await SweetAlertService.FireAsync("Confirmación", "Contraseña cambiada con éxito, ahora puede ingresar con su nueva contraseña.", SweetAlertIcon.Info);
-            Modal.Show<Login>();
+            var closeOnEscapeKey = new DialogOptions() { CloseOnEscapeKey = true };
+            DialogService.Show<Login>("Inicio de Sesion", closeOnEscapeKey);
         }
     }
 }

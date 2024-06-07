@@ -1,6 +1,7 @@
 using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using Orders.Frontend.Repositories;
 
 namespace Orders.Frontend.Pages.Auth
@@ -12,10 +13,10 @@ namespace Orders.Frontend.Pages.Auth
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
 
         [Parameter, SupplyParameterFromQuery] public string UserId { get; set; } = string.Empty;
         [Parameter, SupplyParameterFromQuery] public string Token { get; set; } = string.Empty;
-        [CascadingParameter] IModalService Modal { get; set; } = default!;
 
         protected async Task ConfirmAccountAsync()
         {
@@ -29,7 +30,8 @@ namespace Orders.Frontend.Pages.Auth
             }
 
             await SweetAlertService.FireAsync("Confirmación", "Gracias por confirmar su email, ahora puedes ingresar al sistema.", SweetAlertIcon.Info);
-            Modal.Show<Login>();
+            var closeOnEscapeKey = new DialogOptions() { CloseOnEscapeKey = true };
+            DialogService.Show<Login>("Inicio de Sesion", closeOnEscapeKey);
         }
     }
 }

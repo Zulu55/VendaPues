@@ -1,10 +1,31 @@
 ﻿<AuthorizeView>
     <Authorized>
-        <MudMenuItem Href="EditUser"><MudIcon Icon="@Icons.Material.Filled.Edit" /> Modificar Usuario</MudMenuItem>
-        <MudMenuItem Href="Logout"><MudIcon Icon="@Icons.Material.Filled.Logout" /> Cerrar Sesión</MudMenuItem>
+        <MudContainer Style="width: 18rem;">
+            @if (!string.IsNullOrEmpty(photoUser))
+            {
+                <MudContainer Class="d-flex justify-content-center mb-3">
+                    <MudBadge Color="Color.Success" Overlap="true" Bordered="true" Class="position-relative">
+                        <MudAvatar Size="Size.Large" Class="mb-3 mx-auto d-block">
+                            <MudImage Src="@photoUser"></MudImage>
+                        </MudAvatar>
+                    </MudBadge>
+                </MudContainer>
+            }
+            <MudText Typo="Typo.body1" Align="Align.Center">Hola! @context.User.Identity!.Name</MudText>
+            <MudPaper Elevation="1" Class="d-flex justify-content-center align-content-center">
+                <MudList>
+                    <MudListItem>
+                        <MudButton Variant="Variant.Text" OnClick="EditAction">Editar Perfil <MudIcon Icon="@Icons.Material.Filled.Person" /> </MudButton>
+                    </MudListItem>
+                    <MudListItem>
+                        <MudButton Variant="Variant.Text" OnClick="ShowModalLogOut">Cerrar Sesion <MudIcon Icon="@Icons.Material.Filled.Login" /> </MudButton>
+                    </MudListItem>
+                </MudList>
+            </MudPaper>
+        </MudContainer>
     </Authorized>
     <NotAuthorized>
-        <MudMenuItem OnClick=@(() => ShowModal())><MudIcon Icon="@Icons.Material.Filled.Login" /> Iniciar Sesión</MudMenuItem>
-        <MudMenuItem Href="register"><MudIcon Icon="@Icons.Material.Filled.AppRegistration" /> Registro</MudMenuItem>
+        <a href="/auth/register" class="nav-link btn btn-link">Registro <MudIcon Icon="@Icons.Material.Filled.HowToReg" /></a>
+        <MudMenuItem OnClick="ShowModalLogIn">Iniciar Sesion <MudIcon Icon="@Icons.Material.Filled.Login" /> </MudMenuItem>
     </NotAuthorized>
 </AuthorizeView>

@@ -2,6 +2,7 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using MudBlazor;
 using Orders.Frontend.Pages.Auth;
 using Orders.Frontend.Repositories;
 using Orders.Shared.DTOs;
@@ -27,9 +28,8 @@ namespace Orders.Frontend.Pages
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
         [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; } = null!;
-        [CascadingParameter] private IModalService Modal { get; set; } = default!;
-
 
         protected override async Task OnInitializedAsync()
         {
@@ -80,7 +80,8 @@ namespace Orders.Frontend.Pages
         {
             if (!isAuthenticated)
             {
-                Modal.Show<Login>();
+                var closeOnEscapeKey = new DialogOptions() { CloseOnEscapeKey = true };
+                DialogService.Show<Login>("Inicio de Sesion", closeOnEscapeKey);
                 ShowToast("Error", SweetAlertIcon.Error, "Debes haber iniciado sesión para poder agregar productos al carro de compras.");
                 return;
             }

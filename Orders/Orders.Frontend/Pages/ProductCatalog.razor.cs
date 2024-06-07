@@ -6,6 +6,7 @@ using Orders.Frontend.Pages.Auth;
 using Orders.Frontend.Repositories;
 using Orders.Shared.DTOs;
 using Orders.Shared.Entities;
+using MudBlazor;
 
 namespace Orders.Frontend.Pages
 {
@@ -24,11 +25,14 @@ namespace Orders.Frontend.Pages
         [Parameter, SupplyParameterFromQuery] public string Page { get; set; } = string.Empty;
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
         [Parameter, SupplyParameterFromQuery] public int RecordsNumber { get; set; } = 8;
+
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
+
         [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; } = null!;
-        [CascadingParameter] private IModalService Modal { get; set; } = default!;
+        [CascadingParameter] MudDialogInstance MudDialog { get; set; } = null!;
 
         protected override async Task OnInitializedAsync()
         {
@@ -79,7 +83,8 @@ namespace Orders.Frontend.Pages
         {
             if (!isAuthenticated)
             {
-                Modal.Show<Login>();
+                var closeOnEscapeKey = new DialogOptions() { CloseOnEscapeKey = true };
+                DialogService.Show<Login>("Inicio de Sesion", closeOnEscapeKey);
                 ShowToast("Error", SweetAlertIcon.Error, "Debes haber iniciado sesión para poder agregar productos al carro de compras.");
                 return;
             }
