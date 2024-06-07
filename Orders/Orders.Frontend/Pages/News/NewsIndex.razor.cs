@@ -1,11 +1,10 @@
-using Blazored.Modal.Services;
-using Blazored.Modal;
-using CurrieTechnologies.Razor.SweetAlert2;
 using System.Net;
+using Blazored.Modal;
+using Blazored.Modal.Services;
+using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Orders.Frontend.Pages.Banks;
 using Orders.Frontend.Repositories;
 using Orders.Shared.Entities;
 
@@ -21,6 +20,7 @@ namespace Orders.Frontend.Pages.News
         private int totalRecords = 0;
         private bool loading;
         private const string baseUrl = "api/news";
+        private string infoFormat = "{first_item}-{last_item} de {all_items}";
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;

@@ -15,6 +15,7 @@ namespace Orders.Frontend.Pages.Inventories
         private const string baseUrl = "api/InventoryDetails";
         private readonly int[] pageSizeOptions = { 10, 25, 50, int.MaxValue };
         private bool enableModifyCost = false;
+        private string infoFormat = "{first_item}-{last_item} de {all_items}";
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
@@ -129,7 +130,6 @@ namespace Orders.Frontend.Pages.Inventories
 
         private ActionResponse<bool> ValidateCount()
         {
-
             foreach (var inventoryDetail in InventoryDetails!)
             {
                 if (inventoryDetail.Count1 < 0 || inventoryDetail.Cost < 0)
@@ -151,7 +151,7 @@ namespace Orders.Frontend.Pages.Inventories
                 }
             }
 
-            return new ActionResponse<bool> {  WasSuccess = true };
+            return new ActionResponse<bool> { WasSuccess = true };
         }
 
         private async Task SaveInventoryDetailAsync(InventoryDetail inventoryDetail)
@@ -210,7 +210,6 @@ namespace Orders.Frontend.Pages.Inventories
             ShowToast("Ok", SweetAlertIcon.Success, "Conteo #1 cerrado, puede proceder al conteo #2.");
             NavigationManager.NavigateTo("/inventories");
         }
-
 
         private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
         {

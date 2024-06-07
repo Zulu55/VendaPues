@@ -1,6 +1,6 @@
 ﻿using System.Net;
-using Blazored.Modal.Services;
 using Blazored.Modal;
+using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -22,6 +22,7 @@ namespace Orders.Frontend.Pages.Countries
         private int totalRecords = 0;
         private bool loading;
         private const string baseUrl = "api/states";
+        private string infoFormat = "{first_item}-{last_item} de {all_items}";
 
         [Parameter] public int CountryId { get; set; }
 
@@ -31,7 +32,7 @@ namespace Orders.Frontend.Pages.Countries
 
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
 
-        [CascadingParameter] IModalService Modal { get; set; } = default!;
+        [CascadingParameter] private IModalService Modal { get; set; } = default!;
 
         protected override async Task OnInitializedAsync()
         {

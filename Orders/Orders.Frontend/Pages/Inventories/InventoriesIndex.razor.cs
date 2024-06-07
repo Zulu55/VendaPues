@@ -19,6 +19,7 @@ namespace Orders.Frontend.Pages.Inventories
         private int totalRecords = 0;
         private bool loading;
         private const string baseUrl = "api/inventories";
+        private string infoFormat = "{first_item}-{last_item} de {all_items}";
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
@@ -114,7 +115,7 @@ namespace Orders.Frontend.Pages.Inventories
 
         private async Task ShowCount3ModalAsync(Inventory inventory)
         {
-            if (!inventory.Count2Finish ||  !inventory.Count2Finish)
+            if (!inventory.Count2Finish || !inventory.Count2Finish)
             {
                 ShowToast("Error", SweetAlertIcon.Error, "Primero debes completar el conteo #1 y #2");
                 return;

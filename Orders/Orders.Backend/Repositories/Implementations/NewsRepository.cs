@@ -29,7 +29,7 @@ namespace Orders.Backend.Repositories.Implementations
             return await base.UpdateAsync(newsArticle);
         }
 
-        public async override Task<ActionResponse<NewsArticle>> AddAsync(NewsArticle newsArticle)
+        public override async Task<ActionResponse<NewsArticle>> AddAsync(NewsArticle newsArticle)
         {
             var photoProduct = Convert.FromBase64String(newsArticle.ImageUrl);
             newsArticle.ImageUrl = await _fileStorage.SaveFileAsync(photoProduct, ".jpg", "promos");

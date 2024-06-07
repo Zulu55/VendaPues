@@ -20,6 +20,7 @@ namespace Orders.Frontend.Pages.Countries
         private int totalRecords = 0;
         private bool loading;
         private const string baseUrl = "api/countries";
+        private string infoFormat = "{first_item}-{last_item} de {all_items}";
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
@@ -41,7 +42,7 @@ namespace Orders.Frontend.Pages.Countries
         private async Task<bool> LoadTotalRecords()
         {
             loading = true;
-            var  url = $"{baseUrl}/recordsnumber?page=1&recordsnumber={int.MaxValue}";
+            var url = $"{baseUrl}/recordsnumber?page=1&recordsnumber={int.MaxValue}";
 
             if (!string.IsNullOrWhiteSpace(Filter))
             {

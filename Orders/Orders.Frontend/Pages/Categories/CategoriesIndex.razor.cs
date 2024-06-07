@@ -20,6 +20,7 @@ namespace Orders.Frontend.Pages.Categories
         private int totalRecords = 0;
         private bool loading;
         private const string baseUrl = "api/categories";
+        private string infoFormat = "{first_item}-{last_item} de {all_items}";
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;

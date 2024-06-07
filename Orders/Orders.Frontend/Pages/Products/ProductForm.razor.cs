@@ -1,7 +1,7 @@
 using CurrieTechnologies.Razor.SweetAlert2;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Routing;
-using Microsoft.AspNetCore.Components;
 using Orders.Frontend.Helpers;
 using Orders.Shared.DTOs;
 using Orders.Shared.Entities;

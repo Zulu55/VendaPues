@@ -20,6 +20,7 @@ namespace Orders.Frontend.Pages.Products
         private int totalRecords = 0;
         private bool loading;
         private const string baseUrl = "api/products";
+        private string infoFormat = "{first_item}-{last_item} de {all_items}";
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
@@ -131,7 +132,6 @@ namespace Orders.Frontend.Pages.Products
             var modalReference = Modal.Show<ProductKardex2>(string.Empty, new ModalParameters().Add("ProductId", id));
             await modalReference.Result;
         }
-
 
         private async Task DeleteAsync(Product product)
         {

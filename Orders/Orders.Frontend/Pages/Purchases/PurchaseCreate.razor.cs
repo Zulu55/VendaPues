@@ -22,6 +22,7 @@ namespace Orders.Frontend.Pages.Purchases
         private readonly int[] pageSizeOptions = { 5, 10 };
         private int totalRecords = 0;
         private bool loading;
+        private string infoFormat = "{first_item}-{last_item} de {all_items}";
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
@@ -199,7 +200,6 @@ namespace Orders.Frontend.Pages.Purchases
                 ShowToast("Error", SweetAlertIcon.Error, "Debes agregar al menos un producto en la compra.");
                 return;
             }
-
 
             var result = await SweetAlertService.FireAsync(new SweetAlertOptions
             {

@@ -15,6 +15,7 @@ namespace Orders.Frontend.Pages.Inventories
         private const string baseUrl = "api/InventoryDetails";
         private readonly int[] pageSizeOptions = { 10, 25, 50, int.MaxValue };
         private bool enableModifyCost = false;
+        private string infoFormat = "{first_item}-{last_item} de {all_items}";
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;

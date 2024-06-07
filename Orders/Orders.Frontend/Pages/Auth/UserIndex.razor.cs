@@ -18,6 +18,7 @@ namespace Orders.Frontend.Pages.Auth
         private int totalRecords = 0;
         private bool loading;
         private string baseUrl = "api/accounts";
+        private string infoFormat = "{first_item}-{last_item} de {all_items}";
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;

@@ -19,6 +19,7 @@ namespace Orders.Frontend.Pages.Products
         private bool loading;
         private const string baseUrl = "api/kardex";
         private string? productName;
+        private string infoFormat = "{first_item}-{last_item} de {all_items}";
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;

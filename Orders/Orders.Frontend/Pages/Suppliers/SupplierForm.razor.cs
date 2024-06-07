@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Routing;
 using Orders.Frontend.Repositories;
-using Orders.Shared.DTOs;
 using Orders.Shared.Entities;
 
 namespace Orders.Frontend.Pages.Suppliers
