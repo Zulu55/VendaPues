@@ -1,10 +1,5 @@
-﻿@page "/supplier/create"
-
-<MudCard>
-    <div class="p-3">
-        <MudItem>
-            <MudText Typo="Typo.h5">Crear Proveedor</MudText>
-        </MudItem>
+﻿<MudDialog>
+    <DialogContent>
         <SupplierForm @ref="supplierForm" Supplier="supplier" OnValidSubmit="CreateAsync" ReturnAction="Return" />
-    </div>
-</MudCard>
+    </DialogContent>
+</MudDialog>

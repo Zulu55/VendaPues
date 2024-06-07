@@ -1,17 +1,12 @@
-﻿@page "/supplier/edit/{Id:int}"
-
-@if (supplier is null)
+﻿@if (supplier is null)
 {
         <Loading/>
 }
 else
 {
-    <MudCard>
-        <div class="p-3">
-            <MudItem>
-                <MudText Typo="Typo.h5">Editar Proveedor</MudText>
-            </MudItem>
+    <MudDialog>
+        <DialogContent>
             <SupplierForm @ref="supplierForm" Supplier="supplier" OnValidSubmit="EditAsync" ReturnAction="Return" IsEdit />
-        </div>
-    </MudCard>
+        </DialogContent>
+    </MudDialog>
 }

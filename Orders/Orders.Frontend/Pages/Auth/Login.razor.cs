@@ -1,5 +1,3 @@
-using Blazored.Modal;
-using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -14,7 +12,7 @@ namespace Orders.Frontend.Pages.Auth
         private LoginDTO loginDTO = new();
         private bool wasClose;
 
-        [CascadingParameter] MudDialogInstance MudDialog { get; set; } = null!;
+        [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;

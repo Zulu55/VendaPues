@@ -1,4 +1,3 @@
-using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;

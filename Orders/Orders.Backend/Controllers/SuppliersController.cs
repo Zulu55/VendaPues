@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Orders.Backend.UnitsOfWork.Implementations;
 using Orders.Backend.UnitsOfWork.Interfaces;
 using Orders.Shared.DTOs;
 using Orders.Shared.Entities;

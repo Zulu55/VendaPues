@@ -1,10 +1,5 @@
-﻿@page "/countries/create"
-
-<MudCard>
-    <div class="p-3">
-        <MudItem>
-            <MudText Typo="Typo.h5">Crear País</MudText>
-        </MudItem>
+﻿<MudDialog>
+    <DialogContent>
         <FormWithName @ref="countryForm" Label="País:" Model="country" OnValidSubmit="CreateAsync" ReturnAction="Return" />
-    </div>
-</MudCard>
+    </DialogContent>
+</MudDialog>

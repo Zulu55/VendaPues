@@ -1,10 +1,5 @@
-﻿@page "/banks/create"
-
-<MudCard>
-    <div class="p-3">
-        <MudItem>
-            <MudText Typo="Typo.h5">Crear Banco</MudText>
-        </MudItem>
+﻿<MudDialog>
+    <DialogContent>
         <FormWithName @ref="bankForm" Label="Banco: " Model="bank" OnValidSubmit="CreateAsync" ReturnAction="Return" />
-    </div>
-</MudCard>
+    </DialogContent>
+</MudDialog>

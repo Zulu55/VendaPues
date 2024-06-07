@@ -1,8 +1,8 @@
 using System.Net;
-using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using Orders.Frontend.Repositories;
 using Orders.Frontend.Services;
 using Orders.Shared.DTOs;
@@ -28,7 +28,7 @@ namespace Orders.Frontend.Pages.Auth
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private ILoginService LoginService { get; set; } = null!;
-        [CascadingParameter] private IModalService Modal { get; set; } = default!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
 
         protected override async Task OnInitializedAsync()
         {
@@ -50,7 +50,8 @@ namespace Orders.Frontend.Pages.Auth
 
         private void ShowModal()
         {
-            Modal.Show<ChangePassword>();
+            var closeOnEscapeKey = new DialogOptions() { CloseOnEscapeKey = true };
+            DialogService.Show<ChangePassword>("Cambiar Contraseña", closeOnEscapeKey);
         }
 
         private async Task LoadUserAsyc()

@@ -1,17 +1,12 @@
-﻿@page "/categories/edit/{Id:int}"
-
-@if(loading)
+﻿@if(loading)
 {
     <Loading/>
 }
 else
 {
-    <MudCard>
-        <div class="p-3">
-            <MudItem>
-                <MudText Typo="Typo.h5">Editar Banco</MudText>
-            </MudItem>
+    <MudDialog>
+        <DialogContent>
             <FormWithName @ref="categoryForm" Label="Categoría: " Model="category" OnValidSubmit="EditAsync" ReturnAction="Return" />
-        </div>
-    </MudCard>
+        </DialogContent>
+    </MudDialog>
 }

@@ -1,6 +1,4 @@
 ﻿using System.Net;
-using Blazored.Modal;
-using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -29,10 +27,9 @@ namespace Orders.Frontend.Pages.Countries
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
 
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
-
-        [CascadingParameter] private IModalService Modal { get; set; } = default!;
 
         protected override async Task OnInitializedAsync()
         {
@@ -146,23 +143,31 @@ namespace Orders.Frontend.Pages.Countries
 
         private async Task ShowModalAsync(int id = 0, bool isEdit = false)
         {
-            IModalReference modalReference;
-
+            var options = new DialogOptions() { CloseOnEscapeKey = true };
+            IDialogReference? dialog;
             if (isEdit)
             {
-                modalReference = Modal.Show<StateEdit>(string.Empty, new ModalParameters().Add("StateId", id));
+                var parameters = new DialogParameters
+                {
+                    { "Id", id }
+                };
+                dialog = DialogService.Show<StateEdit>("Editar Departamento/Estado", parameters, options);
             }
             else
             {
-                modalReference = Modal.Show<StateCreate>(string.Empty, new ModalParameters().Add("CountryId", CountryId));
+                var parameters = new DialogParameters
+                {
+                    { "CountryId", CountryId }
+                };
+                dialog = DialogService.Show<StateCreate>("Crear Departamento/Estado", parameters, options);
             }
 
-            var result = await modalReference.Result;
-            if (result.Confirmed)
+            var result = await dialog.Result;
+            if (!result.Canceled)
             {
                 await LoadAsync();
+                await table.ReloadServerData();
             }
-            await table.ReloadServerData();
         }
 
         private void CitiesAction(State state)
@@ -179,8 +184,8 @@ namespace Orders.Frontend.Pages.Countries
         {
             var result = await SweetAlertService.FireAsync(new SweetAlertOptions
             {
-                Title = "�Est�s seguro?",
-                Text = $"�Est�s seguro de que quieres eliminar el estado {state.Name}?",
+                Title = "¿Estás seguro?",
+                Text = $"¿Estás seguro de que quieres eliminar el estado {state.Name}?",
                 Icon = SweetAlertIcon.Warning,
                 ShowCancelButton = true,
             });

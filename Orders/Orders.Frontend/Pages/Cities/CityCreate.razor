@@ -1,10 +1,5 @@
-﻿@page "/cities/create/{StateId:int}"
-
-<MudCard>
-    <div class="p-3">
-        <MudItem>
-            <MudText Typo="Typo.h5">Crear Ciudad</MudText>
-        </MudItem>
+﻿<MudDialog>
+    <DialogContent>
         <FormWithName @ref="cityForm" Label="Ciudad:" Model="city" OnValidSubmit="CreateAsync" ReturnAction="Return" />
-    </div>
-</MudCard>
+    </DialogContent>
+</MudDialog>

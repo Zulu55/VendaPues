@@ -1,12 +1,11 @@
-using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
-using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using MudBlazor;
 using Orders.Frontend.Pages.Auth;
 using Orders.Frontend.Repositories;
 using Orders.Shared.DTOs;
 using Orders.Shared.Entities;
-using MudBlazor;
 
 namespace Orders.Frontend.Pages
 {
@@ -32,14 +31,14 @@ namespace Orders.Frontend.Pages
         [Inject] private IDialogService DialogService { get; set; } = null!;
 
         [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; } = null!;
-        [CascadingParameter] MudDialogInstance MudDialog { get; set; } = null!;
+        [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = null!;
 
         protected override async Task OnInitializedAsync()
         {
             await LoadAsync();
         }
 
-        protected async override Task OnParametersSetAsync()
+        protected override async Task OnParametersSetAsync()
         {
             await CheckIsAuthenticatedAsync();
             await LoadCounterAsync();
@@ -229,5 +228,4 @@ namespace Orders.Frontend.Pages
             _ = toast.FireAsync(title, message, iconMessage);
         }
     }
-
 }

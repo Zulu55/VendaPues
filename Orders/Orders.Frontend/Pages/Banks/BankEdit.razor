@@ -1,17 +1,12 @@
-﻿@page "/banks/edit/{Id:int}"
-
-@if (bank is null)
+﻿@if (bank is null)
 {
     <Loading />
 }
 else
 {
-    <MudCard>
-        <div class="p-3">
-            <MudItem>
-                <MudText Typo="Typo.h5">Editar Banco</MudText>
-            </MudItem>
-            <FormWithName @ref="bankForm" Label="Banco: " Model="bank" OnValidSubmit="EditAsync" ReturnAction="Return" />
-        </div>
-    </MudCard>
+    <MudDialog>
+        <DialogContent>
+            <FormWithName @ref="bankForm" Label="Banco: " Model="bank" OnValidSubmit="EditAsync" ReturnAction="Return"/>
+        </DialogContent>
+    </MudDialog>
 }

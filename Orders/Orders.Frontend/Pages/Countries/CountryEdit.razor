@@ -1,17 +1,12 @@
-﻿@page "/countries/edit/{Id:int}"
-
-@if(country is null)
+﻿@if(country is null)
 {
     <Loading/>
 }
 else
 {
-    <MudCard>
-        <div class="p-3">
-            <MudItem>
-                <MudText Typo="Typo.h5">Editar País</MudText>
-            </MudItem>
+    <MudDialog>
+        <DialogContent>
             <FormWithName @ref="countryForm" Label="País:" Model="country" OnValidSubmit="EditAsync" ReturnAction="Return" />
-        </div>
-    </MudCard>
+        </DialogContent>
+    </MudDialog>
 }

@@ -1,6 +1,4 @@
 ﻿using System.Net;
-using Blazored.Modal;
-using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -29,10 +27,9 @@ namespace Orders.Frontend.Pages.States
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
 
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
-
-        [CascadingParameter] private IModalService Modal { get; set; } = default!;
 
         protected override async Task OnInitializedAsync()
         {
@@ -147,23 +144,31 @@ namespace Orders.Frontend.Pages.States
 
         private async Task ShowModalAsync(int id = 0, bool isEdit = false)
         {
-            IModalReference modalReference;
-
+            var options = new DialogOptions() { CloseOnEscapeKey = true };
+            IDialogReference? dialog;
             if (isEdit)
             {
-                modalReference = Modal.Show<CityEdit>(string.Empty, new ModalParameters().Add("CityId", id));
+                var parameters = new DialogParameters
+                {
+                    { "Id", id }
+                };
+                dialog = DialogService.Show<CityEdit>("Editar Ciudad", parameters, options);
             }
             else
             {
-                modalReference = Modal.Show<CityCreate>(string.Empty, new ModalParameters().Add("StateId", StateId));
+                var parameters = new DialogParameters
+                {
+                    { "StateId", StateId }
+                };
+                dialog = DialogService.Show<CityCreate>("Crear Ciudad", parameters, options);
             }
 
-            var result = await modalReference.Result;
-            if (result.Confirmed)
+            var result = await dialog.Result;
+            if (!result.Canceled)
             {
                 await LoadAsync();
+                await table.ReloadServerData();
             }
-            await table.ReloadServerData();
         }
 
         private void ResidentialUnitsAction(City city)
@@ -180,8 +185,8 @@ namespace Orders.Frontend.Pages.States
         {
             var result = await SweetAlertService.FireAsync(new SweetAlertOptions
             {
-                Title = "�Est�s seguro?",
-                Text = $"�Est�s seguro de que quieres eliminar la ciudad {city.Name}?",
+                Title = "¿Estás seguro?",
+                Text = $"¿Estás seguro de que quieres eliminar la ciudad {city.Name}?",
                 Icon = SweetAlertIcon.Warning,
                 ShowCancelButton = true,
             });

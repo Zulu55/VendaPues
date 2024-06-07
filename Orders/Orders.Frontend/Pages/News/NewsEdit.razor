@@ -4,9 +4,9 @@
 }
 else
 {
-    <MudCard>
-        <div class="p-3">
+    <MudDialog>
+        <DialogContent>
             <NewsForm @ref="newsForm" NewsArticle="newsArticle" OnValidSubmit="EditAsync" ReturnAction="Return" IsEdit />
-        </div>
-    </MudCard>
+        </DialogContent>
+    </MudDialog>
 }

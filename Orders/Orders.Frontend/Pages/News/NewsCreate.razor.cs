@@ -1,8 +1,7 @@
-using Blazored.Modal;
-using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using Orders.Frontend.Repositories;
 using Orders.Shared.Entities;
 
@@ -17,25 +16,29 @@ namespace Orders.Frontend.Pages.News
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
-        [CascadingParameter] private BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+        [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = null!;
 
         private async Task CreateAsync()
         {
             var responseHttp = await Repository.PostAsync("/api/news", newsArticle);
             if (responseHttp.Error)
             {
+                MudDialog.Close(DialogResult.Cancel());
                 var message = await responseHttp.GetErrorMessageAsync();
                 await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
                 return;
             }
 
-            await BlazoredModal.CloseAsync(ModalResult.Ok());
-            Return();
+            MudDialog.Close(DialogResult.Ok(true));
+            newsForm!.FormPostedSuccessfully = true;
+            NavigationManager.NavigateTo("/news");
             ShowToast("Ok", SweetAlertIcon.Success, "Registro creado con éxito.");
         }
 
         private void Return()
         {
+            MudDialog.Close(DialogResult.Cancel());
             newsForm!.FormPostedSuccessfully = true;
             NavigationManager.NavigateTo("/news");
         }

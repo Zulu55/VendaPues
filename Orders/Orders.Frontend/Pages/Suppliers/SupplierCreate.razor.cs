@@ -1,10 +1,8 @@
-using Blazored.Modal.Services;
-using Blazored.Modal;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using Orders.Frontend.Repositories;
-using Orders.Frontend.Shared;
 using Orders.Shared.Entities;
 
 namespace Orders.Frontend.Pages.Suppliers
@@ -13,29 +11,34 @@ namespace Orders.Frontend.Pages.Suppliers
     public partial class SupplierCreate
     {
         private Supplier supplier = new();
-        private SupplierForm supplierForm;
+        private SupplierForm? supplierForm;
+
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
-        [CascadingParameter] private BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+        [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = null!;
 
         private async Task CreateAsync()
         {
             var responseHttp = await Repository.PostAsync("/api/suppliers", supplier);
             if (responseHttp.Error)
             {
+                MudDialog.Close(DialogResult.Cancel());
                 var message = await responseHttp.GetErrorMessageAsync();
                 await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
                 return;
             }
 
-            await BlazoredModal.CloseAsync(ModalResult.Ok());
-            Return();
+            MudDialog.Close(DialogResult.Ok(true));
+            supplierForm!.FormPostedSuccessfully = true;
+            NavigationManager.NavigateTo("/suppliers");
             ShowToast("Ok", SweetAlertIcon.Success, "Registro creado con éxito.");
         }
 
         private void Return()
         {
+            MudDialog.Close(DialogResult.Cancel());
             supplierForm!.FormPostedSuccessfully = true;
             NavigationManager.NavigateTo("/suppliers");
         }

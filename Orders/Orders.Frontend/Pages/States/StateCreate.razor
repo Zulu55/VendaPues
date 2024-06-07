@@ -1,10 +1,5 @@
-﻿@page "/states/create/{CountryId:int}"
-
-<MudCard>
-    <div class="p-3">
-        <MudItem>
-            <MudText Typo="Typo.h5">Crear Estado/Departamento</MudText>
-        </MudItem>
+﻿<MudDialog>
+    <DialogContent>
         <FormWithName @ref="stateForm" Label="Estado/Departamento:" Model="state" OnValidSubmit="CreateAsync" ReturnAction="Return" />
-    </div>
-</MudCard>
+    </DialogContent>
+</MudDialog>

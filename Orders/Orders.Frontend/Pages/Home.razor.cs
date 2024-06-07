@@ -1,5 +1,4 @@
-﻿using Blazored.Modal.Services;
-using CurrieTechnologies.Razor.SweetAlert2;
+﻿using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using MudBlazor;
@@ -36,7 +35,7 @@ namespace Orders.Frontend.Pages
             await LoadAsync();
         }
 
-        protected async override Task OnParametersSetAsync()
+        protected override async Task OnParametersSetAsync()
         {
             await CheckIsAuthenticatedAsync();
             await LoadCounterAsync();
@@ -206,7 +205,7 @@ namespace Orders.Frontend.Pages
             }
             return content;
         }
-        
+
         private async Task ApplyFilterAsync()
         {
             int page = 1;

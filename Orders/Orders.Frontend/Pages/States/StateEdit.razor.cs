@@ -1,9 +1,8 @@
 ﻿using System.Net;
-using Blazored.Modal;
-using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using Orders.Frontend.Repositories;
 using Orders.Frontend.Shared;
 using Orders.Shared.Entities;
@@ -20,12 +19,12 @@ namespace Orders.Frontend.Pages.States
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
 
-        [Parameter] public int StateId { get; set; }
-        [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+        [Parameter] public int Id { get; set; }
+        [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = null!;
 
         protected override async Task OnParametersSetAsync()
         {
-            var responseHttp = await Repository.GetAsync<State>($"/api/states/{StateId}");
+            var responseHttp = await Repository.GetAsync<State>($"/api/states/{Id}");
             if (responseHttp.Error)
             {
                 if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
@@ -44,18 +43,21 @@ namespace Orders.Frontend.Pages.States
             var responseHttp = await Repository.PutAsync($"/api/states", state);
             if (responseHttp.Error)
             {
+                MudDialog.Close(DialogResult.Cancel());
                 var message = await responseHttp.GetErrorMessageAsync();
                 await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
                 return;
             }
 
-            await BlazoredModal.CloseAsync(ModalResult.Ok());
-            Return();
+            MudDialog.Close(DialogResult.Ok(true));
+            stateForm!.FormPostedSuccessfully = true;
+            NavigationManager.NavigateTo($"/countries/details/{state!.CountryId}");
             ShowToast("Ok", SweetAlertIcon.Success, "Cambios guardados con éxito.");
         }
 
         private void Return()
         {
+            MudDialog.Close(DialogResult.Cancel());
             stateForm!.FormPostedSuccessfully = true;
             NavigationManager.NavigateTo($"/countries/details/{state!.CountryId}");
         }

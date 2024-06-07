@@ -1,11 +1,10 @@
-using Blazored.Modal;
-using Blazored.Modal.Services;
+using System.Net;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using Orders.Frontend.Repositories;
 using Orders.Shared.Entities;
-using System.Net;
 
 namespace Orders.Frontend.Pages.Suppliers
 {
@@ -20,7 +19,8 @@ namespace Orders.Frontend.Pages.Suppliers
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
         [EditorRequired, Parameter] public int Id { get; set; }
-        [CascadingParameter] private BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+        [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = null!;
 
         protected override async Task OnParametersSetAsync()
         {
@@ -48,18 +48,21 @@ namespace Orders.Frontend.Pages.Suppliers
             var responseHttp = await Repository.PutAsync("/api/suppliers", supplier);
             if (responseHttp.Error)
             {
+                MudDialog.Close(DialogResult.Cancel());
                 var message = await responseHttp.GetErrorMessageAsync();
                 await SweetAlertService.FireAsync("Error", message);
                 return;
             }
 
-            await BlazoredModal.CloseAsync(ModalResult.Ok());
-            Return();
+            MudDialog.Close(DialogResult.Ok(true));
+            supplierForm!.FormPostedSuccessfully = true;
+            NavigationManager.NavigateTo("/suppliers");
             ShowToast("Ok", SweetAlertIcon.Success, "Cambios guardados con éxito.");
         }
 
         private void Return()
         {
+            MudDialog.Close(DialogResult.Cancel());
             supplierForm!.FormPostedSuccessfully = true;
             NavigationManager.NavigateTo("/suppliers");
         }

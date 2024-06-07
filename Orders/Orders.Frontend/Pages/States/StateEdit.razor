@@ -6,12 +6,9 @@
 }
 else
 {
-    <MudCard>
-        <div class="p-3">
-            <MudItem>
-                <MudText Typo="Typo.h5">Editar Estado/Departamento</MudText>
-            </MudItem>
+    <MudDialog>
+        <DialogContent>
             <FormWithName @ref="stateForm" Label="Estado/Departamento:" Model="state" OnValidSubmit="SaveAsync" ReturnAction="Return" />
-        </div>
-    </MudCard>
+        </DialogContent>
+    </MudDialog>
 }

@@ -1,17 +1,12 @@
-﻿@page "/cities/edit/{CityId:int}"
-
-@if (city is null)
+﻿@if (city is null)
 {
     <Loading />
 }
 else
 {
-    <MudCard>
-        <div class="p-3">
-            <MudItem>
-                <MudText Typo="Typo.h5">Editar Ciudad</MudText>
-            </MudItem>
+    <MudDialog>
+        <DialogContent>
             <FormWithName @ref="cityForm" Label="Ciudad:" Model="city" OnValidSubmit="SaveAsync" ReturnAction="Return" />
-        </div>
-    </MudCard>
+        </DialogContent>
+    </MudDialog>
 }
