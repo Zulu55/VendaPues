@@ -141,22 +141,28 @@ code {
 .logo-container {
     display: flex;
     justify-content: center;
-    align-items: center; 
+    align-items: center;
     height: 100px;
 }
 
 .logo {
-    max-width: 100px; 
+    max-width: 100px;
     height: auto;
     margin: 2rem;
 }
 
 @media (max-width: 768px) {
     .logo-container {
-        height: 50px; 
+        height: 50px;
     }
 
     .logo {
-        max-width: 50px; 
+        max-width: 50px;
     }
+}
+
+.centered-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
