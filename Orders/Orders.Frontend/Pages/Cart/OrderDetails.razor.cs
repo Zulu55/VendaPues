@@ -94,7 +94,9 @@ namespace Orders.Frontend.Pages.Cart
             var orderDTO = new OrderDTO
             {
                 Id = OrderId,
-                OrderStatus = status
+                OrderStatus = status,
+                Email = "payondeliver@yopmail.com",
+                Reference = "na"
             };
 
             var responseHttp = await Repository.PutAsync("api/orders", orderDTO);
