@@ -14,7 +14,6 @@ namespace Orders.Frontend.Pages.Categories
         private FormWithName<Category>? categoryForm;
 
         [Inject] private IRepository Repository { get; set; } = null!;
-        [Inject] private IDialogService DialogService { get; set; } = null!;
         [Inject] private ISnackbar Snackbar { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 

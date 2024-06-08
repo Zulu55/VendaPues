@@ -1,10 +1,5 @@
-﻿@page "/purchases/create"
-
-<MudCard>
-    <div class="p-2">
-        <MudItem>
-            <MudText Typo="Typo.h5"><i class="bi bi-bag"></i> Ingresar Compra</MudText>
-        </MudItem>
+﻿<MudDialog>   
+    <DialogContent>
         <EditForm Model="temporalPurchaseDTO">
             <DataAnnotationsValidator />
             <MudGrid>
@@ -109,15 +104,13 @@
                                InfoFormat="@infoFormat" />
             </PagerContent>
         </MudTable>
-        <div class="p-2">
-            <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.ArrowBack" Color="Color.Info" Href="/purchases">
-                Regresar
-            </MudButton>
-            <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.Check" Color="Color.Primary" OnClick="SavePurchaseAsync">
-                Guardar
-            </MudButton>
-        </div>
-    </div>
-
-</MudCard>
-
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.ArrowBack" Color="Color.Info" Href="/purchases">
+            Regresar
+        </MudButton>
+        <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.Check" Color="Color.Primary" OnClick="SavePurchaseAsync">
+            Guardar
+        </MudButton>
+    </DialogActions>
+</MudDialog>

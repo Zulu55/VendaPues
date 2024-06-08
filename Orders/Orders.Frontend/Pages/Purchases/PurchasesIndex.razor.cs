@@ -1,6 +1,3 @@
-using Blazored.Modal;
-using Blazored.Modal.Services;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -24,10 +21,8 @@ namespace Orders.Frontend.Pages.Purchases
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private IDialogService DialogService { get; set; } = null!;
         [Inject] private ISnackbar Snackbar { get; set; } = null!;
-        [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
-        [CascadingParameter] private IModalService Modal { get; set; } = default!;
 
         protected override async Task OnInitializedAsync()
         {
@@ -97,23 +92,27 @@ namespace Orders.Frontend.Pages.Purchases
 
         private async Task ShowModalAsync(int id = 0)
         {
-            IModalReference modalReference;
-
+            var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
+            IDialogReference? dialog;
             if (id != 0)
             {
-                modalReference = Modal.Show<PurchaseDetailPage>(string.Empty, new ModalParameters().Add("PurchaseId", id));
+                var parameters = new DialogParameters
+                {
+                    { "PurchaseId", id }
+                };
+                dialog = DialogService.Show<PurchaseDetailPage>("Ver Compra", parameters, options);
             }
             else
             {
-                modalReference = Modal.Show<PurchaseCreate>();
+                dialog = DialogService.Show<PurchaseCreate>("Crear Compra", options);
             }
 
-            var result = await modalReference.Result;
-            if (result.Confirmed)
+            var result = await dialog.Result;
+            if (!result.Canceled)
             {
                 await LoadAsync();
+                await table.ReloadServerData();
             }
-            await table.ReloadServerData();
         }
 
         private static string TruncateContent(string content, int length)

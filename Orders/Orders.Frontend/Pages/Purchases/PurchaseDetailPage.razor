@@ -1,12 +1,11 @@
-﻿@page "/purchases/detail/{PurchaseId}"
-
-@if (loading)
+﻿@if (loading)
 {
     <Loading />
 }
 else
 {
-    <MudCard>
+<MudDialog>   
+    <DialogContent>
         <div class="row p-2">
             <div class="col-6">
                 <div class="mb-3">
@@ -99,10 +98,11 @@ else
                                InfoFormat="@infoFormat" />
             </PagerContent>
         </MudTable>
-        <div class="p-2">
+        </DialogContent>
+        <DialogActions>
             <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.ArrowBack" Color="Color.Info" Href="/purchases" Class="p-2">
                 Regresar
             </MudButton>
-        </div>
-    </MudCard>
+        </DialogActions>
+    </MudDialog>
 }

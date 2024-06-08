@@ -19,7 +19,7 @@ namespace Orders.Frontend.Pages.Purchases
         private float sumQuantity;
         private decimal sumValue;
         private const string baseUrl = "api/temporalPurchases";
-        private readonly int[] pageSizeOptions = { 5, 10 };
+        private readonly int[] pageSizeOptions = { 5, 10, 20, int.MaxValue };
         private int totalRecords = 0;
         private bool loading;
         private string infoFormat = "{first_item}-{last_item} de {all_items}";
