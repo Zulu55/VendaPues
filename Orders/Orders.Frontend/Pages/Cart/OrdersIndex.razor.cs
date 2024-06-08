@@ -1,5 +1,3 @@
-using Blazored.Modal.Services;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;

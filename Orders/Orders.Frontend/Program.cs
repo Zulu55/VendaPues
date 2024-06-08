@@ -1,5 +1,3 @@
-using Blazored.Modal;
-
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -21,7 +19,6 @@ internal class Program
         builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7154/") });
         builder.Services.AddScoped<IRepository, Repository>();
         builder.Services.AddAuthorizationCore();
-        builder.Services.AddBlazoredModal();
 
         builder.Services.AddMudServices(config =>
         {
