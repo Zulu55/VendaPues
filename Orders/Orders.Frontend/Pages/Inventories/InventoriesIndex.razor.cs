@@ -24,8 +24,7 @@ namespace Orders.Frontend.Pages.Inventories
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
-
-        [CascadingParameter] private IModalService Modal { get; set; } = default!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
 
         protected override async Task OnInitializedAsync()
         {
@@ -88,13 +87,18 @@ namespace Orders.Frontend.Pages.Inventories
 
         private async Task ShowCount1ModalAsync(Inventory inventory)
         {
-            var modalReference = Modal.Show<EnterCount1>(string.Empty, new ModalParameters().Add("Id", inventory.Id));
-            var result = await modalReference.Result;
-            if (result.Confirmed)
+            var options = new DialogOptions() { CloseOnEscapeKey = true };
+            var parameters = new DialogParameters
+            {
+                { "Id", inventory.Id }
+            };
+            var dialog = DialogService.Show<EnterCount1>("Ingresar Conteo #1", parameters, options);
+            var result = await dialog.Result;
+            if (!result.Canceled)
             {
                 await LoadAsync();
+                await table.ReloadServerData();
             }
-            await table.ReloadServerData();
         }
 
         private async Task ShowCount2ModalAsync(Inventory inventory)
@@ -104,13 +108,19 @@ namespace Orders.Frontend.Pages.Inventories
                 ShowToast("Error", SweetAlertIcon.Error, "Primero debes completar el conteo #1");
                 return;
             }
-            var modalReference = Modal.Show<EnterCount2>(string.Empty, new ModalParameters().Add("Id", inventory.Id));
-            var result = await modalReference.Result;
-            if (result.Confirmed)
+
+            var options = new DialogOptions() { CloseOnEscapeKey = true };
+            var parameters = new DialogParameters
+            {
+                { "Id", inventory.Id }
+            };
+            var dialog = DialogService.Show<EnterCount2>("Ingresar Conteo #2", parameters, options);
+            var result = await dialog.Result;
+            if (!result.Canceled)
             {
                 await LoadAsync();
+                await table.ReloadServerData();
             }
-            await table.ReloadServerData();
         }
 
         private async Task ShowCount3ModalAsync(Inventory inventory)
@@ -120,24 +130,31 @@ namespace Orders.Frontend.Pages.Inventories
                 ShowToast("Error", SweetAlertIcon.Error, "Primero debes completar el conteo #1 y #2");
                 return;
             }
-            var modalReference = Modal.Show<EnterCount3>(string.Empty, new ModalParameters().Add("Id", inventory.Id));
-            var result = await modalReference.Result;
-            if (result.Confirmed)
+
+            var options = new DialogOptions() { CloseOnEscapeKey = true };
+            var parameters = new DialogParameters
+            {
+                { "Id", inventory.Id }
+            };
+            var dialog = DialogService.Show<EnterCount3>("Ingresar Conteo #3", parameters, options);
+            var result = await dialog.Result;
+            if (!result.Canceled)
             {
                 await LoadAsync();
+                await table.ReloadServerData();
             }
-            await table.ReloadServerData();
         }
 
         private async Task ShowCreateModalAsync()
         {
-            var modalReference = Modal.Show<InventoryCreate>();
-            var result = await modalReference.Result;
-            if (result.Confirmed)
+            var options = new DialogOptions() { CloseOnEscapeKey = true };
+            var dialog = DialogService.Show<InventoryCreate>("Crear Inventario", options);
+            var result = await dialog.Result;
+            if (!result.Canceled)
             {
                 await LoadAsync();
+                await table.ReloadServerData();
             }
-            await table.ReloadServerData();
         }
 
         private void ShowToast(string title, SweetAlertIcon iconMessage, string message)

@@ -1,8 +1,5 @@
-﻿<MudCard>
-    <div class="p-2">
-        <MudItem>
-            <MudText Typo="Typo.h5"><i class="bi bi-clipboard-check"></i> Crear Iventario</MudText>
-        </MudItem>
+﻿<MudDialog>   
+    <DialogContent>
         <EditForm Model="inventory" OnSubmit="SaveInventoryAsync">
             <DataAnnotationsValidator />
             <MudCardContent>
@@ -22,5 +19,5 @@
                 Guardar
             </MudButton>
         </EditForm>
-    </div>
-</MudCard>
+    </DialogContent>
+</MudDialog>

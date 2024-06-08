@@ -12,11 +12,12 @@ namespace Orders.Frontend.Pages.Auth
         private LoginDTO loginDTO = new();
         private bool wasClose;
 
-        [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private ILoginService LoginService { get; set; } = null!;
+
+        [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = null!;
 
         private void CloseModal()
         {

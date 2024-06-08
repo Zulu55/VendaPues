@@ -171,11 +171,6 @@ namespace Orders.Frontend.Pages.States
             }
         }
 
-        private void ResidentialUnitsAction(City city)
-        {
-            NavigationManager.NavigateTo($"/cities/details/{city.Id}");
-        }
-
         private void NoState()
         {
             NavigationManager.NavigateTo("/countries");

@@ -1,10 +1,5 @@
-﻿@page "/inventories/count3/{Id:int}"
-
-<MudCard>
-    <div class="p-2">
-        <MudItem Class="mb-2">
-            <MudText Typo="Typo.h4">Ingresar conteo <i class="bi bi-3-square-fill"></i></MudText>
-        </MudItem>
+﻿<MudDialog>
+    <DialogContent>
         <MudTable Items="@InventoryDetails"
                   @ref="table"
                   ServerData="@(new Func<TableState, Task<TableData<InventoryDetail>>>(LoadListAsync))"
@@ -45,8 +40,8 @@
                                InfoFormat="@infoFormat" />
             </PagerContent>
         </MudTable>
-        <MudSpacer />
-        <hr />
+    </DialogContent>
+    <DialogActions>
         <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.ArrowBack" Color="Color.Info" Href="/inventories">
             Regresar
         </MudButton>
@@ -56,5 +51,5 @@
         <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.Check" Color="Color.Secondary" OnClick="FinishCountAsync">
             Terminar Conteo
         </MudButton>
-    </div>
-</MudCard>
+    </DialogActions>
+</MudDialog>

@@ -1,6 +1,7 @@
-using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using Orders.Frontend.Repositories;
+using Orders.Frontend.Shared;
 using Orders.Shared.Entities;
 
 namespace Orders.Frontend.Pages.Inventories
@@ -10,8 +11,12 @@ namespace Orders.Frontend.Pages.Inventories
         private Inventory inventory = new() { Date = DateTime.Now };
 
         [Inject] private IRepository Repository { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
+
+        [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
+
+        [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = null!;
 
         private async Task OnDateChange(DateTime? date)
         {
@@ -27,25 +32,24 @@ namespace Orders.Frontend.Pages.Inventories
         {
             if (string.IsNullOrEmpty(inventory.Name))
             {
-                ShowToast("Error", SweetAlertIcon.Error, "Debes ingresar un nombre al inventario.");
+                Snackbar.Add("Debes ingresar un nombre al inventario.", Severity.Error);
                 return;
             }
 
             if (string.IsNullOrEmpty(inventory.Description))
             {
-                ShowToast("Error", SweetAlertIcon.Error, "Debes ingresar una descripción al inventario.");
+                Snackbar.Add("Debes ingresar una descripción al inventario.", Severity.Error);
                 return;
             }
-            var result = await SweetAlertService.FireAsync(new SweetAlertOptions
-            {
-                Title = "Confirmación",
-                Text = "¿Esta seguro que quieres crear este nuevo inventario?",
-                Icon = SweetAlertIcon.Question,
-                ShowCancelButton = true
-            });
 
-            var confirm = string.IsNullOrEmpty(result.Value);
-            if (confirm)
+            var parameters = new DialogParameters
+            {
+                { "Message", "¿Esta seguro que quieres crear este nuevo inventario?" }
+            };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+            var dialog = DialogService.Show<ConfirmDialog>("Confirmación", parameters, options);
+            var result = await dialog.Result;
+            if (result.Canceled)
             {
                 return;
             }
@@ -53,25 +57,15 @@ namespace Orders.Frontend.Pages.Inventories
             var responseHttp = await Repository.PostAsync<Inventory>("/api/inventories", inventory);
             if (responseHttp.Error)
             {
+                MudDialog.Close(DialogResult.Cancel());
                 var message = await responseHttp.GetErrorMessageAsync();
-                ShowToast("Error", SweetAlertIcon.Error, message!);
+                Snackbar.Add(message!, Severity.Error);
                 return;
             }
 
-            ShowToast("Ok", SweetAlertIcon.Success, "Inventario creado.");
+            MudDialog.Close(DialogResult.Ok(true));
+            Snackbar.Add("Inventario creado.", Severity.Success);
             NavigationManager.NavigateTo("/inventories");
-        }
-
-        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
-        {
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            _ = toast.FireAsync(title, message, iconMessage);
         }
     }
 }

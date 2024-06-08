@@ -1,8 +1,7 @@
-using Blazored.Modal.Services;
-using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Orders.Frontend.Repositories;
+using Orders.Frontend.Shared;
 using Orders.Shared.Entities;
 using Orders.Shared.Responses;
 
@@ -13,17 +12,19 @@ namespace Orders.Frontend.Pages.Inventories
         private int totalRecords = 0;
         private bool loading;
         private const string baseUrl = "api/InventoryDetails";
-        private readonly int[] pageSizeOptions = { 10, 25, 50, int.MaxValue };
+        private readonly int[] pageSizeOptions = { 5, 10, 20, int.MaxValue };
         private bool enableModifyCost = false;
         private string infoFormat = "{first_item}-{last_item} de {all_items}";
 
         [Inject] private IRepository Repository { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
+
+        [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
 
         [EditorRequired, Parameter] public int Id { get; set; }
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
-        [CascadingParameter] private IModalService Modal { get; set; } = default!;
+        [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = null!;
 
         private MudTable<InventoryDetail> table = new();
         public List<InventoryDetail>? InventoryDetails { get; set; }
@@ -56,12 +57,12 @@ namespace Orders.Frontend.Pages.Inventories
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync(new SweetAlertOptions
+                var parameters = new DialogParameters
                 {
-                    Title = "Error",
-                    Text = message,
-                    Icon = SweetAlertIcon.Error
-                });
+                    { "Message", message }
+                };
+                var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+                DialogService.Show<GenericDialog>("Error", parameters, options);
                 return false;
             }
             totalRecords = responseHttp.Response;
@@ -83,12 +84,12 @@ namespace Orders.Frontend.Pages.Inventories
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync(new SweetAlertOptions
+                var parameters = new DialogParameters
                 {
-                    Title = "Error",
-                    Text = message,
-                    Icon = SweetAlertIcon.Error
-                });
+                    { "Message", message }
+                };
+                var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+                DialogService.Show<GenericDialog>("Error", parameters, options);
                 return new TableData<InventoryDetail> { Items = [], TotalItems = 0 };
             }
             if (responseHttp.Response == null)
@@ -117,7 +118,7 @@ namespace Orders.Frontend.Pages.Inventories
             var isValid = ValidateCount();
             if (!isValid.WasSuccess)
             {
-                ShowToast("Error", SweetAlertIcon.Error, isValid.Message!);
+                Snackbar.Add(isValid.Message!, Severity.Error);
                 return;
             }
 
@@ -125,7 +126,8 @@ namespace Orders.Frontend.Pages.Inventories
             {
                 _ = SaveInventoryDetailAsync(inventoryDetail);
             }
-            ShowToast("Ok", SweetAlertIcon.Success, "Cambios guardados con exito.");
+
+            Snackbar.Add("Cambios guardados con exito.", Severity.Success);
         }
 
         private ActionResponse<bool> ValidateCount()
@@ -160,23 +162,26 @@ namespace Orders.Frontend.Pages.Inventories
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message);
+                var parameters = new DialogParameters
+                {
+                    { "Message", message }
+                };
+                var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+                DialogService.Show<GenericDialog>("Error", parameters, options);
                 return;
             }
         }
 
         private async Task FinishCountAsync()
         {
-            var result = await SweetAlertService.FireAsync(new SweetAlertOptions
+            var parameters = new DialogParameters
             {
-                Title = "Confirmación",
-                Text = "¿Esta seguro que quieres finalizar el conteo #1?",
-                Icon = SweetAlertIcon.Question,
-                ShowCancelButton = true
-            });
-
-            var confirm = string.IsNullOrEmpty(result.Value);
-            if (confirm)
+                { "Message", "¿Esta seguro que quieres finalizar el conteo #1?" }
+            };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+            var dialog = DialogService.Show<ConfirmDialog>("Confirmación", parameters, options);
+            var result = await dialog.Result;
+            if (result.Canceled)
             {
                 return;
             }
@@ -184,16 +189,14 @@ namespace Orders.Frontend.Pages.Inventories
             var count0 = InventoryDetails!.Count(x => x.Count1 == 0);
             if (count0 / InventoryDetails!.Count > 0.5)
             {
-                result = await SweetAlertService.FireAsync(new SweetAlertOptions
+                parameters = new DialogParameters
                 {
-                    Title = "Confirmación",
-                    Text = "Hay una gran cantidad de productos con conteo en cero, ¿Estas seguro de cerrar este primer conteo?",
-                    Icon = SweetAlertIcon.Question,
-                    ShowCancelButton = true
-                });
-
-                confirm = string.IsNullOrEmpty(result.Value);
-                if (confirm)
+                    { "Message", "Hay una gran cantidad de productos con conteo en cero, ¿Estas seguro de cerrar este primer conteo?" }
+                };
+                options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+                dialog = DialogService.Show<ConfirmDialog>("Confirmación", parameters, options);
+                result = await dialog.Result;
+                if (result.Canceled)
                 {
                     return;
                 }
@@ -202,25 +205,15 @@ namespace Orders.Frontend.Pages.Inventories
             var responseHttp = await Repository.GetAsync($"/api/inventories/finishCount1/{Id}");
             if (responseHttp.Error)
             {
+                MudDialog.Close(DialogResult.Cancel());
                 var message = await responseHttp.GetErrorMessageAsync();
-                ShowToast("Error", SweetAlertIcon.Error, message!);
+                Snackbar.Add(message!, Severity.Error);
                 return;
             }
 
-            ShowToast("Ok", SweetAlertIcon.Success, "Conteo #1 cerrado, puede proceder al conteo #2.");
+            MudDialog.Close(DialogResult.Ok(true));
+            Snackbar.Add("Conteo #1 cerrado, puede proceder al conteo #2.", Severity.Success);
             NavigationManager.NavigateTo("/inventories");
-        }
-
-        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
-        {
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            _ = toast.FireAsync(title, message, iconMessage);
         }
     }
 }
