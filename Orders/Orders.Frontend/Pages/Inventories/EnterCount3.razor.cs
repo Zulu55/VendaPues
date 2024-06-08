@@ -60,7 +60,7 @@ namespace Orders.Frontend.Pages.Inventories
                 {
                     { "Message", message }
                 };
-                var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+                var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall, CloseOnEscapeKey = true };
                 DialogService.Show<GenericDialog>("Error", parameters, options);
                 return false;
             }
@@ -87,7 +87,7 @@ namespace Orders.Frontend.Pages.Inventories
                 {
                     { "Message", message }
                 };
-                var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+                var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall, CloseOnEscapeKey = true };
                 DialogService.Show<GenericDialog>("Error", parameters, options);
                 return new TableData<InventoryDetail> { Items = [], TotalItems = 0 };
             }
@@ -164,7 +164,7 @@ namespace Orders.Frontend.Pages.Inventories
                 {
                     { "Message", message }
                 };
-                var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+                var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall, CloseOnEscapeKey = true };
                 DialogService.Show<GenericDialog>("Error", parameters, options);
                 return;
             }
@@ -176,7 +176,7 @@ namespace Orders.Frontend.Pages.Inventories
             {
                 { "Message", "¿Esta seguro que quieres finalizar el conteo #3?" }
             };
-            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall, CloseOnEscapeKey = true };
             var dialog = DialogService.Show<ConfirmDialog>("Confirmación", parameters, options);
             var result = await dialog.Result;
             if (result.Canceled)

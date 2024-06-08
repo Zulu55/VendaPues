@@ -77,7 +77,7 @@ namespace Orders.Frontend.Pages.Inventories
 
         private async Task ShowCount1ModalAsync(Inventory inventory)
         {
-            var options = new DialogOptions() { CloseOnEscapeKey = true };
+            var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = true };
             var parameters = new DialogParameters
             {
                 { "Id", inventory.Id }
@@ -99,7 +99,7 @@ namespace Orders.Frontend.Pages.Inventories
                 return;
             }
 
-            var options = new DialogOptions() { CloseOnEscapeKey = true };
+            var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = true };
             var parameters = new DialogParameters
             {
                 { "Id", inventory.Id }
@@ -121,7 +121,7 @@ namespace Orders.Frontend.Pages.Inventories
                 return;
             }
 
-            var options = new DialogOptions() { CloseOnEscapeKey = true };
+            var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = true };
             var parameters = new DialogParameters
             {
                 { "Id", inventory.Id }
@@ -137,7 +137,7 @@ namespace Orders.Frontend.Pages.Inventories
 
         private async Task ShowCreateModalAsync()
         {
-            var options = new DialogOptions() { CloseOnEscapeKey = true };
+            var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = true };
             var dialog = DialogService.Show<InventoryCreate>("Crear Inventario", options);
             var result = await dialog.Result;
             if (!result.Canceled)

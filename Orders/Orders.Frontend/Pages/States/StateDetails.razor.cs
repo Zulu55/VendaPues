@@ -135,7 +135,7 @@ namespace Orders.Frontend.Pages.States
 
         private async Task ShowModalAsync(int id = 0, bool isEdit = false)
         {
-            var options = new DialogOptions() { CloseOnEscapeKey = true };
+            var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = true };
             IDialogReference? dialog;
             if (isEdit)
             {
@@ -173,7 +173,7 @@ namespace Orders.Frontend.Pages.States
             {
                 { "Message", $"¿Estás seguro de que quieres eliminar la ciudad {city.Name}?" }
             };
-            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall, CloseOnEscapeKey = true };
             var dialog = DialogService.Show<ConfirmDialog>("Confirmación", parameters, options);
             var result = await dialog.Result;
             if (result.Canceled)

@@ -1,10 +1,12 @@
-﻿@page "/products/edit/{ProductId:int}"
-
-@if (loading)
+﻿@if (loading)
 {
     <Loading />
 }
 else
 {
-    <ProductForm @ref="productForm" ProductDTO="productDTO" SelectedCategories="selectedCategories" NonSelectedCategories="nonSelectedCategories" OnValidSubmit="SaveChangesAsync" ReturnAction="Return" IsEdit=true AddImageAction="AddImageAsync" RemoveImageAction="RemoveImageAsyc" />
+    <MudDialog>
+        <DialogContent>
+            <ProductForm @ref="productForm" ProductDTO="productDTO" SelectedCategories="selectedCategories" NonSelectedCategories="nonSelectedCategories" OnValidSubmit="SaveChangesAsync" ReturnAction="Return" IsEdit=true AddImageAction="AddImageAsync" RemoveImageAction="RemoveImageAsyc" />
+        </DialogContent>
+    </MudDialog>
 }

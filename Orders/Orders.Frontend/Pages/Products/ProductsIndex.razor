@@ -44,7 +44,7 @@ else
             </MudTd>
             <MudTd DataLabel="Acciones">
                 <div style="display: flex; justify-content: center; gap: 10px;">
-                    <MudButton Style="width: 50px;" Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Inventory" Color="Color.Info" OnClick="@(() => ShowKArdexModalAsync(context.Id))" />
+                    <MudButton Style="width: 50px;" Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Inventory" Color="Color.Info" OnClick="@(() => ShowKArdexModal(context))" />
                     <MudButton Style="width: 50px;" Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Edit" Color="Color.Warning" OnClick="@(() => ShowModalAsync(context.Id, true))" />
                     <MudButton Style="width: 50px;" Variant="Variant.Outlined" EndIcon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(() => DeleteAsync(@context))" />
                 </div>

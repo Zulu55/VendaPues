@@ -25,8 +25,9 @@ namespace Orders.Frontend.Pages.Products
         [Parameter] public int ProductId { get; set; }
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
-        [Inject] private IDialogService DialogService { get; set; } = null!;
         [Inject] private ISnackbar Snackbar { get; set; } = null!;
+
+        [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = null!;
 
         protected override async Task OnInitializedAsync()
         {
@@ -157,11 +158,15 @@ namespace Orders.Frontend.Pages.Products
                 return;
             }
 
-            Return();
+            MudDialog.Close(DialogResult.Ok(true));
+            productForm!.FormPostedSuccessfully = true;
+            NavigationManager.NavigateTo($"/products");
+            Snackbar.Add("Registro creado con éxito.", Severity.Success);
         }
 
         private void Return()
         {
+            MudDialog.Close(DialogResult.Cancel());
             productForm!.FormPostedSuccessfully = true;
             NavigationManager.NavigateTo($"/products");
         }

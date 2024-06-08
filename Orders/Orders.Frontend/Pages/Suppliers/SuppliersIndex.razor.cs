@@ -96,7 +96,7 @@ namespace Orders.Frontend.Pages.Suppliers
 
         private async Task ShowModalAsync(int id = 0, bool isEdit = false)
         {
-            var options = new DialogOptions() { CloseOnEscapeKey = true };
+            var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = true };
             IDialogReference? dialog;
             if (isEdit)
             {
@@ -125,7 +125,7 @@ namespace Orders.Frontend.Pages.Suppliers
             {
                 { "Message", $"¿Estás seguro de que quieres eliminar el proveedor: {supplier.SupplierName}?" }
             };
-            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall, CloseOnEscapeKey = true };
             var dialog = DialogService.Show<ConfirmDialog>("Confirmación", parameters, options);
             var result = await dialog.Result;
             if (result.Canceled)

@@ -36,7 +36,7 @@ namespace Orders.Frontend.Shared
             {
                 { "Message", "¿Deseas abandonar la página y perder los cambios?" }
             };
-            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall, CloseOnEscapeKey = true };
             var dialog = DialogService.Show<ConfirmDialog>("Confirmación", parameters, options);
             var result = await dialog.Result;
             if (result.Canceled)

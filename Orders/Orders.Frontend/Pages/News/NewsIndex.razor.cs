@@ -103,7 +103,7 @@ namespace Orders.Frontend.Pages.News
 
         private async Task ShowModalAsync(int id = 0, bool isEdit = false)
         {
-            var options = new DialogOptions() { CloseOnEscapeKey = true };
+            var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = true };
             IDialogReference? dialog;
             if (isEdit)
             {
@@ -132,7 +132,7 @@ namespace Orders.Frontend.Pages.News
             {
                 { "Message", $"¿Estás seguro de que quieres eliminar la noticia: {newsArticle.Title}?" }
             };
-            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall, CloseOnEscapeKey = true };
             var dialog = DialogService.Show<ConfirmDialog>("Confirmación", parameters, options);
             var result = await dialog.Result;
             if (result.Canceled)

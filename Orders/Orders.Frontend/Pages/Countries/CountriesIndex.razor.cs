@@ -97,7 +97,7 @@ namespace Orders.Frontend.Pages.Countries
 
         private async Task ShowModalAsync(int id = 0, bool isEdit = false)
         {
-            var options = new DialogOptions() { CloseOnEscapeKey = true };
+            var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = true };
             IDialogReference? dialog;
             if (isEdit)
             {
@@ -131,7 +131,7 @@ namespace Orders.Frontend.Pages.Countries
             {
                 { "Message", $"¿Estás seguro de que quieres eliminar el país: {country.Name}?" }
             };
-            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall, CloseOnEscapeKey = true };
             var dialog = DialogService.Show<ConfirmDialog>("Confirmación", parameters, options);
             var result = await dialog.Result;
             if (result.Canceled)

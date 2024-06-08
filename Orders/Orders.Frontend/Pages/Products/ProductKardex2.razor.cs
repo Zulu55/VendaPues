@@ -1,5 +1,3 @@
-using Blazored.Modal.Services;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -14,7 +12,7 @@ namespace Orders.Frontend.Pages.Products
         public List<Kardex>? Kardex { get; set; }
 
         private MudTable<Kardex> table = new();
-        private readonly int[] pageSizeOptions = { 10, 25, 50, 5, int.MaxValue };
+        private readonly int[] pageSizeOptions = { 5, 10, 20, int.MaxValue };
         private int totalRecords = 0;
         private bool loading;
         private const string baseUrl = "api/kardex";
@@ -22,13 +20,10 @@ namespace Orders.Frontend.Pages.Products
         private string infoFormat = "{first_item}-{last_item} de {all_items}";
 
         [Inject] private IRepository Repository { get; set; } = null!;
-        [Inject] private IDialogService DialogService { get; set; } = null!;
         [Inject] private ISnackbar Snackbar { get; set; } = null!;
-        [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
         [Parameter] public int ProductId { get; set; }
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
-        [CascadingParameter] private IModalService Modal { get; set; } = default!;
 
         protected override async Task OnInitializedAsync()
         {

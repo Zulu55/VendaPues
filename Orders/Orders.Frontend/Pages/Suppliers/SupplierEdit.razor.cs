@@ -56,7 +56,7 @@ namespace Orders.Frontend.Pages.Suppliers
                 {
                     { "Message", message }
                 };
-                var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+                var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall, CloseOnEscapeKey = true };
                 DialogService.Show<GenericDialog>("Error", parameters, options);
                 return;
             }

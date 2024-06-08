@@ -1,5 +1,4 @@
 using System.Net;
-
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Orders.Frontend.Repositories;
@@ -14,7 +13,6 @@ namespace Orders.Frontend.Pages.News
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
-        [Inject] private IDialogService DialogService { get; set; } = null!;
         [Inject] private ISnackbar Snackbar { get; set; } = null!;
 
         [EditorRequired, Parameter] public int Id { get; set; }

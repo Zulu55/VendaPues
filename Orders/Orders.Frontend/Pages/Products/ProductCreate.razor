@@ -1,10 +1,12 @@
-﻿@page "/products/create"
-
-@if (loading)
+﻿@if (loading)
 {
     <Loading />
 }
 else
 {
-    <ProductForm @ref="productForm" ProductDTO="productDTO" NonSelectedCategories="nonSelectedCategories" OnValidSubmit="CreateAsync" ReturnAction="Return" />
+    <MudDialog>
+        <DialogContent>
+                <ProductForm @ref="productForm" ProductDTO="productDTO" NonSelectedCategories="nonSelectedCategories" OnValidSubmit="CreateAsync" ReturnAction="Return" />
+            </DialogContent>
+    </MudDialog>
 }

@@ -1,6 +1,3 @@
-using Blazored.Modal;
-using Blazored.Modal.Services;
-
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Orders.Frontend.Pages.News;
@@ -16,9 +13,8 @@ namespace Orders.Frontend.Pages
         private bool loading = true;
 
         [Inject] private IRepository Repository { get; set; } = null!;
-        [Inject] private IDialogService DialogService { get; set; } = null!;
         [Inject] private ISnackbar Snackbar { get; set; } = null!;
-        [CascadingParameter] private IModalService Modal { get; set; } = default!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
 
         protected override async Task OnInitializedAsync()
         {
@@ -50,9 +46,14 @@ namespace Orders.Frontend.Pages
             return content;
         }
 
-        private void ViewDetails(int id)
+        private void ViewDetails(NewsArticle news)
         {
-            Modal.Show<NewsDetail>(string.Empty, new ModalParameters().Add("Id", id));
+            var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = true };
+            var parameters = new DialogParameters
+            {
+                { "Id", news.Id }
+            };
+            DialogService.Show<NewsDetail>(news.Title, parameters, options);
         }
     }
 }

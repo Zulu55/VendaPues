@@ -1,7 +1,4 @@
 using System.Net;
-using Blazored.Modal;
-using Blazored.Modal.Services;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -29,7 +26,6 @@ namespace Orders.Frontend.Pages.Products
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
-        [CascadingParameter] private IModalService Modal { get; set; } = default!;
 
         protected override async Task OnInitializedAsync()
         {
@@ -100,29 +96,37 @@ namespace Orders.Frontend.Pages.Products
 
         private async Task ShowModalAsync(int id = 0, bool isEdit = false)
         {
-            IModalReference modalReference;
-
+            var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = true };
+            IDialogReference? dialog;
             if (isEdit)
             {
-                modalReference = Modal.Show<ProductEdit>(string.Empty, new ModalParameters().Add("ProductId", id));
+                var parameters = new DialogParameters
+                {
+                    { "ProductId", id }
+                };
+                dialog = DialogService.Show<ProductEdit>("Editar Producto", parameters, options);
             }
             else
             {
-                modalReference = Modal.Show<ProductCreate>();
+                dialog = DialogService.Show<ProductCreate>("Crear Producto", options);
             }
 
-            var result = await modalReference.Result;
-            if (result.Confirmed)
+            var result = await dialog.Result;
+            if (!result.Canceled)
             {
                 await LoadAsync();
+                await table.ReloadServerData();
             }
-            await table.ReloadServerData();
         }
 
-        private async Task ShowKArdexModalAsync(int id)
+        private void ShowKArdexModal(Product product)
         {
-            var modalReference = Modal.Show<ProductKardex2>(string.Empty, new ModalParameters().Add("ProductId", id));
-            await modalReference.Result;
+            var options = new DialogOptions() { CloseOnEscapeKey = true, CloseButton = true, MaxWidth = MaxWidth.ExtraLarge };
+            var parameters = new DialogParameters
+            {
+                { "ProductId", product.Id }
+            };
+            DialogService.Show<ProductKardex2>($"Kardex: {product.Name}", parameters, options);
         }
 
         private async Task DeleteAsync(Product product)
@@ -131,7 +135,7 @@ namespace Orders.Frontend.Pages.Products
             {
                 { "Message", $"¿Estás seguro de que quieres eliminar el producto: {product.Name}?" }
             };
-            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall, CloseOnEscapeKey = true };
             var dialog = DialogService.Show<ConfirmDialog>("Confirmación", parameters, options);
             var result = await dialog.Result;
             if (result.Canceled)
