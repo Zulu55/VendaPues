@@ -1,4 +1,3 @@
-using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -15,7 +14,8 @@ namespace Orders.Frontend.Pages.Banks
         private FormWithName<Bank>? bankForm;
 
         [Inject] private IRepository Repository { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = null!;
 
@@ -26,14 +26,14 @@ namespace Orders.Frontend.Pages.Banks
             {
                 MudDialog.Close(DialogResult.Cancel());
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
 
             MudDialog.Close(DialogResult.Ok(true));
             bankForm!.FormPostedSuccessfully = true;
             NavigationManager.NavigateTo("/banks");
-            ShowToast("Ok", SweetAlertIcon.Success, "Registro creado con éxito.");
+            Snackbar.Add("Registro creado con éxito.", Severity.Success);
         }
 
         private void Return()
@@ -41,18 +41,6 @@ namespace Orders.Frontend.Pages.Banks
             MudDialog.Close(DialogResult.Cancel());
             bankForm!.FormPostedSuccessfully = true;
             NavigationManager.NavigateTo("/banks");
-        }
-
-        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
-        {
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            _ = toast.FireAsync(title, message, iconMessage);
         }
     }
 }

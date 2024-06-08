@@ -1,6 +1,7 @@
 using System.Net;
-using CurrieTechnologies.Razor.SweetAlert2;
+
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using Orders.Frontend.Repositories;
 using Orders.Shared.Entities;
 
@@ -13,7 +14,8 @@ namespace Orders.Frontend.Pages.News
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
 
         [EditorRequired, Parameter] public int Id { get; set; }
 
@@ -32,7 +34,7 @@ namespace Orders.Frontend.Pages.News
                 else
                 {
                     var messsage = await responseHttp.GetErrorMessageAsync();
-                    await SweetAlertService.FireAsync("Error", messsage, SweetAlertIcon.Error);
+                    Snackbar.Add(messsage, Severity.Error);
                 }
             }
             else

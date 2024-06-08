@@ -1,10 +1,11 @@
 using System.Net.Mail;
 using System.Security.AccessControl;
-using CurrieTechnologies.Razor.SweetAlert2;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Orders.Frontend.Repositories;
+using Orders.Frontend.Shared;
 using Orders.Shared.DTOs;
 using Orders.Shared.Entities;
 using Orders.Shared.Enums;
@@ -27,13 +28,13 @@ namespace Orders.Frontend.Pages.Cart
 
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
 
         public OrderDTO OrderDTO { get; set; } = new();
         private int selectedPaymentOption { get; set; }
 
-
-        protected async override Task OnInitializedAsync()
+        protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
             await LoadBanksAsync();
@@ -45,7 +46,7 @@ namespace Orders.Frontend.Pages.Cart
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                ShowToast("Error", SweetAlertIcon.Error, message!);
+                Snackbar.Add(message!, Severity.Error);
                 return;
             }
             banks = responseHttp.Response;
@@ -77,12 +78,7 @@ namespace Orders.Frontend.Pages.Cart
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync(new SweetAlertOptions
-                {
-                    Title = "Error",
-                    Text = message,
-                    Icon = SweetAlertIcon.Error
-                });
+                Snackbar.Add(message, Severity.Error);
                 return new TableData<TemporalOrder> { Items = [], TotalItems = 0 };
             }
             if (responseHttp.Response == null)
@@ -107,27 +103,25 @@ namespace Orders.Frontend.Pages.Cart
             {
                 if (selectedBank.Id == 0)
                 {
-                    ShowToast("Error", SweetAlertIcon.Error, "Debes seleccionar un banco.");
+                    Snackbar.Add("Debes seleccionar un banco.", Severity.Error);
                     return;
                 }
 
                 if (string.IsNullOrEmpty(email) || !IsValidEmail(email))
                 {
-                    ShowToast("Error", SweetAlertIcon.Error, "Debes ingresar un email válido.");
+                    Snackbar.Add("Debes ingresar un email válido.", Severity.Error);
                     return;
                 }
             }
 
-            var result = await SweetAlertService.FireAsync(new SweetAlertOptions
+            var parameters = new DialogParameters
             {
-                Title = "Confirmación",
-                Text = "¿Esta seguro que quieres confirmar el pedido?",
-                Icon = SweetAlertIcon.Question,
-                ShowCancelButton = true
-            });
-
-            var confirm = string.IsNullOrEmpty(result.Value);
-            if (confirm)
+                { "Message", "¿Esta seguro que quieres confirmar el pedido?" }
+            };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+            var dialog = DialogService.Show<ConfirmDialog>("Confirmación", parameters, options);
+            var result = await dialog.Result;
+            if (result.Canceled)
             {
                 return;
             }
@@ -148,12 +142,11 @@ namespace Orders.Frontend.Pages.Cart
 
                 if (!response!.WasSuccess)
                 {
-                    await SweetAlertService.FireAsync("Error", response.Message, SweetAlertIcon.Error);
+                    Snackbar.Add(response.Message, Severity.Error);
                     return;
                 }
 
-                await SweetAlertService.FireAsync("Ok", response.Message, SweetAlertIcon.Success);
-
+                Snackbar.Add(response.Message, Severity.Success);
                 OrderDTO.Email = email;
                 OrderDTO.BankId = selectedBank.Id;
                 OrderDTO.Value = sumValue;
@@ -175,7 +168,7 @@ namespace Orders.Frontend.Pages.Cart
             if (httpActionResponse.Error)
             {
                 var message = await httpActionResponse.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
 
@@ -197,23 +190,19 @@ namespace Orders.Frontend.Pages.Cart
 
         private async Task DeleteAsync(int temporalOrderId)
         {
-            var result = await SweetAlertService.FireAsync(new SweetAlertOptions
+            var parameters = new DialogParameters
             {
-                Title = "Confirmación",
-                Text = "¿Esta seguro que quieres borrar el registro?",
-                Icon = SweetAlertIcon.Question,
-                ShowCancelButton = true
-            });
-
-            var confirm = string.IsNullOrEmpty(result.Value);
-
-            if (confirm)
+                { "Message", "¿Esta seguro que quieres borrar el registro?" }
+            };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+            var dialog = DialogService.Show<ConfirmDialog>("Confirmación", parameters, options);
+            var result = await dialog.Result;
+            if (result.Canceled)
             {
                 return;
             }
 
             var responseHttp = await Repository.DeleteAsync<TemporalOrder>($"api/temporalOrders/{temporalOrderId}");
-
             if (responseHttp.Error)
             {
                 if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -222,25 +211,13 @@ namespace Orders.Frontend.Pages.Cart
                     return;
                 }
 
-                var mensajeError = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
+                var message = await responseHttp.GetErrorMessageAsync();
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
 
             await table.ReloadServerData();
-            ShowToast("Ok", SweetAlertIcon.Success, "Producto eliminado del carro de compras.");
-        }
-
-        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
-        {
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            _ = toast.FireAsync(title, message, iconMessage);
+            Snackbar.Add("Producto eliminado del carro de compras.", Severity.Success);
         }
     }
 }

@@ -1,5 +1,5 @@
-using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using Orders.Frontend.Repositories;
 using Orders.Frontend.Services;
 using Orders.Shared.DTOs;
@@ -24,7 +24,8 @@ namespace Orders.Frontend.Pages.Auth
 
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private ILoginService LogInService { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
         [Parameter, SupplyParameterFromQuery] public bool IsAdmin { get; set; }
 
@@ -36,7 +37,7 @@ namespace Orders.Frontend.Pages.Auth
         protected override void OnParametersSet()
         {
             base.OnParametersSet();
-            titleLabel =  IsAdmin ? "Registro de Administrador" : "Registro de Usuario";
+            titleLabel = IsAdmin ? "Registro de Administrador" : "Registro de Usuario";
         }
 
         private void ImageSelected(string imageBase64)
@@ -51,7 +52,7 @@ namespace Orders.Frontend.Pages.Auth
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
             countries = responseHttp.Response;
@@ -63,7 +64,7 @@ namespace Orders.Frontend.Pages.Auth
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
             states = responseHttp.Response;
@@ -75,7 +76,7 @@ namespace Orders.Frontend.Pages.Auth
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
             cities = responseHttp.Response;
@@ -165,10 +166,11 @@ namespace Orders.Frontend.Pages.Auth
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
-            await SweetAlertService.FireAsync("Confirmación", "Su cuenta ha sido creada con exito. Se te ha enviado un correo electrónico con las instrucciones para activar tu usuario.", SweetAlertIcon.Info);
+
+            Snackbar.Add("Su cuenta ha sido creada con exito. Se te ha enviado un correo electrónico con las instrucciones para activar tu usuario.", Severity.Success);
             NavigationManager.NavigateTo("/");
         }
     }

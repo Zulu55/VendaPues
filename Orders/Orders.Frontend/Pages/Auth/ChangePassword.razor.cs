@@ -1,4 +1,3 @@
-using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Orders.Frontend.Repositories;
@@ -12,7 +11,8 @@ namespace Orders.Frontend.Pages.Auth
         private bool loading;
 
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
         [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = null!;
 
@@ -24,31 +24,19 @@ namespace Orders.Frontend.Pages.Auth
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
 
             MudDialog.Cancel();
             NavigationManager.NavigateTo("/EditUser");
-            ShowToast("Ok", SweetAlertIcon.Success, "Contraseña Modificada con éxito.");
+            Snackbar.Add("Contraseña Modificada con éxito.", Severity.Success);
         }
 
         private void ReturnAction()
         {
             MudDialog.Cancel();
             NavigationManager.NavigateTo("/EditUser");
-        }
-
-        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
-        {
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            _ = toast.FireAsync(title, message, iconMessage);
         }
     }
 }

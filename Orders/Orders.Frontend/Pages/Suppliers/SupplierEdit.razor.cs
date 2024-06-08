@@ -1,9 +1,10 @@
 using System.Net;
-using CurrieTechnologies.Razor.SweetAlert2;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Orders.Frontend.Repositories;
+using Orders.Frontend.Shared;
 using Orders.Shared.Entities;
 
 namespace Orders.Frontend.Pages.Suppliers
@@ -15,7 +16,8 @@ namespace Orders.Frontend.Pages.Suppliers
         private SupplierForm? supplierForm;
 
         [Inject] private IRepository Repository { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
         [EditorRequired, Parameter] public int Id { get; set; }
@@ -34,7 +36,7 @@ namespace Orders.Frontend.Pages.Suppliers
                 else
                 {
                     var messsage = await responseHttp.GetErrorMessageAsync();
-                    await SweetAlertService.FireAsync("Error", messsage, SweetAlertIcon.Error);
+                    Snackbar.Add(messsage, Severity.Error);
                 }
             }
             else
@@ -50,14 +52,19 @@ namespace Orders.Frontend.Pages.Suppliers
             {
                 MudDialog.Close(DialogResult.Cancel());
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message);
+                var parameters = new DialogParameters
+                {
+                    { "Message", message }
+                };
+                var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+                DialogService.Show<GenericDialog>("Error", parameters, options);
                 return;
             }
 
             MudDialog.Close(DialogResult.Ok(true));
             supplierForm!.FormPostedSuccessfully = true;
             NavigationManager.NavigateTo("/suppliers");
-            ShowToast("Ok", SweetAlertIcon.Success, "Cambios guardados con éxito.");
+            Snackbar.Add("Cambios guardados con éxito.", Severity.Success);
         }
 
         private void Return()
@@ -65,18 +72,6 @@ namespace Orders.Frontend.Pages.Suppliers
             MudDialog.Close(DialogResult.Cancel());
             supplierForm!.FormPostedSuccessfully = true;
             NavigationManager.NavigateTo("/suppliers");
-        }
-
-        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
-        {
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            _ = toast.FireAsync(title, message, iconMessage);
         }
     }
 }

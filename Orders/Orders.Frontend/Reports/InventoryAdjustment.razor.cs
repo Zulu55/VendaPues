@@ -1,6 +1,6 @@
-using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using MudBlazor;
 using OfficeOpenXml;
 using Orders.Frontend.Repositories;
 using Orders.Shared.Entities;
@@ -17,7 +17,8 @@ namespace Orders.Frontend.Reports
         private float totalQuantity = 0;
         private decimal totalValue = 0;
 
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private IJSRuntime JS { get; set; } = null!;
 
@@ -35,12 +36,11 @@ namespace Orders.Frontend.Reports
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                ShowToast("Error", SweetAlertIcon.Error, message!);
+                Snackbar.Add(message!, Severity.Error);
                 return;
             }
             inventories = responseHttp.Response;
         }
-
 
         private async Task<IEnumerable<Inventory>> SearchSupplierAsync(string searchText)
         {
@@ -64,7 +64,7 @@ namespace Orders.Frontend.Reports
         {
             if (selectedInventory.Id == 0)
             {
-                ShowToast("Error", SweetAlertIcon.Error, "Debes seleccionar un inventario.");
+                Snackbar.Add("Debes seleccionar un inventario.", Severity.Error);
                 return;
             }
 
@@ -72,7 +72,7 @@ namespace Orders.Frontend.Reports
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                ShowToast("Error", SweetAlertIcon.Error, message!);
+                Snackbar.Add(message!, Severity.Error);
                 return;
             }
 
@@ -85,19 +85,6 @@ namespace Orders.Frontend.Reports
             totalValue = inventory!.InventoryDetails!.Sum(x => x.AdjustmentValue);
             showReport = true;
         }
-
-        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
-        {
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            _ = toast.FireAsync(title, message, iconMessage);
-        }
-
 
         private void ExportToExcel()
         {

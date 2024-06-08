@@ -1,5 +1,5 @@
 using System.Net;
-using CurrieTechnologies.Razor.SweetAlert2;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -25,10 +25,10 @@ namespace Orders.Frontend.Pages.Auth
         private City selectedCity = new();
 
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private ILoginService LoginService { get; set; } = null!;
-        [Inject] private IDialogService DialogService { get; set; } = null!;
 
         protected override async Task OnInitializedAsync()
         {
@@ -65,7 +65,7 @@ namespace Orders.Frontend.Pages.Auth
                     return;
                 }
                 var messageError = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", messageError, SweetAlertIcon.Error);
+                Snackbar.Add(messageError, Severity.Error);
                 return;
             }
             user = responseHttp.Response;
@@ -84,7 +84,7 @@ namespace Orders.Frontend.Pages.Auth
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
             countries = responseHttp.Response;
@@ -96,7 +96,7 @@ namespace Orders.Frontend.Pages.Auth
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
             states = responseHttp.Response;
@@ -108,7 +108,7 @@ namespace Orders.Frontend.Pages.Auth
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
             cities = responseHttp.Response;
@@ -183,13 +183,12 @@ namespace Orders.Frontend.Pages.Auth
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
 
             await LoginService.LoginAsync(responseHttp.Response!.Token);
-            await SweetAlertService.FireAsync("Confirmación", "Usuario Modificado con éxito.", SweetAlertIcon.Info);
-
+            Snackbar.Add("Usuario modificado con éxito.", Severity.Success);
             NavigationManager.NavigateTo("/");
         }
 

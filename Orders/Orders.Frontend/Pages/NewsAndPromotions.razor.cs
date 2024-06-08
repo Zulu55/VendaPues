@@ -1,7 +1,8 @@
 using Blazored.Modal;
 using Blazored.Modal.Services;
-using CurrieTechnologies.Razor.SweetAlert2;
+
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using Orders.Frontend.Pages.News;
 using Orders.Frontend.Repositories;
 using Orders.Shared.Entities;
@@ -15,7 +16,8 @@ namespace Orders.Frontend.Pages
         private bool loading = true;
 
         [Inject] private IRepository Repository { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
         [CascadingParameter] private IModalService Modal { get; set; } = default!;
 
         protected override async Task OnInitializedAsync()
@@ -33,12 +35,7 @@ namespace Orders.Frontend.Pages
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync(new SweetAlertOptions
-                {
-                    Title = "Error",
-                    Text = message,
-                    Icon = SweetAlertIcon.Error
-                });
+                Snackbar.Add(message, Severity.Error);
             }
 
             newsArticles = responseHttp.Response;

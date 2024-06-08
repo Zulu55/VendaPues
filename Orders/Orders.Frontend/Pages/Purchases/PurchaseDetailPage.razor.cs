@@ -1,6 +1,6 @@
 using System.Net;
 using Blazored.Modal.Services;
-using CurrieTechnologies.Razor.SweetAlert2;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -23,7 +23,9 @@ namespace Orders.Frontend.Pages.Purchases
         private string infoFormat = "{first_item}-{last_item} de {all_items}";
 
         [Inject] private IRepository Repository { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
+
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
         [Parameter] public int PurchaseId { get; set; }
@@ -57,7 +59,7 @@ namespace Orders.Frontend.Pages.Purchases
                 else
                 {
                     var messsage = await responseHttp.GetErrorMessageAsync();
-                    await SweetAlertService.FireAsync("Error", messsage, SweetAlertIcon.Error);
+                    Snackbar.Add(messsage, Severity.Error);
                 }
             }
             else
@@ -78,12 +80,7 @@ namespace Orders.Frontend.Pages.Purchases
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync(new SweetAlertOptions
-                {
-                    Title = "Error",
-                    Text = message,
-                    Icon = SweetAlertIcon.Error
-                });
+                Snackbar.Add(message, Severity.Error);
                 return false;
             }
             totalRecords = responseHttp.Response;
@@ -106,12 +103,7 @@ namespace Orders.Frontend.Pages.Purchases
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync(new SweetAlertOptions
-                {
-                    Title = "Error",
-                    Text = message,
-                    Icon = SweetAlertIcon.Error
-                });
+                Snackbar.Add(message, Severity.Error);
                 return new TableData<PurchaseDetail> { Items = [], TotalItems = 0 };
             }
             if (responseHttp.Response == null)

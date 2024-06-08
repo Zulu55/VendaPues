@@ -1,7 +1,7 @@
-using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Orders.Frontend.Repositories;
+using Orders.Frontend.Shared;
 using Orders.Shared.DTOs;
 using Orders.Shared.Entities;
 
@@ -25,7 +25,8 @@ namespace Orders.Frontend.Pages.Purchases
         private string infoFormat = "{first_item}-{last_item} de {all_items}";
 
         [Inject] private IRepository Repository { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
         public List<TemporalPurchase>? TemporalPurchases { get; set; }
@@ -44,7 +45,7 @@ namespace Orders.Frontend.Pages.Purchases
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                ShowToast("Error", SweetAlertIcon.Error, message!);
+                Snackbar.Add(message!, Severity.Error);
                 return;
             }
 
@@ -66,7 +67,7 @@ namespace Orders.Frontend.Pages.Purchases
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                ShowToast("Error", SweetAlertIcon.Error, message!);
+                Snackbar.Add(message!, Severity.Error);
                 return;
             }
             products = responseHttp.Response;
@@ -80,7 +81,7 @@ namespace Orders.Frontend.Pages.Purchases
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                ShowToast("Error", SweetAlertIcon.Error, message!);
+                Snackbar.Add(message!, Severity.Error);
                 return new TableData<TemporalPurchase> { Items = [], TotalItems = 0 };
             }
             if (responseHttp.Response == null)
@@ -101,22 +102,19 @@ namespace Orders.Frontend.Pages.Purchases
 
         private async Task DeleteAsync(int temporalPurchaseId)
         {
-            var result = await SweetAlertService.FireAsync(new SweetAlertOptions
+            var parameters = new DialogParameters
             {
-                Title = "Confirmación",
-                Text = "¿Esta seguro que quieres borrar el registro?",
-                Icon = SweetAlertIcon.Question,
-                ShowCancelButton = true
-            });
-
-            var confirm = string.IsNullOrEmpty(result.Value);
-            if (confirm)
+                { "Message", "¿Esta seguro que quieres borrar el registro?" }
+            };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+            var dialog = DialogService.Show<ConfirmDialog>("Confirmación", parameters, options);
+            var result = await dialog.Result;
+            if (result.Canceled)
             {
                 return;
             }
 
             var responseHttp = await Repository.DeleteAsync<TemporalPurchase>($"api/temporalPurchases/{temporalPurchaseId}");
-
             if (responseHttp.Error)
             {
                 if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -126,12 +124,12 @@ namespace Orders.Frontend.Pages.Purchases
                 }
 
                 var message = await responseHttp.GetErrorMessageAsync();
-                ShowToast("Error", SweetAlertIcon.Error, message!);
+                Snackbar.Add(message!, Severity.Error);
                 return;
             }
 
             await table.ReloadServerData();
-            ShowToast("Ok", SweetAlertIcon.Success, "Producto eliminado de la compra.");
+            Snackbar.Add("Producto eliminado de la compra.", Severity.Success);
         }
 
         private async Task OnDateChange(DateTime? date)
@@ -148,19 +146,19 @@ namespace Orders.Frontend.Pages.Purchases
         {
             if (selectedProduct.Id == 0)
             {
-                ShowToast("Error", SweetAlertIcon.Error, "Debes seleccionar un producto.");
+                Snackbar.Add("Debes seleccionar un producto.", Severity.Error);
                 return;
             }
 
             if (temporalPurchaseDTO.Quantity <= 0)
             {
-                ShowToast("Error", SweetAlertIcon.Error, "Debes ingresar una cantidad mayor que cero.");
+                Snackbar.Add("Debes ingresar una cantidad mayor que cero.", Severity.Error);
                 return;
             }
 
             if (temporalPurchaseDTO.Cost <= 0)
             {
-                ShowToast("Error", SweetAlertIcon.Error, "Debes ingresar un costo mayor que cero.");
+                Snackbar.Add("Debes ingresar un costo mayor que cero.", Severity.Error);
                 return;
             }
 
@@ -168,7 +166,7 @@ namespace Orders.Frontend.Pages.Purchases
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                ShowToast("Error", SweetAlertIcon.Error, message!);
+                Snackbar.Add(message!, Severity.Error);
                 return;
             }
 
@@ -184,33 +182,31 @@ namespace Orders.Frontend.Pages.Purchases
             temporalPurchaseDTO.Quantity = 1;
             temporalPurchaseDTO.Cost = 0;
             await table.ReloadServerData();
-            ShowToast("Ok", SweetAlertIcon.Success, "Producto agregado a la compra.");
+            Snackbar.Add("Producto agregado a la compra.", Severity.Success);
         }
 
         private async Task SavePurchaseAsync()
         {
             if (selectedSupplier.Id == 0)
             {
-                ShowToast("Error", SweetAlertIcon.Error, "Debes seleccionar un proveedor.");
+                Snackbar.Add("Debes seleccionar un proveedor.", Severity.Error);
                 return;
             }
 
             if (sumQuantity <= 0)
             {
-                ShowToast("Error", SweetAlertIcon.Error, "Debes agregar al menos un producto en la compra.");
+                Snackbar.Add("Debes agregar al menos un producto en la compra.", Severity.Error);
                 return;
             }
 
-            var result = await SweetAlertService.FireAsync(new SweetAlertOptions
+            var parameters = new DialogParameters
             {
-                Title = "Confirmación",
-                Text = "¿Esta seguro que quieres registrar esta compra?",
-                Icon = SweetAlertIcon.Question,
-                ShowCancelButton = true
-            });
-
-            var confirm = string.IsNullOrEmpty(result.Value);
-            if (confirm)
+                { "Message", "¿Esta seguro que quieres registrar esta compra?" }
+            };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+            var dialog = DialogService.Show<ConfirmDialog>("Confirmación", parameters, options);
+            var result = await dialog.Result;
+            if (result.Canceled)
             {
                 return;
             }
@@ -238,7 +234,7 @@ namespace Orders.Frontend.Pages.Purchases
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                ShowToast("Error", SweetAlertIcon.Error, message!);
+                Snackbar.Add(message!, Severity.Error);
                 return;
             }
 
@@ -246,7 +242,7 @@ namespace Orders.Frontend.Pages.Purchases
             temporalPurchases.Clear();
             temporalPurchaseDTO.RemarksGeneral = string.Empty;
             NavigationManager.NavigateTo("/purchases");
-            ShowToast("Ok", SweetAlertIcon.Success, "Compra agregada con exito.");
+            Snackbar.Add("Compra agregada con exito.", Severity.Success);
         }
 
         private void SuplierChanged(Supplier supplier)
@@ -269,7 +265,7 @@ namespace Orders.Frontend.Pages.Purchases
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                ShowToast("Error", SweetAlertIcon.Error, message!);
+                Snackbar.Add(message!, Severity.Error);
                 return;
             }
             suppliers = responseHttp.Response;
@@ -299,18 +295,6 @@ namespace Orders.Frontend.Pages.Purchases
             return products!
                 .Where(x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
                 .ToList();
-        }
-
-        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
-        {
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            _ = toast.FireAsync(title, message, iconMessage);
         }
     }
 }

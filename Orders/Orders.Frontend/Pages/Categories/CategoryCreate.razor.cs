@@ -1,5 +1,4 @@
-﻿using CurrieTechnologies.Razor.SweetAlert2;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Orders.Frontend.Repositories;
@@ -15,7 +14,8 @@ namespace Orders.Frontend.Pages.Categories
         private FormWithName<Category>? categoryForm;
 
         [Inject] private IRepository Repository { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
         [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = null!;
@@ -27,14 +27,14 @@ namespace Orders.Frontend.Pages.Categories
             {
                 MudDialog.Close(DialogResult.Cancel());
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
 
             MudDialog.Close(DialogResult.Ok(true));
             categoryForm!.FormPostedSuccessfully = true;
             NavigationManager.NavigateTo("/categories");
-            ShowToast("Ok", SweetAlertIcon.Success, "Registro creado con éxito.");
+            Snackbar.Add("Registro creado con éxito.", Severity.Success);
         }
 
         private void Return()
@@ -42,18 +42,6 @@ namespace Orders.Frontend.Pages.Categories
             MudDialog.Close(DialogResult.Cancel());
             categoryForm!.FormPostedSuccessfully = true;
             NavigationManager.NavigateTo("/categories");
-        }
-
-        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
-        {
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            _ = toast.FireAsync(title, message, iconMessage);
         }
     }
 }

@@ -1,6 +1,6 @@
-using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using MudBlazor;
 using OfficeOpenXml;
 using Orders.Frontend.Helpers;
 using Orders.Frontend.Repositories;
@@ -21,7 +21,8 @@ namespace Orders.Frontend.Reports
         private List<Order>? orders;
         private List<GrossProfitReportDTO>? reports;
 
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private IJSRuntime JS { get; set; } = null!;
 
@@ -49,7 +50,7 @@ namespace Orders.Frontend.Reports
         {
             if (initialDate > finalDate)
             {
-                ShowToast("Error", SweetAlertIcon.Error, "La fecha inicial no puede ser superior a la fecha final.");
+                Snackbar.Add("La fecha inicial no puede ser superior a la fecha final.", Severity.Error);
                 return;
             }
 
@@ -66,7 +67,7 @@ namespace Orders.Frontend.Reports
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                ShowToast("Error", SweetAlertIcon.Error, message!);
+                Snackbar.Add(message!, Severity.Error);
                 return;
             }
 
@@ -95,18 +96,6 @@ namespace Orders.Frontend.Reports
             totalValue = reports!.Sum(x => x.Value);
             totalProfit = reports!.Sum(x => x.Profit);
             showReport = true;
-        }
-
-        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
-        {
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            _ = toast.FireAsync(title, message, iconMessage);
         }
 
         private void ExportToExcel()

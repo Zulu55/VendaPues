@@ -1,10 +1,11 @@
 ﻿using System.Net;
-using CurrieTechnologies.Razor.SweetAlert2;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Orders.Frontend.Pages.States;
 using Orders.Frontend.Repositories;
+using Orders.Frontend.Shared;
 using Orders.Shared.Entities;
 
 namespace Orders.Frontend.Pages.Countries
@@ -25,9 +26,9 @@ namespace Orders.Frontend.Pages.Countries
         [Parameter] public int CountryId { get; set; }
 
         [Inject] private IRepository Repository { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
-        [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
+        [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
 
@@ -53,7 +54,7 @@ namespace Orders.Frontend.Pages.Countries
                 }
 
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return false;
             }
             country = responseHttp.Response;
@@ -82,12 +83,7 @@ namespace Orders.Frontend.Pages.Countries
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync(new SweetAlertOptions
-                {
-                    Title = "Error",
-                    Text = message,
-                    Icon = SweetAlertIcon.Error
-                });
+                Snackbar.Add(message, Severity.Error);
                 return false;
             }
             totalRecords = responseHttp.Response;
@@ -110,12 +106,7 @@ namespace Orders.Frontend.Pages.Countries
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync(new SweetAlertOptions
-                {
-                    Title = "Error",
-                    Text = message,
-                    Icon = SweetAlertIcon.Error
-                });
+                Snackbar.Add(message, Severity.Error);
                 return new TableData<State> { Items = [], TotalItems = 0 };
             }
             if (responseHttp.Response == null)
@@ -182,15 +173,14 @@ namespace Orders.Frontend.Pages.Countries
 
         private async Task DeleteAsync(State state)
         {
-            var result = await SweetAlertService.FireAsync(new SweetAlertOptions
+            var parameters = new DialogParameters
             {
-                Title = "¿Estás seguro?",
-                Text = $"¿Estás seguro de que quieres eliminar el estado {state.Name}?",
-                Icon = SweetAlertIcon.Warning,
-                ShowCancelButton = true,
-            });
-            var confirm = string.IsNullOrEmpty(result.Value);
-            if (confirm)
+                { "Message", $"¿Estás seguro de que quieres eliminar el estado {state.Name}?" }
+            };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+            var dialog = DialogService.Show<ConfirmDialog>("Confirmación", parameters, options);
+            var result = await dialog.Result;
+            if (result.Canceled)
             {
                 return;
             }
@@ -198,39 +188,13 @@ namespace Orders.Frontend.Pages.Countries
             var responseHttp = await Repository.DeleteAsync<State>($"api/states/{state.Id}");
             if (responseHttp.Error)
             {
-                if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
-                {
-                    var message = await responseHttp.GetErrorMessageAsync();
-                    await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
-                    return;
-                }
-                else
-                {
-                    var message = await responseHttp.GetErrorMessageAsync();
-                    await SweetAlertService.FireAsync(new SweetAlertOptions
-                    {
-                        Title = "Error",
-                        Text = message,
-                        Icon = SweetAlertIcon.Error
-                    });
-                }
+                var message = await responseHttp.GetErrorMessageAsync();
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
             await LoadAsync();
             await table.ReloadServerData();
-            ShowToast("Ok", SweetAlertIcon.Success, "Estado eliminado.");
-        }
-
-        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
-        {
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            _ = toast.FireAsync(title, message, iconMessage);
+            Snackbar.Add("Estado eliminado.", Severity.Success);
         }
     }
 }

@@ -1,6 +1,6 @@
-using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using Orders.Frontend.Repositories;
 using Orders.Shared.DTOs;
 using Orders.Shared.Entities;
@@ -13,12 +13,13 @@ namespace Orders.Frontend.Pages.Cart
         private List<string>? categories;
         private List<string>? images;
         private bool loading = true;
-        private Product? product; 
+        private Product? product;
         private TemporalOrderDTO? temporalOrderDTO;
 
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
         [Parameter] public int TemporalOrderId { get; set; }
 
         protected override async Task OnInitializedAsync()
@@ -33,9 +34,8 @@ namespace Orders.Frontend.Pages.Cart
 
             if (httpResponse.Error)
             {
-                loading = false;
                 var message = await httpResponse.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
 
@@ -59,23 +59,11 @@ namespace Orders.Frontend.Pages.Cart
             if (httpResponse.Error)
             {
                 var message = await httpResponse.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
             NavigationManager.NavigateTo("/");
-            ShowToast("Ok", SweetAlertIcon.Success, "Producto modificado en el carro de compras.");
-        }
-
-        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
-        {
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            _ = toast.FireAsync(title, message, iconMessage);
+            Snackbar.Add("Producto modificado en el carro de compras.", Severity.Success);
         }
     }
 }

@@ -1,4 +1,3 @@
-using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Orders.Frontend.Repositories;
@@ -10,9 +9,9 @@ namespace Orders.Frontend.Pages.Auth
         private string? message;
 
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
-        [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
+        [Inject] private IRepository Repository { get; set; } = null!;
 
         [Parameter, SupplyParameterFromQuery] public string UserId { get; set; } = string.Empty;
         [Parameter, SupplyParameterFromQuery] public string Token { get; set; } = string.Empty;
@@ -23,12 +22,12 @@ namespace Orders.Frontend.Pages.Auth
             if (responseHttp.Error)
             {
                 message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
                 NavigationManager.NavigateTo("/");
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
 
-            await SweetAlertService.FireAsync("Confirmación", "Gracias por confirmar su email, ahora puedes ingresar al sistema.", SweetAlertIcon.Info);
+            Snackbar.Add("Gracias por confirmar su email, ahora puedes ingresar al sistema.", Severity.Success);
             var closeOnEscapeKey = new DialogOptions() { CloseOnEscapeKey = true };
             DialogService.Show<Login>("Inicio de Sesion", closeOnEscapeKey);
         }

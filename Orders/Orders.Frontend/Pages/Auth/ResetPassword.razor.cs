@@ -1,4 +1,3 @@
-using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Orders.Frontend.Repositories;
@@ -12,10 +11,10 @@ namespace Orders.Frontend.Pages.Auth
         private bool loading;
 
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
         [Parameter, SupplyParameterFromQuery] public string Token { get; set; } = string.Empty;
-        [Inject] private IDialogService DialogService { get; set; } = null!;
 
         private async Task ChangePasswordAsync()
         {
@@ -26,12 +25,11 @@ namespace Orders.Frontend.Pages.Auth
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
-                loading = false;
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
 
-            await SweetAlertService.FireAsync("Confirmación", "Contraseña cambiada con éxito, ahora puede ingresar con su nueva contraseña.", SweetAlertIcon.Info);
+            Snackbar.Add("Contraseña cambiada con éxito, ahora puede ingresar con su nueva contraseña.", Severity.Success);
             var closeOnEscapeKey = new DialogOptions() { CloseOnEscapeKey = true };
             DialogService.Show<Login>("Inicio de Sesion", closeOnEscapeKey);
         }

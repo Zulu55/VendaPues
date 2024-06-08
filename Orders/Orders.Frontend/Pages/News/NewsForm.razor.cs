@@ -1,8 +1,9 @@
-using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Routing;
+using MudBlazor;
 using Orders.Frontend.Repositories;
+using Orders.Frontend.Shared;
 using Orders.Shared.Entities;
 
 namespace Orders.Frontend.Pages.News
@@ -12,7 +13,8 @@ namespace Orders.Frontend.Pages.News
         private EditContext editContext = null!;
         private string? imageUrl;
 
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
 
         [Parameter, EditorRequired] public NewsArticle NewsArticle { get; set; } = null!;
@@ -54,17 +56,14 @@ namespace Orders.Frontend.Pages.News
                 return;
             }
 
-            var result = await SweetAlertService.FireAsync(new SweetAlertOptions
+            var parameters = new DialogParameters
             {
-                Title = "Confirmación",
-                Text = "¿Deseas abandonar la página y perder los cambios?",
-                Icon = SweetAlertIcon.Warning,
-                ShowCancelButton = true
-            });
-
-            var confirm = !string.IsNullOrEmpty(result.Value);
-
-            if (confirm)
+                { "Message", "¿Deseas abandonar la página y perder los cambios?" }
+            };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+            var dialog = DialogService.Show<ConfirmDialog>("Confirmación", parameters, options);
+            var result = await dialog.Result;
+            if (result.Canceled)
             {
                 return;
             }

@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using CurrieTechnologies.Razor.SweetAlert2;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -17,7 +17,8 @@ namespace Orders.Frontend.Pages.Cities
 
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
 
         [Parameter] public int Id { get; set; }
         [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = null!;
@@ -32,7 +33,7 @@ namespace Orders.Frontend.Pages.Cities
                     Return();
                 }
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
             city = responseHttp.Response;
@@ -45,14 +46,14 @@ namespace Orders.Frontend.Pages.Cities
             {
                 MudDialog.Close(DialogResult.Cancel());
                 var message = await response.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
 
             MudDialog.Close(DialogResult.Ok(true));
             cityForm!.FormPostedSuccessfully = true;
             NavigationManager.NavigateTo($"/states/details/{city!.StateId}");
-            ShowToast("Ok", SweetAlertIcon.Success, "Cambios guardados con éxito.");
+            Snackbar.Add("Cambios guardados con éxito.", Severity.Success);
         }
 
         private void Return()
@@ -60,18 +61,6 @@ namespace Orders.Frontend.Pages.Cities
             MudDialog.Close(DialogResult.Cancel());
             cityForm!.FormPostedSuccessfully = true;
             NavigationManager.NavigateTo($"/states/details/{city!.StateId}");
-        }
-
-        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
-        {
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            _ = toast.FireAsync(title, message, iconMessage);
         }
     }
 }

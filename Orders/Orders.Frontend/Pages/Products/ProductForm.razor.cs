@@ -1,8 +1,9 @@
-using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Routing;
+using MudBlazor;
 using Orders.Frontend.Helpers;
+using Orders.Frontend.Shared;
 using Orders.Shared.DTOs;
 using Orders.Shared.Entities;
 
@@ -17,7 +18,8 @@ namespace Orders.Frontend.Pages.Products
         private List<MultipleSelectorModel> selected { get; set; } = new();
         private List<MultipleSelectorModel> nonSelected { get; set; } = new();
 
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
         [Parameter, EditorRequired] public ProductDTO ProductDTO { get; set; } = null!;
         [Parameter, EditorRequired] public EventCallback OnValidSubmit { get; set; }
         [Parameter, EditorRequired] public EventCallback ReturnAction { get; set; }
@@ -68,17 +70,14 @@ namespace Orders.Frontend.Pages.Products
                 return;
             }
 
-            var result = await SweetAlertService.FireAsync(new SweetAlertOptions
+            var parameters = new DialogParameters
             {
-                Title = "Confirmación",
-                Text = "¿Deseas abandonar la página y perder los cambios?",
-                Icon = SweetAlertIcon.Warning,
-                ShowCancelButton = true
-            });
-
-            var confirm = !string.IsNullOrEmpty(result.Value);
-
-            if (confirm)
+                { "Message", "¿Deseas abandonar la página y perder los cambios?" }
+            };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+            var dialog = DialogService.Show<ConfirmDialog>("Confirmación", parameters, options);
+            var result = await dialog.Result;
+            if (result.Canceled)
             {
                 return;
             }

@@ -1,5 +1,4 @@
-﻿using CurrieTechnologies.Razor.SweetAlert2;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using MudBlazor;
 using Orders.Frontend.Pages.Auth;
@@ -25,9 +24,9 @@ namespace Orders.Frontend.Pages
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
         [Parameter, SupplyParameterFromQuery] public int RecordsNumber { get; set; } = 8;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
-        [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
+        [Inject] private IRepository Repository { get; set; } = null!;
         [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; } = null!;
 
         protected override async Task OnInitializedAsync()
@@ -48,7 +47,8 @@ namespace Orders.Frontend.Pages
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
+                return;
             }
 
             Categories = responseHttp.Response;
@@ -81,7 +81,7 @@ namespace Orders.Frontend.Pages
             {
                 var closeOnEscapeKey = new DialogOptions() { CloseOnEscapeKey = true };
                 DialogService.Show<Login>("Inicio de Sesion", closeOnEscapeKey);
-                ShowToast("Error", SweetAlertIcon.Error, "Debes haber iniciado sesión para poder agregar productos al carro de compras.");
+                Snackbar.Add("Debes haber iniciado sesión para poder agregar productos al carro de compras.", Severity.Error);
                 return;
             }
 
@@ -94,12 +94,12 @@ namespace Orders.Frontend.Pages
             if (httpActionResponse.Error)
             {
                 var message = await httpActionResponse.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
 
             await LoadCounterAsync();
-            ShowToast("Ok", SweetAlertIcon.Success, "Producto agregado al carro de compras.");
+            Snackbar.Add("Producto agregado al carro de compras.", Severity.Success);
         }
 
         private async Task FilterCallBack(string filter)
@@ -167,7 +167,7 @@ namespace Orders.Frontend.Pages
             if (response.Error)
             {
                 var message = await response.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return false;
             }
             Products = response.Response;
@@ -191,7 +191,7 @@ namespace Orders.Frontend.Pages
             if (response.Error)
             {
                 var message = await response.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
             totalPages = response.Response;
@@ -211,18 +211,6 @@ namespace Orders.Frontend.Pages
             int page = 1;
             await LoadAsync(page);
             await SelectedPageAsync(page);
-        }
-
-        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
-        {
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            _ = toast.FireAsync(title, message, iconMessage);
         }
     }
 }

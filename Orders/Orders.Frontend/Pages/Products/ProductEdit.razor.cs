@@ -1,6 +1,6 @@
-using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using Orders.Frontend.Repositories;
 using Orders.Shared.DTOs;
 using Orders.Shared.Entities;
@@ -21,11 +21,12 @@ namespace Orders.Frontend.Pages.Products
         private List<Category> nonSelectedCategories = new();
         private bool loading = true;
         private Product? product;
-        
+
         [Parameter] public int ProductId { get; set; }
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
 
         protected override async Task OnInitializedAsync()
         {
@@ -50,12 +51,12 @@ namespace Orders.Frontend.Pages.Products
             if (httpActionResponse.Error)
             {
                 var message = await httpActionResponse.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
 
             productDTO.ProductImages = httpActionResponse.Response!.Images;
-            ShowToast("Ok", SweetAlertIcon.Success, "Imagenes agregadas con éxito.");
+            Snackbar.Add("Imagenes agregadas con éxito.", Severity.Success);
         }
 
         private async Task RemoveImageAsyc()
@@ -75,12 +76,12 @@ namespace Orders.Frontend.Pages.Products
             if (httpActionResponse.Error)
             {
                 var message = await httpActionResponse.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
 
             productDTO.ProductImages = httpActionResponse.Response!.Images;
-            ShowToast("Ok", SweetAlertIcon.Success, "Imagén eliminada con éxito.");
+            Snackbar.Add("Imagén eliminada con éxito.", Severity.Success);
         }
 
         private async Task LoadProductAsync()
@@ -92,7 +93,7 @@ namespace Orders.Frontend.Pages.Products
             {
                 loading = false;
                 var message = await httpActionResponse.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
 
@@ -126,7 +127,7 @@ namespace Orders.Frontend.Pages.Products
             {
                 loading = false;
                 var message = await httpActionResponse.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
 
@@ -152,7 +153,7 @@ namespace Orders.Frontend.Pages.Products
             if (httpActionResponse.Error)
             {
                 var message = await httpActionResponse.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
 
@@ -163,18 +164,6 @@ namespace Orders.Frontend.Pages.Products
         {
             productForm!.FormPostedSuccessfully = true;
             NavigationManager.NavigateTo($"/products");
-        }
-
-        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
-        {
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            _ = toast.FireAsync(title, message, iconMessage);
         }
     }
 }

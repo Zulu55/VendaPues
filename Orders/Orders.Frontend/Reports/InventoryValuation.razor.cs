@@ -1,6 +1,6 @@
-using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using MudBlazor;
 using OfficeOpenXml;
 using Orders.Frontend.Repositories;
 using Orders.Shared.Entities;
@@ -14,7 +14,7 @@ namespace Orders.Frontend.Reports
 
         [Inject] private IJSRuntime JS { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
 
         private List<Product>? products;
         private float totalQuantiy = 0;
@@ -36,12 +36,7 @@ namespace Orders.Frontend.Reports
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync(new SweetAlertOptions
-                {
-                    Title = "Error",
-                    Text = message,
-                    Icon = SweetAlertIcon.Error
-                });
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
 

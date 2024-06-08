@@ -1,11 +1,12 @@
 using System.Net;
 using Blazored.Modal;
 using Blazored.Modal.Services;
-using CurrieTechnologies.Razor.SweetAlert2;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Orders.Frontend.Repositories;
+using Orders.Frontend.Shared;
 using Orders.Shared.Entities;
 
 namespace Orders.Frontend.Pages.Products
@@ -23,7 +24,8 @@ namespace Orders.Frontend.Pages.Products
         private string infoFormat = "{first_item}-{last_item} de {all_items}";
 
         [Inject] private IRepository Repository { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
@@ -52,12 +54,7 @@ namespace Orders.Frontend.Pages.Products
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync(new SweetAlertOptions
-                {
-                    Title = "Error",
-                    Text = message,
-                    Icon = SweetAlertIcon.Error
-                });
+                Snackbar.Add(message, Severity.Error);
                 return false;
             }
             totalRecords = responseHttp.Response;
@@ -80,12 +77,7 @@ namespace Orders.Frontend.Pages.Products
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync(new SweetAlertOptions
-                {
-                    Title = "Error",
-                    Text = message,
-                    Icon = SweetAlertIcon.Error
-                });
+                Snackbar.Add(message, Severity.Error);
                 return new TableData<Product> { Items = [], TotalItems = 0 };
             }
             if (responseHttp.Response == null)
@@ -135,15 +127,14 @@ namespace Orders.Frontend.Pages.Products
 
         private async Task DeleteAsync(Product product)
         {
-            var result = await SweetAlertService.FireAsync(new SweetAlertOptions
+            var parameters = new DialogParameters
             {
-                Title = "¿Estás seguro?",
-                Text = $"¿Estás seguro de que quieres eliminar el producto: {product.Name}?",
-                Icon = SweetAlertIcon.Warning,
-                ShowCancelButton = true,
-            });
-            var confirm = string.IsNullOrEmpty(result.Value);
-            if (confirm)
+                { "Message", $"¿Estás seguro de que quieres eliminar el producto: {product.Name}?" }
+            };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+            var dialog = DialogService.Show<ConfirmDialog>("Confirmación", parameters, options);
+            var result = await dialog.Result;
+            if (result.Canceled)
             {
                 return;
             }
@@ -158,30 +149,13 @@ namespace Orders.Frontend.Pages.Products
                 else
                 {
                     var message = await responseHttp.GetErrorMessageAsync();
-                    await SweetAlertService.FireAsync(new SweetAlertOptions
-                    {
-                        Title = "Error",
-                        Text = message,
-                        Icon = SweetAlertIcon.Error
-                    });
+                    Snackbar.Add(message, Severity.Error);
                 }
                 return;
             }
             await LoadAsync();
             await table.ReloadServerData();
-            ShowToast("Ok", SweetAlertIcon.Success, "Producto eliminado.");
-        }
-
-        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
-        {
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            _ = toast.FireAsync(title, message, iconMessage);
+            Snackbar.Add("Producto eliminado.", Severity.Success);
         }
     }
 }

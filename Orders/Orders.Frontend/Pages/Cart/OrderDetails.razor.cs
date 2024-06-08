@@ -1,9 +1,10 @@
 using System.Net;
-using CurrieTechnologies.Razor.SweetAlert2;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Orders.Frontend.Repositories;
+using Orders.Frontend.Shared;
 using Orders.Shared.DTOs;
 using Orders.Shared.Entities;
 using Orders.Shared.Enums;
@@ -20,7 +21,8 @@ namespace Orders.Frontend.Pages.Cart
 
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
         [Parameter] public int OrderId { get; set; }
 
         protected override async Task OnInitializedAsync()
@@ -39,7 +41,7 @@ namespace Orders.Frontend.Pages.Cart
                     return;
                 }
                 var messageError = await responseHppt.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", messageError, SweetAlertIcon.Error);
+                Snackbar.Add(messageError, Severity.Error);
                 return;
             }
             order = responseHppt.Response;
@@ -55,7 +57,6 @@ namespace Orders.Frontend.Pages.Cart
                 TotalItems = Details!.Count
             };
         }
-
 
         private async Task CancelOrderAsync()
         {
@@ -79,16 +80,14 @@ namespace Orders.Frontend.Pages.Cart
 
         private async Task ModifyTemporalOrder(string message, OrderStatus status)
         {
-            var result = await SweetAlertService.FireAsync(new SweetAlertOptions
+            var parameters = new DialogParameters
             {
-                Title = "Confirmación",
-                Text = $"¿Esta seguro que quieres {message} el pedido?",
-                Icon = SweetAlertIcon.Question,
-                ShowCancelButton = true
-            });
-
-            var confirm = string.IsNullOrEmpty(result.Value);
-            if (confirm)
+                { "Message", $"¿Esta seguro que quieres {message} el pedido?" }
+            };
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+            var dialog = DialogService.Show<ConfirmDialog>("Confirmación", parameters, options);
+            var result = await dialog.Result;
+            if (result.Canceled)
             {
                 return;
             }
@@ -102,8 +101,8 @@ namespace Orders.Frontend.Pages.Cart
             var responseHttp = await Repository.PutAsync("api/orders", orderDTO);
             if (responseHttp.Error)
             {
-                var mensajeError = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
+                message = await responseHttp.GetErrorMessageAsync();
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
 

@@ -1,6 +1,6 @@
 using Blazored.Modal;
 using Blazored.Modal.Services;
-using CurrieTechnologies.Razor.SweetAlert2;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -22,9 +22,9 @@ namespace Orders.Frontend.Pages.Inventories
         private string infoFormat = "{first_item}-{last_item} de {all_items}";
 
         [Inject] private IRepository Repository { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
-        [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
+        [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
         protected override async Task OnInitializedAsync()
         {
@@ -44,12 +44,7 @@ namespace Orders.Frontend.Pages.Inventories
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync(new SweetAlertOptions
-                {
-                    Title = "Error",
-                    Text = message,
-                    Icon = SweetAlertIcon.Error
-                });
+                Snackbar.Add(message, Severity.Error);
                 return false;
             }
             totalRecords = responseHttp.Response;
@@ -66,12 +61,7 @@ namespace Orders.Frontend.Pages.Inventories
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync(new SweetAlertOptions
-                {
-                    Title = "Error",
-                    Text = message,
-                    Icon = SweetAlertIcon.Error
-                });
+                Snackbar.Add(message, Severity.Error);
                 return new TableData<Inventory> { Items = [], TotalItems = 0 };
             }
             if (responseHttp.Response == null)
@@ -105,7 +95,7 @@ namespace Orders.Frontend.Pages.Inventories
         {
             if (!inventory.Count1Finish)
             {
-                ShowToast("Error", SweetAlertIcon.Error, "Primero debes completar el conteo #1");
+                Snackbar.Add("Primero debes completar el conteo #1", Severity.Error);
                 return;
             }
 
@@ -127,7 +117,7 @@ namespace Orders.Frontend.Pages.Inventories
         {
             if (!inventory.Count2Finish || !inventory.Count2Finish)
             {
-                ShowToast("Error", SweetAlertIcon.Error, "Primero debes completar el conteo #1 y #2");
+                Snackbar.Add("Primero debes completar el conteo #1 y #2", Severity.Error);
                 return;
             }
 
@@ -155,18 +145,6 @@ namespace Orders.Frontend.Pages.Inventories
                 await LoadAsync();
                 await table.ReloadServerData();
             }
-        }
-
-        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
-        {
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            _ = toast.FireAsync(title, message, iconMessage);
         }
     }
 }

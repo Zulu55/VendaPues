@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using CurrieTechnologies.Razor.SweetAlert2;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -17,7 +17,8 @@ namespace Orders.Frontend.Pages.Categories
         private bool loading;
 
         [Inject] private IRepository Repository { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
         [EditorRequired, Parameter] public int Id { get; set; }
@@ -43,7 +44,7 @@ namespace Orders.Frontend.Pages.Categories
                 else
                 {
                     var messsage = await responseHttp.GetErrorMessageAsync();
-                    await SweetAlertService.FireAsync("Error", messsage, SweetAlertIcon.Error);
+                    Snackbar.Add(messsage, Severity.Error);
                 }
             }
             else
@@ -59,14 +60,19 @@ namespace Orders.Frontend.Pages.Categories
             {
                 MudDialog.Close(DialogResult.Cancel());
                 var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message);
+                var parameters = new DialogParameters
+                {
+                    { "Message", message }
+                };
+                var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+                DialogService.Show<GenericDialog>("Error", parameters, options);
                 return;
             }
 
             MudDialog.Close(DialogResult.Ok(true));
             categoryForm!.FormPostedSuccessfully = true;
             NavigationManager.NavigateTo("/categories");
-            ShowToast("Ok", SweetAlertIcon.Success, "Cambios guardados con éxito.");
+            Snackbar.Add("Cambios guardados con éxito.", Severity.Success);
         }
 
         private void Return()
@@ -74,18 +80,6 @@ namespace Orders.Frontend.Pages.Categories
             MudDialog.Close(DialogResult.Cancel());
             categoryForm!.FormPostedSuccessfully = true;
             NavigationManager.NavigateTo("/categories");
-        }
-
-        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
-        {
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            _ = toast.FireAsync(title, message, iconMessage);
         }
     }
 }

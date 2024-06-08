@@ -1,6 +1,6 @@
-using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using MudBlazor;
 using Orders.Frontend.Repositories;
 using Orders.Shared.DTOs;
 using Orders.Shared.Entities;
@@ -17,7 +17,8 @@ namespace Orders.Frontend.Pages.Products
 
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private IRepository repository { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private IDialogService DialogService { get; set; } = null!;
+        [Inject] private ISnackbar Snackbar { get; set; } = null!;
         [Parameter] public int ProductId { get; set; }
         [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; } = null!;
         public TemporalOrderDTO TemporalOrderDTO { get; set; } = new();
@@ -47,7 +48,7 @@ namespace Orders.Frontend.Pages.Products
             {
                 loading = false;
                 var message = await httpActionResponse.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
 
@@ -62,7 +63,7 @@ namespace Orders.Frontend.Pages.Products
             if (!isAuthenticated)
             {
                 NavigationManager.NavigateTo("/Login");
-                ShowToast("Error", SweetAlertIcon.Error, "Debes haber iniciado sesión para poder agregar productos al carro de compras.");
+                Snackbar.Add("Debes haber iniciado sesión para poder agregar productos al carro de compras.", Severity.Error);
                 return;
             }
 
@@ -72,31 +73,12 @@ namespace Orders.Frontend.Pages.Products
             if (httpActionResponse.Error)
             {
                 var message = await httpActionResponse.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                Snackbar.Add(message, Severity.Error);
                 return;
             }
 
-            var toast2 = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
             NavigationManager.NavigateTo("/");
-            ShowToast("Ok", SweetAlertIcon.Success, "Producto agregado al carro de compras.");
-        }
-
-        private void ShowToast(string title, SweetAlertIcon iconMessage, string message)
-        {
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            _ = toast.FireAsync(title, message, iconMessage);
+            Snackbar.Add("Producto agregado al carro de compras.", Severity.Success);
         }
     }
 }
