@@ -29,6 +29,8 @@ namespace Orders.Frontend.Pages.Purchases
         [Inject] private ISnackbar Snackbar { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
+        [CascadingParameter] private MudDialogInstance MudDialog { get; set; } = null!;
+
         public List<TemporalPurchase>? TemporalPurchases { get; set; }
 
         protected override async Task OnInitializedAsync()
@@ -241,6 +243,7 @@ namespace Orders.Frontend.Pages.Purchases
             selectedSupplier = new Supplier();
             temporalPurchases.Clear();
             temporalPurchaseDTO.RemarksGeneral = string.Empty;
+            MudDialog.Close(DialogResult.Ok(true));
             NavigationManager.NavigateTo("/purchases");
             Snackbar.Add("Compra agregada con exito.", Severity.Success);
         }
