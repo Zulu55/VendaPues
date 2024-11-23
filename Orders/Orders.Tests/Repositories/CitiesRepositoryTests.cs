@@ -16,12 +16,18 @@ namespace Orders.Tests.Repositories
         public void Initialize()
         {
             var options = new DbContextOptionsBuilder<DataContext>()
-                .UseInMemoryDatabase(databaseName: "InMemoryDatabase")
+                .UseSqlite("Filename=:memory:") // SQLite en memoria
                 .Options;
 
             _context = new DataContext(options);
+
+            // Abrimos la conexión y configuramos el esquema
+            _context.Database.OpenConnection();
+            _context.Database.EnsureCreated();
+
             _repository = new CitiesRepository(_context);
 
+            // Seed data
             _context.Countries.Add(new Country { Id = 1, Name = "Country" });
             _context.States.AddRange(
                 new State { Id = 1, Name = "State1", CountryId = 1 },

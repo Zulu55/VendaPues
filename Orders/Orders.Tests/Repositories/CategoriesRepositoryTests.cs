@@ -16,18 +16,24 @@ namespace Orders.Tests.Repositories
         public void Setup()
         {
             var options = new DbContextOptionsBuilder<DataContext>()
-                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+                .UseSqlite("Filename=:memory:") // SQLite en memoria
                 .Options;
 
             _context = new DataContext(options);
+
+            // Abrimos la conexión y creamos el esquema
+            _context.Database.OpenConnection();
+            _context.Database.EnsureCreated();
+
             _repository = new CategoriesRepository(_context);
 
+            // Datos de prueba
             _context.Categories.AddRange(new List<Category>
-            {
-                new Category { Id = 1, Name = "Electronics" },
-                new Category { Id = 2, Name = "Books" },
-                new Category { Id = 3, Name = "Clothing" },
-            });
+        {
+            new Category { Id = 1, Name = "Electronics" },
+            new Category { Id = 2, Name = "Books" },
+            new Category { Id = 3, Name = "Clothing" },
+        });
 
             _context.SaveChanges();
         }

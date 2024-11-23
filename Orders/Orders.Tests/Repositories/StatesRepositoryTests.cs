@@ -11,24 +11,26 @@ namespace Orders.Tests.Repositories
     {
         private DataContext _context = null!;
         private StatesRepository _repository = null!;
+        private DbContextOptions<DataContext> _options = null!;
 
         [TestInitialize]
         public void Initialize()
         {
-            var options = new DbContextOptionsBuilder<DataContext>()
-                .UseInMemoryDatabase(databaseName: "OrdersDb")
+            _options = new DbContextOptionsBuilder<DataContext>()
+                .UseSqlite("Filename=:memory:") // Usar SQLite en memoria
                 .Options;
 
-            _context = new DataContext(options);
+            _context = new DataContext(_options);
+            _context.Database.OpenConnection(); // Abrir conexión explícitamente
+            _context.Database.EnsureCreated(); // Asegurar que la base de datos se crea
+
             _repository = new StatesRepository(_context);
+            PopulateTestData();
         }
 
         [TestMethod]
         public async Task GetAsync_ShouldReturnStates()
         {
-            // Arrange
-            PopulateTestData();
-
             // Act
             var result = await _repository.GetAsync();
 
@@ -43,8 +45,6 @@ namespace Orders.Tests.Repositories
         public async Task GetAsync_ShouldReturnFilteredAndPaginatedStates()
         {
             // Arrange
-            PopulateTestData();
-
             var pagination = new PaginationDTO
             {
                 Filter = "test",
@@ -67,8 +67,6 @@ namespace Orders.Tests.Repositories
         public async Task GetTotalPagesAsync_ShouldReturnCorrectTotalPages()
         {
             // Arrange
-            PopulateTestData();
-
             var pagination = new PaginationDTO
             {
                 RecordsNumber = 2,
@@ -88,8 +86,6 @@ namespace Orders.Tests.Repositories
         public async Task GetAsync_ById_ShouldReturnState()
         {
             // Arrange
-            PopulateTestData();
-
             var stateId = 1;
 
             // Act
@@ -104,8 +100,6 @@ namespace Orders.Tests.Repositories
         public async Task GetAsync_ById_ShouldReturnError()
         {
             // Arrange
-            PopulateTestData();
-
             var stateId = 999;
 
             // Act
@@ -120,8 +114,6 @@ namespace Orders.Tests.Repositories
         public async Task GetComboAsync_ShouldReturnStatesForCountry()
         {
             // Arrange
-            PopulateTestData();
-
             var countryId = 1;
 
             // Act
@@ -143,10 +135,10 @@ namespace Orders.Tests.Repositories
 
             var states = new List<State>
             {
-                new State { Id = 1, Name = "TestState1", Country = country },
-                new State { Id = 2, Name = "TestState2", Country = country },
-                new State { Id = 3, Name = "TestState3", Country = country },
-                new State { Id = 4, Name = "TestState4", Country = country }
+                new State { Id = 1, Name = "TestState1", CountryId = country.Id },
+                new State { Id = 2, Name = "TestState2", CountryId = country.Id },
+                new State { Id = 3, Name = "TestState3", CountryId = country.Id },
+                new State { Id = 4, Name = "TestState4", CountryId = country.Id }
             };
 
             _context.States.AddRange(states);
@@ -156,7 +148,7 @@ namespace Orders.Tests.Repositories
         [TestCleanup]
         public void Cleanup()
         {
-            _context.Database.EnsureDeleted();
+            _context.Database.CloseConnection(); // Cerrar conexión explícitamente
             _context.Dispose();
         }
     }

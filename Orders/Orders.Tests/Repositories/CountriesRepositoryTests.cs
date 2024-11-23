@@ -16,10 +16,15 @@ namespace Orders.Tests.Repositories
         public void Initialize()
         {
             var options = new DbContextOptionsBuilder<DataContext>()
-                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+                .UseSqlite("Filename=:memory:") // SQLite en memoria
                 .Options;
 
             _context = new DataContext(options);
+
+            // Abre la conexión y configura el esquema
+            _context.Database.OpenConnection();
+            _context.Database.EnsureCreated();
+
             _repository = new CountriesRepository(_context);
 
             SeedDatabase();
@@ -49,18 +54,18 @@ namespace Orders.Tests.Repositories
 
             // Assert
             Assert.IsTrue(response.WasSuccess);
-            Assert.AreEqual(1, response!.Result!.Count());
+            Assert.AreEqual(1, response.Result!.Count());
         }
 
         [TestMethod]
-        public async Task GetAsync__ShouldReturnCountries()
+        public async Task GetAsync_ShouldReturnAllCountries()
         {
             // Act
             var response = await _repository.GetAsync();
 
             // Assert
             Assert.IsTrue(response.WasSuccess);
-            Assert.AreEqual(3, response!.Result!.Count());
+            Assert.AreEqual(3, response.Result!.Count());
         }
 
         [TestMethod]
