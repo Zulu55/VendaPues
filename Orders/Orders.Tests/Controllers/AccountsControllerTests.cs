@@ -85,17 +85,41 @@ namespace Orders.Tests.Controllers
         {
             // Arrange
             var pagination = new PaginationDTO();
-            var response = new ActionResponse<IEnumerable<User>> { WasSuccess = true };
-            _mockUsersRepository.Setup(x => x.GetAsync(pagination))
+            var users = new List<User>
+            {
+                new User { Id = Guid.NewGuid().ToString(), FirstName = "John", LastName = "Doe", Email = "johndoe@example.com" }
+            };
+            var response = new ActionResponse<IEnumerable<User>> { WasSuccess = true, Result = users };
+
+            // Mock del IUsersUnitOfWork
+            var mockUsersUnitOfWork = new Mock<IUsersUnitOfWork>();
+            mockUsersUnitOfWork.Setup(x => x.GetAsync(pagination))
                 .ReturnsAsync(response);
 
+            // Mock de otras dependencias
+            var mockConfiguration = new Mock<IConfiguration>();
+            var mockFileStorage = new Mock<IFileStorage>();
+            var mockMailHelper = new Mock<IMailHelper>();
+
+            // Creación del controlador
+            var controller = new AccountsController(
+                mockUsersUnitOfWork.Object,
+                mockConfiguration.Object,
+                mockFileStorage.Object,
+                mockMailHelper.Object);
+
             // Act
-            var result = await _controller.GetAsync(pagination);
+            var result = await controller.GetAsync(pagination);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
-            _mockUsersRepository.Verify(x => x.GetAsync(pagination), Times.Once());
+            var okResult = result as OkObjectResult;
+            Assert.IsNotNull(okResult);
+            Assert.AreEqual(users, okResult.Value);
+            mockUsersUnitOfWork.Verify(x => x.GetAsync(pagination), Times.Once());
         }
+
+
 
         [TestMethod]
         public async Task GetAsync_ShouldReturnBadRequest_WhenUsersAreNotFound()
@@ -103,15 +127,27 @@ namespace Orders.Tests.Controllers
             // Arrange
             var pagination = new PaginationDTO();
             var response = new ActionResponse<IEnumerable<User>> { WasSuccess = false };
-            _mockUsersRepository.Setup(x => x.GetAsync(pagination))
+
+            var mockUsersUnitOfWork = new Mock<IUsersUnitOfWork>();
+            mockUsersUnitOfWork.Setup(x => x.GetAsync(pagination))
                 .ReturnsAsync(response);
 
+            var mockConfiguration = new Mock<IConfiguration>();
+            var mockFileStorage = new Mock<IFileStorage>();
+            var mockMailHelper = new Mock<IMailHelper>();
+
+            var controller = new AccountsController(
+                mockUsersUnitOfWork.Object,
+                mockConfiguration.Object,
+                mockFileStorage.Object,
+                mockMailHelper.Object);
+
             // Act
-            var result = await _controller.GetAsync(pagination);
+            var result = await controller.GetAsync(pagination);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestResult));
-            _mockUsersRepository.Verify(x => x.GetAsync(pagination), Times.Once());
+            mockUsersUnitOfWork.Verify(x => x.GetAsync(pagination), Times.Once());
         }
 
         [TestMethod]
@@ -120,18 +156,33 @@ namespace Orders.Tests.Controllers
             // Arrange
             var pagination = new PaginationDTO();
             var response = new ActionResponse<int> { WasSuccess = true, Result = 5 };
-            _mockUsersRepository.Setup(x => x.GetTotalPagesAsync(pagination))
+
+            // Mock del IUsersUnitOfWork
+            var mockUsersUnitOfWork = new Mock<IUsersUnitOfWork>();
+            mockUsersUnitOfWork.Setup(x => x.GetTotalPagesAsync(pagination))
                 .ReturnsAsync(response);
 
+            // Mock de otras dependencias
+            var mockConfiguration = new Mock<IConfiguration>();
+            var mockFileStorage = new Mock<IFileStorage>();
+            var mockMailHelper = new Mock<IMailHelper>();
+
+            // Creación del controlador
+            var controller = new AccountsController(
+                mockUsersUnitOfWork.Object,
+                mockConfiguration.Object,
+                mockFileStorage.Object,
+                mockMailHelper.Object);
+
             // Act
-            var result = await _controller.GetPagesAsync(pagination);
+            var result = await controller.GetPagesAsync(pagination);
 
             // Assert
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult);
             Assert.AreEqual(200, okResult.StatusCode);
             Assert.AreEqual(5, okResult.Value);
-            _mockUsersRepository.Verify(x => x.GetTotalPagesAsync(pagination), Times.Once());
+            mockUsersUnitOfWork.Verify(x => x.GetTotalPagesAsync(pagination), Times.Once());
         }
 
         [TestMethod]
@@ -140,19 +191,31 @@ namespace Orders.Tests.Controllers
             // Arrange
             var pagination = new PaginationDTO();
             var response = new ActionResponse<int> { WasSuccess = false };
-            _mockUsersRepository.Setup(x => x.GetTotalPagesAsync(pagination))
+
+            var mockUsersUnitOfWork = new Mock<IUsersUnitOfWork>();
+            mockUsersUnitOfWork.Setup(x => x.GetTotalPagesAsync(pagination))
                 .ReturnsAsync(response);
 
+            var mockConfiguration = new Mock<IConfiguration>();
+            var mockFileStorage = new Mock<IFileStorage>();
+            var mockMailHelper = new Mock<IMailHelper>();
+
+            var controller = new AccountsController(
+                mockUsersUnitOfWork.Object,
+                mockConfiguration.Object,
+                mockFileStorage.Object,
+                mockMailHelper.Object);
+
             // Act
-            var result = await _controller.GetPagesAsync(pagination);
+            var result = await controller.GetPagesAsync(pagination);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestResult));
             var badRequestResult = result as BadRequestResult;
             Assert.IsNotNull(badRequestResult);
-            Assert.AreEqual(400, badRequestResult.StatusCode);
-            _mockUsersRepository.Verify(x => x.GetTotalPagesAsync(pagination), Times.Once());
+            mockUsersUnitOfWork.Verify(x => x.GetTotalPagesAsync(pagination), Times.Once());
         }
+
 
         [TestMethod]
         public async Task CreateUser_ShouldReturnNoContent_WhenUserIsCreatedSuccessfully()
